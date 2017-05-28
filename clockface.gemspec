@@ -16,6 +16,10 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '~> 5.1.0'
   s.add_dependency 'clockwork', '~> 2.0', '>= 2.0.2'
 
+  s.add_development_dependency 'capybara-webkit', '~> 1.11.1'
+  s.add_development_dependency 'factory_girl_rails'
   s.add_development_dependency 'pg'
-  s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'pry-rails'
+  s.add_development_dependency 'rspec-rails', '>= 3.5'
+  s.add_development_dependency 'shoulda-matchers'
 end

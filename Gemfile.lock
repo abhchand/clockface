@@ -45,17 +45,36 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    addressable (2.5.1)
+      public_suffix (~> 2.0, >= 2.0.2)
     arel (8.0.0)
     builder (3.2.3)
+    capybara (2.7.1)
+      addressable
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
+    capybara-webkit (1.11.1)
+      capybara (>= 2.3.0, < 2.8.0)
+      json
     clockwork (2.0.2)
       activesupport
       tzinfo
+    coderay (1.1.1)
     concurrent-ruby (1.0.5)
     diff-lcs (1.3)
     erubi (1.6.0)
+    factory_girl (4.8.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.8.0)
+      factory_girl (~> 4.8.0)
+      railties (>= 3.0.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     i18n (0.8.1)
+    json (2.1.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.5)
@@ -70,6 +89,13 @@ GEM
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
     pg (0.20.0)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-rails (0.3.6)
+      pry (>= 0.10.4)
+    public_suffix (2.0.5)
     rack (2.0.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -114,6 +140,9 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    shoulda-matchers (3.1.1)
+      activesupport (>= 4.0.0)
+    slop (3.6.0)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -128,14 +157,20 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    xpath (2.1.0)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  capybara-webkit (~> 1.11.1)
   clockface!
+  factory_girl_rails
   pg
-  rspec-rails
+  pry-rails
+  rspec-rails (>= 3.5)
+  shoulda-matchers
 
 BUNDLED WITH
    1.14.6
