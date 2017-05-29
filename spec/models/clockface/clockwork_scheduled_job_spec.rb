@@ -73,7 +73,7 @@ module Clockface
       describe "if_condition" do
         it do
           should validate_inclusion_of(:if_condition).
-            in_array(ClockworkScheduledJob::IF_CONDITIONS).
+            in_array(ClockworkScheduledJob::IF_CONDITIONS.keys).
             allow_blank
         end
       end

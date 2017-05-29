@@ -1,7 +1,11 @@
 module Clockface
   class ClockworkScheduledJob < ApplicationRecord
-    IF_CONDITIONS = %w(odd_week even_week weekday)
-    PERIOD_UNITS = %w(seconds minutes hours days weeks months years)
+    PERIOD_UNITS = %w(seconds minutes hours days weeks months years).freeze
+    IF_CONDITIONS = {
+      even_week: lambda { |time| (time.strftime("%W").to_i % 2) == 0 },
+      odd_week: lambda { |time| (time.strftime("%W").to_i % 2) == 1 },
+      weekday: lambda { |time| (time.strftime("%a")[0] != "S") }
+    }.freeze
 
     belongs_to(
       :event,
@@ -21,6 +25,57 @@ module Clockface
     validates :hour, inclusion: { in: 0..23 }, allow_nil: true
     validates :minute, inclusion: { in: 0..59 }, allow_nil: true
     validates :timezone, inclusion: ActiveSupport::TimeZone::MAPPING.keys, allow_nil: true
-    validates :if_condition, inclusion: IF_CONDITIONS, allow_nil: true
+    validates :if_condition, inclusion: IF_CONDITIONS.keys, allow_nil: true
+  end
+
+  def name
+    event.name
+  end
+
+  def period
+    # e.g. period_value: 2, period_units: weeks
+    #  => 2.weeks
+    period_value.send(period_units.to_sym)
+  end
+
+  def at
+    [
+      at_formatted_day_of_week,
+      [at_formatted_hour, at_formatted_minute].join(":")
+    ].join(" ")
+  end
+
+  def tz
+    self[:timezone]
+  end
+
+  def tz=(tz)
+    self[:timezone] = tz
+  end
+
+  def if?(time)
+    if self[:if_condition].present?
+      IF_CONDITION_LOGIC[self[:if_condition]].call(time)
+    else
+      true
+    end
+  end
+
+  def if=(if_condition)
+    self[:if_condition] = if_condition
+  end
+
+  private
+
+  def at_formatted_day_of_week
+    Date::DAYNAMES[self[:day_of_week]] if self[:day_of_week].present?
+  end
+
+  def at_formatted_hour
+    self[:hour].present? ? self[:hour].to_s.rjust(2, "0") : "**"
+  end
+
+  def at_formatted_minute
+    self[:minute].present? ? self[:minute].to_s.rjust(2, "0") : "**"
   end
 end
