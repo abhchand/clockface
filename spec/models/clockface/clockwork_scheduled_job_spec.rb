@@ -31,27 +31,51 @@ module Clockface
 
       describe "period_units" do
         it { should validate_presence_of(:period_units) }
-        it { should validate_inclusion_of(:period_units).in_array(ClockworkScheduledJob::PERIOD_UNITS) }
+
+        it do
+          should validate_inclusion_of(:period_units).
+            in_array(ClockworkScheduledJob::PERIOD_UNITS)
+        end
       end
 
       describe "day_of_week" do
-        it { should validate_inclusion_of(:day_of_week).in_array((0..6).to_a).allow_blank }
+        it do
+          should validate_inclusion_of(:day_of_week).
+            in_array((0..6).to_a).
+            allow_blank
+        end
       end
 
       describe "hour" do
-        it { should validate_inclusion_of(:hour).in_array((0..23).to_a).allow_blank }
+        it do
+          should validate_inclusion_of(:hour).
+            in_array((0..23).to_a).
+            allow_blank
+        end
       end
 
       describe "minute" do
-        it { should validate_inclusion_of(:minute).in_array((0..59).to_a).allow_blank }
+        it do
+          should validate_inclusion_of(:minute).
+            in_array((0..59).to_a).
+            allow_blank
+        end
       end
 
       describe "timezone" do
-        it { should validate_inclusion_of(:timezone).in_array(ActiveSupport::TimeZone::MAPPING.keys).allow_blank }
+        it do
+          should validate_inclusion_of(:timezone).
+            in_array(ActiveSupport::TimeZone::MAPPING.keys).
+            allow_blank
+        end
       end
 
       describe "if_condition" do
-        it { should validate_inclusion_of(:if_condition).in_array(ClockworkScheduledJob::IF_CONDITIONS).allow_blank }
+        it do
+          should validate_inclusion_of(:if_condition).
+            in_array(ClockworkScheduledJob::IF_CONDITIONS).
+            allow_blank
+        end
       end
     end
   end
