@@ -4,7 +4,7 @@ development: &default
   encoding: utf8
   host: localhost
   min_messages: warning
-  pool: 5
+  pool: 2
   timeout: 5000
 
 test:

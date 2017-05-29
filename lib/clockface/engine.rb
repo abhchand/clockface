@@ -3,6 +3,7 @@ module Clockface
     isolate_namespace Clockface
 
     config.generators do |generate|
+      generate.factory_girl true
       generate.helper false
       generate.javascript_engine false
       generate.request_specs false
