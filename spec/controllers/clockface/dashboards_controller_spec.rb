@@ -1,7 +1,7 @@
 require "rails_helper"
 
 module Clockface
-  RSpec.describe DashboardController, type: :controller do
+  RSpec.describe DashboardsController, type: :controller do
     routes { Clockface::Engine.routes }
 
     describe "GET #show" do
@@ -9,7 +9,7 @@ module Clockface
         get :show
 
         expect(response.status).to eq(200)
-        expect(response).to render_template("dashboard/show")
+        expect(response).to render_template("dashboards/show")
       end
 
       it "assigns the list of all scheduled jobs" do

@@ -1,5 +1,5 @@
 module Clockface
-  class DashboardController < ApplicationController
+  class DashboardsController < ApplicationController
     def show
       @scheduled_jobs = Clockface::ClockworkScheduledJob.all
     end
