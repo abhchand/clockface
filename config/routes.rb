@@ -1,4 +1,4 @@
 Clockface::Engine.routes.draw do
-  root to: redirect("/jobs")
+  root to: redirect("/clockface/jobs")
   resources :jobs
 end
