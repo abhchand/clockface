@@ -10,9 +10,10 @@ en:
         other: "%{count} weeks"
 
   activerecord:
-    attributes:
+    values:
       clockface/clockwork_scheduled_job:
         if_condition:
           even_week: Even Numbered Weeks
           odd_week: Odd Numbered Weeks
           weekday: Only On Weekdays
+

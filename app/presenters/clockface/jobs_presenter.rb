@@ -16,7 +16,7 @@ module Clockface
     def if_condition
       if job.if_condition.present?
         I18n.t(
-          "activerecord.attributes."\
+          "activerecord.values."\
             "clockface/clockwork_scheduled_job.if_condition.#{job.if_condition}"
         )
       end
