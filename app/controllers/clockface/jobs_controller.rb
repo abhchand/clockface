@@ -1,7 +1,7 @@
 module Clockface
   class JobsController < ApplicationController
     def index
-      @jobs = Clockface::ClockworkScheduledJob.all
+      @jobs = all_jobs.map { |job| Clockface::JobsPresenter.new(job) }
     end
 
     def new
@@ -20,6 +20,12 @@ module Clockface
     end
 
     def destroy
+    end
+
+    private
+
+    def all_jobs
+      Clockface::ClockworkScheduledJob.includes(:event).order(:id)
     end
   end
 end

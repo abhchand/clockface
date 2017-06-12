@@ -12,13 +12,21 @@ module Clockface
         expect(response).to render_template("jobs/index")
       end
 
-      it "assigns the list of all scheduled jobs" do
+      it "assigns the ordered list of all jobs, wrapped in a presenter" do
         job1 = create(:clockwork_scheduled_job)
         job2 = create(:clockwork_scheduled_job)
 
         get :index
 
-        expect(assigns(:jobs)).to match_array([job1, job2])
+        jobs = assigns(:jobs)
+
+        expect(jobs.length).to eq(2)
+
+        expect(jobs.first).to be_an_instance_of(Clockface::JobsPresenter)
+        expect(jobs.last).to be_an_instance_of(Clockface::JobsPresenter)
+
+        expect(jobs.first.__getobj__).to eq(job1)
+        expect(jobs.last.__getobj__).to eq(job2)
       end
     end
   end
