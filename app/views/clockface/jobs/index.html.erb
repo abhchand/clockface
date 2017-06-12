@@ -1,57 +1,65 @@
 <!-- TODO: Needs specs -->
-<h1>HELLO WORLD</h1>
+<div class="container">
+  <h1>Clockface</h1>
 
-<div class="jobs-index__jobs">
-  <div class="jobs-index__jobs-header-row">
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--id">
-      <%= Clockface::ClockworkScheduledJob.human_attribute_name("id") %>
-    </div>
+  <h3>Clockwork Jobs</h3>
 
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--name">
-      <%= Clockface::ClockworkScheduledJob.human_attribute_name("name") %>
-    </div>
+  <table class="jobs-index__jobs table table-striped">
+    <thead class="thead-inverse">
+      <tr class="jobs-index__jobs-header-row">
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--id">
+          <%= Clockface::ClockworkScheduledJob.human_attribute_name("id") %>
+        </th>
 
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--period">
-      <%= Clockface::ClockworkScheduledJob.human_attribute_name("period") %>
-    </div>
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--name">
+          <%= Clockface::ClockworkScheduledJob.human_attribute_name("name") %>
+        </th>
 
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--at">
-      <%= Clockface::ClockworkScheduledJob.human_attribute_name("at") %>
-    </div>
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--period">
+          <%= Clockface::ClockworkScheduledJob.human_attribute_name("period") %>
+        </th>
 
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--timezone">
-      <%= Clockface::ClockworkScheduledJob.human_attribute_name("timezone") %>
-    </div>
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--at">
+          <%= Clockface::ClockworkScheduledJob.human_attribute_name("at") %>
+        </th>
 
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--if-condition">
-      <%= Clockface::ClockworkScheduledJob.human_attribute_name("if_condition") %>
-    </div>
-  </div>
-<% @jobs.each do |job| %>
-  <div class="jobs-index__jobs-row">
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--id">
-      <%= job.id %>
-    </div>
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--timezone">
+          <%= Clockface::ClockworkScheduledJob.human_attribute_name("timezone") %>
+        </th>
 
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--name">
-      <%= job.name %>
-    </div>
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--if-condition">
+          <%= Clockface::ClockworkScheduledJob.human_attribute_name("if_condition") %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @jobs.each do |job| %>
+    <tr class="jobs-index__jobs-row">
+      <th scope="row" class="jobs-index__jobs-column jobs-index__jobs-column--id">
+        <%= job.id %>
+      </th>
 
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--period">
-      <%= job.period %>
-    </div>
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--name">
+        <%= job.name %>
+      </td>
 
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--at">
-      <%= job.at %>
-    </div>
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--period">
+        <%= job.period %>
+      </td>
 
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--timezone">
-      <%= job.timezone %>
-    </div>
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--at">
+        <%= job.at %>
+      </td>
 
-    <div class="jobs-index__jobs-column jobs-index__jobs-column--if-condition">
-      <%= job.if_condition %>
-    </div>
-  </div>
-<% end %>
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--timezone">
+        <%= job.timezone %>
+      </td>
+
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--if-condition">
+        <%= job.if_condition %>
+      </td>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
 </div>
