@@ -1,0 +1,18 @@
+en:
+  datetime:
+    distance_in_words:
+      # Core I18n doesn't define values for hours and weeks
+      x_hours:
+        one: 1 hour
+        other: "%{count} hours"
+      x_weeks:
+        one: 1 week
+        other: "%{count} weeks"
+
+  activerecord:
+    attributes:
+      clockface/clockwork_scheduled_job:
+        if_condition:
+          even_week: Even Numbered Weeks
+          odd_week: Odd Numbered Weeks
+          weekday: Only On Weekdays
