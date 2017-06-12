@@ -15,10 +15,8 @@ module Clockface
 
     def if_condition
       if job.if_condition.present?
-        I18n.t(
-          "activerecord.values."\
-            "clockface/clockwork_scheduled_job.if_condition.#{job.if_condition}"
-        )
+        Clockface::ClockworkScheduledJob.
+          human_attribute_name("if_condition.#{job.if_condition}")
       end
     end
 

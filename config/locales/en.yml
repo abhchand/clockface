@@ -17,11 +17,9 @@ en:
         period: Frequency
         at: At
         timezone: Time Zone
-        if-condition: Condition
-    values:
-      clockface/clockwork_scheduled_job:
-        if_condition:
-          even_week: Even Numbered Weeks
-          odd_week: Odd Numbered Weeks
-          weekday: Only On Weekdays
+        if_condition: Condition
+      clockface/clockwork_scheduled_job/if_condition:
+        even_week: Even Numbered Weeks
+        odd_week: Odd Numbered Weeks
+        weekday: Only On Weekdays
 
