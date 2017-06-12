@@ -1,3 +1,5 @@
+require "bootstrap-sass"
+
 module Clockface
   class Engine < ::Rails::Engine
     isolate_namespace Clockface

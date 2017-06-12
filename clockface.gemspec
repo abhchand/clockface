@@ -13,8 +13,10 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
+  s.add_dependency 'bootstrap-sass', '~> 3.3.6'
   s.add_dependency 'rails', '~> 5.1.0'
   s.add_dependency 'clockwork', '~> 2.0', '>= 2.0.2'
+  s.add_dependency 'sass-rails', '>= 3.2'
 
   s.add_development_dependency 'capybara-webkit', '~> 1.11.1'
   s.add_development_dependency 'database_cleaner'
