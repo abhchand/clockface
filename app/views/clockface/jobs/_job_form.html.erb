@@ -30,7 +30,12 @@
         <%= Clockface::ClockworkScheduledJob.human_attribute_name("period") %>
       </label>
       <div class="col-sm-10">
-        <%= form.text_field(:period_value, size: 2, class: "jobs-new__form-element--period-value form-control") %>
+        <%=
+          form.text_field(
+            :period_value,
+            size: 2,
+            class: "jobs-new__form-element--period-value form-control"
+          ) %>
         <%=
           form.select(
             :period_units,
