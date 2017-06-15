@@ -8,4 +8,6 @@ end
 require "spec_helper"
 require "rspec/rails"
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |file| require file }
+# Only require the top-level files that are one level deep
+# All support/** sub-folders should be required by the top-level files
+Dir[Rails.root.join("spec/support/*.rb")].each { |file| require file }
