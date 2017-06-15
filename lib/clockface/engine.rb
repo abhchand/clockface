@@ -1,5 +1,6 @@
 require "bootstrap-sass"
 require "inline_svg"
+require "jquery-rails"
 
 module Clockface
   class Engine < ::Rails::Engine
