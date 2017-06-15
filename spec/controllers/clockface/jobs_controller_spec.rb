@@ -55,5 +55,31 @@ module Clockface
         end
       end
     end
+
+    describe "GET #edit" do
+      let(:job) { create(:clockwork_scheduled_job) }
+
+      it "returns 200 and renders the jobs/edit template" do
+        get :edit, params: { id: job.id }
+
+        expect(response.status).to eq(200)
+        expect(response).to render_template("jobs/edit")
+      end
+
+      it "sets the job" do
+        get :edit, params: { id: job.id }
+
+        expect(assigns(:job)).to eq(job)
+      end
+
+      context "no job exists with the specified id" do
+        it "sets the flash error and redirects to the index page" do
+          get :edit, params: { id: job.id + 1 }
+          expect(response).to redirect_to(jobs_path)
+          expect(flash[:error]).
+            to eq(t("clockface.jobs.edit.validation.invalid_id"))
+        end
+      end
+    end
   end
 end

@@ -15,6 +15,12 @@ module Clockface
     end
 
     def edit
+      @job = Clockface::ClockworkScheduledJob.find_by_id(params[:id])
+
+      unless @job
+        redirect_to jobs_path
+        flash[:error] = t("clockface.jobs.edit.validation.invalid_id")
+      end
     end
 
     def update
