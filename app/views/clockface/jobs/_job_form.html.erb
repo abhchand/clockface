@@ -1,0 +1,73 @@
+<div class="jobs-new__form-container">
+  <%= Clockface::ClockworkScheduledJob.human_attribute_name("name") %>
+  <%= form_for(Clockface::ClockworkScheduledJob.new, url: jobs_path) do |form| %>
+    <%=
+      form.select(
+        "clockface_clockwork_event_id",
+        Clockface::ClockworkEvent.all.collect { |e| [ e.name, e.id ] },
+        { include_blank: false }
+      )
+    %>
+
+    <%= Clockface::ClockworkScheduledJob.human_attribute_name("enabled") %>
+    <%= form.check_box :enabled, checked: true %>
+
+    <%= Clockface::ClockworkScheduledJob.human_attribute_name("period") %>
+    <%= form.text_field(:period_value, size: 2) %>
+    <%=
+      form.select(
+        :period_units,
+        Clockface::ClockworkScheduledJob::PERIOD_UNITS.map { |unit| [ t("datetime.units.#{unit}"), unit ] },
+        { include_blank: false }
+      )
+    %>
+
+    <%= Clockface::ClockworkScheduledJob.human_attribute_name("at") %>
+    <%=
+      form.select(
+        :day_of_week,
+        t("date.day_names").each_with_index { |day, i| [ day, i ] },
+        { include_blank: true }
+      )
+    %>
+    <%=
+      form.select(
+        :hour,
+        (0..23).to_a.map { |h| [ h.to_s.rjust(2, "0"), h ] },
+        { include_blank: false }
+      )
+    %>
+    <%=
+      form.select(
+        :minute,
+        (0..59).to_a.map { |m| [ m.to_s.rjust(2, "0"), m ] },
+        { include_blank: false }
+      )
+    %>
+
+    <%= Clockface::ClockworkScheduledJob.human_attribute_name("timezone") %>
+    <%=
+      form.time_zone_select(
+        :timezone,
+        nil,
+        include_blank: false,
+        default: default_timezone
+      )
+    %>
+
+
+    <%= Clockface::ClockworkScheduledJob.human_attribute_name("if_condition") %>
+    <%=
+      form.select(
+        :if_condition,
+        Clockface::ClockworkScheduledJob::IF_CONDITIONS.each do |if_condition|
+          [
+            Clockface::ClockworkScheduledJob.human_attribute_name("if_condition.#{if_condition}"),
+            if_condition
+          ]
+        end,
+        { include_blank: true }
+      )
+    %>
+  <% end %>
+</div>

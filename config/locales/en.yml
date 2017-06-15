@@ -21,6 +21,7 @@ en:
     attributes:
       clockface/clockwork_scheduled_job:
         id: ID
+        enabled: Enabled
         name: Job
         period: Every
         at: At
@@ -30,3 +31,8 @@ en:
         even_week: Even Numbered Weeks
         odd_week: Odd Numbered Weeks
         weekday: Only On Weekdays
+
+  clockface:
+    jobs:
+      new:
+        heading: Create a new job
