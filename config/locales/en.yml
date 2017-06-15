@@ -40,7 +40,7 @@ en:
       header:
         heading: Clockface
       job_form:
-        submit: Submit
+        submit: Save
       new:
         heading: Schedule a new job
 
