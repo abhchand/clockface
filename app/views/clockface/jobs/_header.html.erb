@@ -1,5 +1,7 @@
-<div class="jobs-header__container">
-  <%= inline_svg "clockface/clock.svg", width: "40px", height: "40px" %>
-  <h1><%= t(".heading") %></h1>
+<div class="jobs-header__container jumbotron">
+  <div>
+    <%= inline_svg "clockface/clock.svg", width: "40px", height: "40px" %>
+    <h1><%= t(".heading") %></h1>
+  </div>
   <h5>v<%= Clockface::VERSION %></h5>
 </div>
