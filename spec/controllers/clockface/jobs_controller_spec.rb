@@ -29,5 +29,31 @@ module Clockface
         expect(jobs.last.__getobj__).to eq(job2)
       end
     end
+
+    describe "GET #new" do
+      it "returns 200 and renders the jobs/new template" do
+        get :new
+
+        expect(response.status).to eq(200)
+        expect(response).to render_template("jobs/new")
+      end
+
+      it "sets the default_timezone to the timezone of the last job" do
+        job1 = create(:clockwork_scheduled_job, timezone: "UTC")
+        job2 = create(:clockwork_scheduled_job, timezone: "Alaska")
+
+        get :new
+
+        expect(assigns(:default_timezone)).to eq("Alaska")
+      end
+
+      context "no last job exists" do
+        it "falls back on UTC" do
+          get :new
+
+          expect(assigns(:default_timezone)).to eq("UTC")
+        end
+      end
+    end
   end
 end
