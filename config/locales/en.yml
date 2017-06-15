@@ -35,6 +35,6 @@ en:
   clockface:
     jobs:
       new:
-        heading: Create a new job
+        heading: Schedule a new job
       header:
         heading: Clockface
