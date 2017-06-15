@@ -34,7 +34,10 @@ en:
 
   clockface:
     jobs:
-      new:
-        heading: Schedule a new job
       header:
         heading: Clockface
+      job_form:
+        submit: Submit
+      new:
+        heading: Schedule a new job
+
