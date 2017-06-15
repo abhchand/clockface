@@ -13,8 +13,8 @@ en:
     attributes:
       clockface/clockwork_scheduled_job:
         id: ID
-        name: Name
-        period: Frequency
+        name: Job
+        period: Every
         at: At
         timezone: Time Zone
         if_condition: Condition
