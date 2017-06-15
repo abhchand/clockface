@@ -36,3 +36,5 @@ en:
     jobs:
       new:
         heading: Create a new job
+      header:
+        heading: Clockface

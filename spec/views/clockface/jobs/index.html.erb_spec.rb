@@ -9,6 +9,13 @@ module Clockface
       assign(:jobs, Clockface::ClockworkScheduledJob.all)
     end
 
+    it "renders the header" do
+      render
+      expect(page.find(".jobs-header__container")).to have_content(
+        t("clockface.jobs.header.heading")
+      )
+    end
+
     it "displays the field headings" do
       render
 
