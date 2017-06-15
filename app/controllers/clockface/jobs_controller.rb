@@ -5,8 +5,7 @@ module Clockface
     end
 
     def new
-      @default_timezone =
-        Clockface::ClockworkScheduledJob.last.try(:timezone) || "UTC"
+      @default_timezone = Clockface::ClockworkScheduledJob.last.try(:timezone)
     end
 
     def create

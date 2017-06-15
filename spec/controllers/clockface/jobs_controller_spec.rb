@@ -48,10 +48,10 @@ module Clockface
       end
 
       context "no last job exists" do
-        it "falls back on UTC" do
+        it "sets the default_timezone to nil" do
           get :new
 
-          expect(assigns(:default_timezone)).to eq("UTC")
+          expect(assigns(:default_timezone)).to be_nil
         end
       end
     end
