@@ -8,6 +8,14 @@ en:
       x_weeks:
         one: 1 week
         other: "%{count} weeks"
+    units:
+      seconds: Seconds
+      minutes: Minutes
+      hours: Hours
+      days: Days
+      weeks: Weeks
+      months: Months
+      years: Years
 
   activerecord:
     attributes:
@@ -22,4 +30,3 @@ en:
         even_week: Even Numbered Weeks
         odd_week: Odd Numbered Weeks
         weekday: Only On Weekdays
-
