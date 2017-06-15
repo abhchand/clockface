@@ -28,14 +28,14 @@
           <%= Clockface::ClockworkScheduledJob.human_attribute_name("timezone") %>
         </th>
 
-        <th class="jobs-index__jobs-column jobs-index__jobs-column--if-condition">
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--if_condition">
           <%= Clockface::ClockworkScheduledJob.human_attribute_name("if_condition") %>
         </th>
       </tr>
     </thead>
     <tbody>
     <% @jobs.each do |job| %>
-    <tr class="jobs-index__jobs-row">
+    <tr class="jobs-index__jobs-row" data-id="<%= job.id %>">
       <th scope="row" class="jobs-index__jobs-column jobs-index__jobs-column--id">
         <%= job.id %>
       </th>
@@ -56,7 +56,7 @@
         <%= job.timezone %>
       </td>
 
-      <td class="jobs-index__jobs-column jobs-index__jobs-column--if-condition">
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--if_condition">
         <%= job.if_condition %>
       </td>
     </tr>
