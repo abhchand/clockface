@@ -31,6 +31,26 @@ en:
         even_week: Even Numbered Weeks
         odd_week: Odd Numbered Weeks
         weekday: Only On Weekdays
+    errors:
+      models:
+        clockface/clockwork_scheduled_job:
+          attributes:
+            period_value:
+              blank: "Please specify a %{attribute}"
+              greater_than: "%{attribute} must be greater than %{count}"
+            period_units:
+              blank: "Please specify a %{attribute}"
+              inclusion: Invalid value for %{attribute}
+            day_of_week:
+              inclusion: Invalid value for %{attribute}
+            hour:
+              inclusion: Invalid value for %{attribute}
+            minute:
+              inclusion: Invalid value for %{attribute}
+            timezone:
+              inclusion: Invalid value for %{attribute}
+            if_condition:
+              inclusion: Invalid value for %{attribute}
 
   clockface:
     application:
