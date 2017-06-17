@@ -44,6 +44,7 @@ en:
         heading: Clockwork Jobs
       job_form:
         submit: Save
+        cancel: Cancel
       new:
         heading: Schedule a new job
 

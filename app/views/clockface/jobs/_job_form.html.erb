@@ -118,6 +118,9 @@
 
     <div class="form-group">
       <div class="jobs-new__form-submit col-sm-2">
+        <%= link_to jobs_path do %>
+          <button type="button" class="btn btn-default"><%= t(".cancel") %></button>
+        <% end %>
         <%= form.submit(t(".submit"), class: "btn btn-success") %>
       </div>
     </div>
