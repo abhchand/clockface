@@ -35,6 +35,7 @@ en:
   clockface:
     jobs:
       edit:
+        heading: Edit job
         validation:
           invalid_id: Job not found
       header:
