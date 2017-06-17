@@ -1,5 +1,6 @@
 require "bootstrap-sass"
 require "inline_svg"
+require "interactor"
 require "jquery-rails"
 
 module Clockface
