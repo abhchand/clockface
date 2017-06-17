@@ -27,8 +27,7 @@ module Clockface
     it "displays the field headings" do
       render
 
-      # Include 'edit' as an attribute here for testing convenience
-      %w(id name period at timezone if_condition edit).each do |attribute|
+      %w(id name period at timezone if_condition).each do |attribute|
         label = Clockface::ClockworkScheduledJob.human_attribute_name(attribute)
         css_id = "thead .jobs-index__jobs-column--#{attribute}"
 
