@@ -10,14 +10,15 @@ module Clockface
 
     def create
       job = Clockface::ClockworkScheduledJob.new(jobs_params)
+      validation = validate_job(job)
 
-      if (errors = validation_errors(job)).any?
-        flash[:error] = errors
-        redirect_to clockface.new_job_path
-      else
+      if validation.success?
         job.save
         flash[:success] = t("clockface.jobs.#{params[:action]}.success")
         redirect_to clockface.jobs_path
+      else
+        flash[:error] = validation.errors
+        redirect_to clockface.new_job_path
       end
     end
 
@@ -41,14 +42,15 @@ module Clockface
       end
 
       job.attributes = jobs_params
+      validation = validate_job(job)
 
-      if (errors = validation_errors(job)).any?
-        flash[:error] = errors
-        redirect_to clockface.edit_job_path(job)
-      else
+      if validation.success?
         job.save
         flash[:success] = t("clockface.jobs.#{params[:action]}.success")
         redirect_to clockface.jobs_path
+      else
+        flash[:error] = validation.errors
+        redirect_to clockface.edit_job_path(job)
       end
     end
 
@@ -79,19 +81,8 @@ module Clockface
       end
     end
 
-    def validation_errors(job)
-      errors = []
-
-      job.valid?
-      job.errors.messages.each do |attribute, messages|
-        errors << messages.first
-      end
-
-      if Clockface::ClockworkScheduledJob.find_duplicates_of(job).any?
-        errors << t("clockface.jobs.#{params[:action]}.duplicate_job")
-      end
-
-      errors
+    def validate_job(job)
+      Clockface::JobValidationInteractor.call(job: job, action: params[:action])
     end
   end
 end
