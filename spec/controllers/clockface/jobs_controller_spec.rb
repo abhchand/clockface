@@ -56,6 +56,90 @@ module Clockface
       end
     end
 
+    describe "POST #create" do
+      let(:event) { create(:clockwork_event) }
+
+      let(:params) do
+        {
+          clockwork_scheduled_job: {
+            clockface_clockwork_event_id: event.id,
+            enabled: "1",
+            period_value: "7",
+            period_units: "minutes",
+            day_of_week: "0",
+            hour: "**",
+            minute: "12",
+            timezone: "Alaska",
+            if_condition: "even_week"
+          }
+        }
+      end
+
+      it "creates a new job" do
+        expect do
+          post :create, params: params
+        end.to change { Clockface::ClockworkScheduledJob.count }.by(1)
+
+        job = Clockface::ClockworkScheduledJob.last
+
+        expect(job.clockface_clockwork_event_id).to eq(event.id)
+        expect(job.enabled).to be_truthy
+        expect(job.period_value).to eq(7)
+        expect(job.period_units).to eq("minutes")
+        expect(job.day_of_week).to eq(0)
+        expect(job.hour).to be_nil
+        expect(job.minute).to eq(12)
+        expect(job.timezone).to eq("Alaska")
+        expect(job.if_condition).to eq("even_week")
+      end
+
+      it "sets the flash success message" do
+        post :create, params: params
+
+        expect(flash[:success]).
+          to eq(t("clockface.jobs.create.success"))
+      end
+
+      it "redirects to the jobs/index path" do
+        post :create, params: params
+
+        expect(response).to redirect_to(jobs_path)
+      end
+
+      context "job fails validation" do
+        before(:each) { params[:clockwork_scheduled_job][:hour] = "-1" }
+
+        it "doesn't create a new job" do
+          expect do
+            post :create, params: params
+          end.to change { Clockface::ClockworkScheduledJob.count }.by(0)
+        end
+
+        it "sets the flash error message" do
+          post :create, params: params
+
+          attribute =
+            Clockface::ClockworkScheduledJob.human_attribute_name("hour")
+
+          expect(flash[:error]).to eq(
+            [
+              t(
+                "activerecord.errors.models.clockface/clockwork_scheduled_job."\
+                "attributes.hour.inclusion",
+                attribute: attribute
+              )
+            ]
+          )
+        end
+
+        it "redirects back to the new_job_path" do
+          post :create, params: params
+
+        expect(response).to redirect_to(new_job_path)
+        end
+      end
+    end
+
     describe "GET #edit" do
       let(:job) { create(:clockwork_scheduled_job) }
 
@@ -78,6 +162,137 @@ module Clockface
           expect(response).to redirect_to(jobs_path)
           expect(flash[:error]).
             to eq(t("clockface.jobs.edit.validation.invalid_id"))
+        end
+      end
+    end
+
+    describe "PATCH #update" do
+      let(:event) { create(:clockwork_event) }
+      let(:other_event) { create(:clockwork_event) }
+
+      let(:job) do
+        create(
+          :clockwork_scheduled_job,
+          event: event,
+          enabled: false,
+          period_value: 10,
+          period_units: "minutes",
+          day_of_week: 0,
+          hour: 1,
+          minute: 3,
+          timezone: "UTC",
+          if_condition: "odd_week"
+        )
+      end
+
+      let(:params) do
+        # Make sure attributes are different from the existing job, to test
+        # that the update works for each attribute
+        {
+          clockwork_scheduled_job: {
+            clockface_clockwork_event_id: other_event.id,
+            enabled: "1",
+            period_value: "20",
+            period_units: "hours",
+            day_of_week: "5",
+            hour: "**",
+            minute: "12",
+            timezone: "Alaska",
+            if_condition: "even_week"
+          }
+        }
+      end
+
+      before(:each) do
+        other_event
+        job
+        params
+      end
+
+      it "updates the existing job" do
+        expect do
+          patch :update, params: params.merge(id: job.id)
+        end.to change { Clockface::ClockworkScheduledJob.count }.by(0)
+
+        job = Clockface::ClockworkScheduledJob.last
+
+        expect(job.clockface_clockwork_event_id).to eq(other_event.id)
+        expect(job.enabled).to be_truthy
+        expect(job.period_value).to eq(20)
+        expect(job.period_units).to eq("hours")
+        expect(job.day_of_week).to eq(5)
+        expect(job.hour).to be_nil
+        expect(job.minute).to eq(12)
+        expect(job.timezone).to eq("Alaska")
+        expect(job.if_condition).to eq("even_week")
+      end
+
+      it "sets the flash success message" do
+        patch :update, params: params.merge(id: job.id)
+
+        expect(flash[:success]).
+          to eq(t("clockface.jobs.update.success"))
+      end
+
+      it "redirects to the jobs/index path" do
+        patch :update, params: params.merge(id: job.id)
+
+        expect(response).to redirect_to(jobs_path)
+      end
+
+      context "job fails validation" do
+        before(:each) { params[:clockwork_scheduled_job][:hour] = "-1" }
+
+        it "doesn't update a new job" do
+          expect_any_instance_of(Clockface::ClockworkScheduledJob).
+            to_not receive(:save)
+
+          expect do
+            patch :update, params: params.merge(id: job.id)
+          end.to change { Clockface::ClockworkScheduledJob.count }.by(0)
+
+          # Pick one field to test - event should be unchanged
+          job = Clockface::ClockworkScheduledJob.last
+          expect(job.clockface_clockwork_event_id).to eq(event.id)
+        end
+
+        it "sets the flash error message" do
+          patch :update, params: params.merge(id: job.id)
+
+          attribute =
+            Clockface::ClockworkScheduledJob.human_attribute_name("hour")
+
+          expect(flash[:error]).to eq(
+            [
+              t(
+                "activerecord.errors.models.clockface/clockwork_scheduled_job."\
+                "attributes.hour.inclusion",
+                attribute: attribute
+              )
+            ]
+          )
+        end
+
+        it "redirects back to the edit_job_path" do
+          patch :update, params: params.merge(id: job.id)
+
+          expect(response).to redirect_to(edit_job_path(job))
+        end
+      end
+
+      context "job with specified id does not exist" do
+        it "sets the flash error message" do
+          patch :update, params: params.merge(id: job.id + 1)
+
+          expect(flash[:error]).to eq(
+            t("clockface.jobs.update.job_not_found", id: job.id + 1)
+          )
+        end
+
+        it "redirects to the jobs_path" do
+          patch :update, params: params.merge(id: job.id + 1)
+
+          expect(response).to redirect_to(jobs_path)
         end
       end
     end

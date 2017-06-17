@@ -6,6 +6,6 @@ end
 
 RSpec.configure do |config|
   config.include ViewHelpers, type: :view
-  config.include Clockface::Engine.routes.url_helpers, type: :view
+  config.include Clockface::Engine.routes.url_helpers, type: [:view]
   config.include ControllerHelpers, type: :controller
 end

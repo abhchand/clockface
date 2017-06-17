@@ -9,6 +9,16 @@ module Clockface
     end
 
     def create
+      job = Clockface::ClockworkScheduledJob.new(jobs_params)
+
+      if (errors = validation_errors(job)).any?
+        flash[:error] = errors
+        redirect_to clockface.new_job_path
+      else
+        job.save
+        flash[:success] = t("clockface.jobs.#{params[:action]}.success")
+        redirect_to clockface.jobs_path
+      end
     end
 
     def edit
@@ -21,6 +31,25 @@ module Clockface
     end
 
     def update
+      job = Clockface::ClockworkScheduledJob.find_by_id(params[:id])
+
+      if !job
+        flash[:error] =
+          t("clockface.jobs.update.job_not_found", id: params[:id])
+        redirect_to jobs_path
+        return
+      end
+
+      job.attributes = jobs_params
+
+      if (errors = validation_errors(job)).any?
+        flash[:error] = errors
+        redirect_to clockface.edit_job_path(job)
+      else
+        job.save
+        flash[:success] = t("clockface.jobs.#{params[:action]}.success")
+        redirect_to clockface.jobs_path
+      end
     end
 
     def destroy
@@ -30,6 +59,39 @@ module Clockface
 
     def all_jobs
       Clockface::ClockworkScheduledJob.includes(:event).order(:id)
+    end
+
+    def jobs_params
+      params.require(:clockwork_scheduled_job).permit(
+        :clockface_clockwork_event_id,
+        :name,
+        :enabled,
+        :period_value,
+        :period_units,
+        :day_of_week,
+        :hour,
+        :minute,
+        :timezone,
+        :if_condition
+      ).tap do |params|
+        params[:hour] = nil if params[:hour] == "**"
+        params[:minute] = nil if params[:minute] == "**"
+      end
+    end
+
+    def validation_errors(job)
+      errors = []
+
+      job.valid?
+      job.errors.messages.each do |attribute, messages|
+        errors << messages.first
+      end
+
+      if Clockface::ClockworkScheduledJob.find_duplicates_of(job).any?
+        errors << t("clockface.jobs.#{params[:action]}.duplicate_job")
+      end
+
+      errors
     end
   end
 end

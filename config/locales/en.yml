@@ -57,6 +57,9 @@ en:
       nav:
         heading: Clockface
     jobs:
+      create:
+        duplicate_job: Another job with this configuration already exists
+        success: Job created successfully
       edit:
         heading: edit job
         validation:
@@ -68,4 +71,8 @@ en:
         cancel: Cancel
       new:
         heading: new job
+      update:
+        duplicate_job: Another job with this configuration already exists
+        job_not_found: Unknown job id %{id}
+        success: Job updated successfully
 

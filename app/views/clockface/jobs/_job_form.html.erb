@@ -1,5 +1,5 @@
 <div class="jobs-new__form-container">
-  <%= form_for(job, url: clockface.jobs_path, html: { class: "form-horizontal" }) do |form| %>
+  <%= form_for(job, url: form_url, html: { class: "form-horizontal" }) do |form| %>
     <div class="jobs-new__form-element--name form-group">
       <label class="control-label col-sm-2" for="name">
         <%= Clockface::ClockworkScheduledJob.human_attribute_name("name") %>

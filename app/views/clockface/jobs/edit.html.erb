@@ -10,5 +10,5 @@
 
   <%= render "clockface/application/flash" %>
 
-  <%= render "job_form", job: @job, default_timezone: nil %>
+  <%= render "job_form", job: @job, form_url: clockface.job_path(@job), default_timezone: nil %>
 </div>
