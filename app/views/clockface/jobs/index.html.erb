@@ -36,6 +36,10 @@
           <%= Clockface::ClockworkScheduledJob.human_attribute_name("if_condition") %>
         </th>
 
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--enabled">
+          <%= Clockface::ClockworkScheduledJob.human_attribute_name("enabled") %>
+        </th>
+
         <th class="jobs-index__jobs-column jobs-index__jobs-column--edit">
         </th>
       </tr>
@@ -65,6 +69,10 @@
 
       <td class="jobs-index__jobs-column jobs-index__jobs-column--if_condition">
         <%= job.if_condition %>
+      </td>
+
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--enabled">
+        <span class="<%= job.enabled? ? "enabled-job" : "disabled-job" %> glyphicon glyphicon-<%= job.enabled? ? "ok" : "remove" %>" aria-hidden="true"></span>
       </td>
 
       <td class="jobs-index__jobs-column jobs-index__jobs-column--edit">

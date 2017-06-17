@@ -1,3 +1,13 @@
 .jobs-index__new-btn {
   margin: 10px 0;
 }
+
+.jobs-index__jobs-column--enabled {
+  .enabled-job {
+    color: green;
+  }
+
+  .disabled-job {
+    color: red;
+  }
+}
