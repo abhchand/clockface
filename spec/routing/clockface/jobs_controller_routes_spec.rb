@@ -19,14 +19,6 @@ module Clockface
         to route_to(controller: "clockface/jobs", action: "create")
     end
 
-    it "routes GET '/jobs/1' to jobs#show" do
-      expect(get: "/jobs/1").to route_to(
-        controller: "clockface/jobs",
-        action: "show",
-        id: "1"
-      )
-    end
-
     it "routes GET '/jobs/1/edit' to jobs#edit" do
       expect(get: "/jobs/1/edit").to route_to(
         controller: "clockface/jobs",

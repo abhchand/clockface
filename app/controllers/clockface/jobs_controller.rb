@@ -11,9 +11,6 @@ module Clockface
     def create
     end
 
-    def show
-    end
-
     def edit
       @job = Clockface::ClockworkScheduledJob.find_by_id(params[:id])
 
