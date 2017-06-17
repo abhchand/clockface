@@ -7,6 +7,15 @@
   <%= stylesheet_link_tag    "clockface/application", media: "all" %>
   <%= javascript_include_tag "clockface/application" %>
   <%= csrf_meta_tags %>
+
+  <% ["Raleway", "Open+Sans"].each do |family| %>
+    <%=
+      stylesheet_link_tag(
+        "http://fonts.googleapis.com/css?family=#{family}",
+        type: "text/css"
+      )
+    %>
+  <% end %>
 </head>
 <body id="page-<%= params[:controller] %>-<%= params[:action] %>">
 
