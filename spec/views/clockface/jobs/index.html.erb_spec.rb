@@ -24,6 +24,16 @@ module Clockface
       expect(page).to have_content(t("clockface.jobs.index.heading"))
     end
 
+    it "displays a 'new' button" do
+      render
+
+      link = page.find(".jobs-index__new-link")
+      button = link.find(".jobs-index__new-btn")
+
+      expect(link["href"]).to eq(clockface.new_job_path)
+      expect(button).to have_content(t("clockface.jobs.index.new"))
+    end
+
     it "displays the field headings" do
       render
 

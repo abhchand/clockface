@@ -4,7 +4,7 @@
 
   <h3><%= t(".heading") %></h3>
 
-  <%= link_to clockface.new_job_path do %>
+  <%= link_to clockface.new_job_path, class: "jobs-index__new-link" do %>
     <button type="button" class="jobs-index__new-btn btn btn-success">
       <%= t(".new") %>
     </button>
