@@ -4,5 +4,5 @@
   <h3><%= t(".heading") %></h3>
   <%= render "clockface/application/flash" %>
 
-  <%= render "job_form", default_timezone: nil %>
+  <%= render "job_form", job: @job, default_timezone: nil %>
 </div>
