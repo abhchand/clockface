@@ -16,6 +16,11 @@ module Clockface
       )
     end
 
+    it "renders the flash" do
+      render
+      expect(view).to render_template(partial: "_flash")
+    end
+
     it "displays the field headings" do
       render
 
