@@ -43,7 +43,6 @@ en:
           invalid_id: Job not found
       index:
         heading: all jobs
-        new: +
       job_form:
         submit: Save
         cancel: Cancel

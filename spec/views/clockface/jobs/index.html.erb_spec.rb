@@ -26,7 +26,7 @@ module Clockface
       button = link.find(".jobs-index__new-btn")
 
       expect(link["href"]).to eq(clockface.new_job_path)
-      expect(button).to have_content(t("clockface.jobs.index.new"))
+      expect(button).to have_selector(".glyphicon-plus")
     end
 
     it "displays the field headings" do
