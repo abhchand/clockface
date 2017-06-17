@@ -79,6 +79,70 @@ module Clockface
       end
     end
 
+    describe ".find_duplicates_of" do
+      let(:job) { subject }
+      let(:other_job) { job.dup.tap { |job| job.save } }
+
+      context "another job with the same attributes exists" do
+        it "returns the other job" do
+          expect(
+            Clockface::ClockworkScheduledJob.find_duplicates_of(job)
+          ).to eq([other_job])
+        end
+      end
+
+      context "no other job with the same attributes exists" do
+        it "returns an empty array when period_value is not the same" do
+          job.update(period_value: 2)
+          expect(
+            Clockface::ClockworkScheduledJob.find_duplicates_of(job)
+          ).to be_empty
+        end
+
+        it "returns an empty array when period_units is not the same" do
+          job.update(period_units: "months")
+          expect(
+            Clockface::ClockworkScheduledJob.find_duplicates_of(job)
+          ).to be_empty
+        end
+
+        it "returns an empty array when day_of_week is not the same" do
+          job.update(day_of_week: 3)
+          expect(
+            Clockface::ClockworkScheduledJob.find_duplicates_of(job)
+          ).to be_empty
+        end
+
+        it "returns an empty array when hour is not the same" do
+          job.update(hour: 17)
+          expect(
+            Clockface::ClockworkScheduledJob.find_duplicates_of(job)
+          ).to be_empty
+        end
+
+        it "returns an empty array when minute is not the same" do
+          job.update(minute: 38)
+          expect(
+            Clockface::ClockworkScheduledJob.find_duplicates_of(job)
+          ).to be_empty
+        end
+
+        it "returns an empty array when timezone is not the same" do
+          job.update(timezone: "Alaska")
+          expect(
+            Clockface::ClockworkScheduledJob.find_duplicates_of(job)
+          ).to be_empty
+        end
+
+        it "returns an empty array when if_condition is not the same" do
+          job.update(if_condition: "even_week")
+          expect(
+            Clockface::ClockworkScheduledJob.find_duplicates_of(job)
+          ).to be_empty
+        end
+      end
+    end
+
     describe "#name" do
       it "returns the event's name" do
         expect(subject.name).to eq(subject.event.name)

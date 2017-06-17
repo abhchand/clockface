@@ -27,6 +27,18 @@ module Clockface
     validates :timezone, inclusion: ActiveSupport::TimeZone::MAPPING.keys, allow_nil: true
     validates :if_condition, inclusion: IF_CONDITIONS.keys, allow_nil: true
 
+    def self.find_duplicates_of(job)
+      Clockface::ClockworkScheduledJob.where(
+        period_value: job.period_value,
+        period_units: job.period_units,
+        day_of_week: job.day_of_week,
+        hour: job.hour,
+        minute: job.minute,
+        timezone: job.timezone,
+        if_condition: job.if_condition
+      ).where.not(id: job.id)
+    end
+
     def name
       event.name
     end
