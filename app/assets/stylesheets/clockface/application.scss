@@ -18,5 +18,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+@import "application/nav";
+@import "application/flash";
+
 @import "jobs/index";
 @import "jobs/job_form";

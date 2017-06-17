@@ -33,13 +33,14 @@ en:
         weekday: Only On Weekdays
 
   clockface:
+    application:
+      nav:
+        heading: Clockface
     jobs:
       edit:
         heading: Edit job
         validation:
           invalid_id: Job not found
-      header:
-        heading: Clockface
       index:
         heading: Clockwork Jobs
         new: +

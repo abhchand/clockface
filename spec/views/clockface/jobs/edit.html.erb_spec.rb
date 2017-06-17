@@ -2,11 +2,6 @@ require "rails_helper"
 
 module Clockface
   RSpec.describe "clockface/jobs/edit.html.erb", type: :view do
-    it "renders the header" do
-      render
-      expect(view).to render_template(partial: "_header")
-    end
-
     it "renders the flash" do
       render
       expect(view).to render_template(partial: "_flash")
