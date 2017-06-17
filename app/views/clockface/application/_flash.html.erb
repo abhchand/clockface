@@ -1,0 +1,14 @@
+<% flash.each do |flash_type, message| %>
+  <%
+    flash_class = {
+      success: "alert-success",
+      error: "alert-danger",
+      alert: "alert-warning",
+      notice: "alert-info"
+    }[flash_type.to_sym] || flash_type.to_s
+  %>
+  <div class="flash active alert <%= flash_class %> fade in">
+    <button class="close" data-dismiss="alert">x</button>
+    <%= message %>
+  </div>
+<% end %>
