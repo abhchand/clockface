@@ -7,8 +7,19 @@
       notice: "alert-info"
     }[flash_type.to_sym] || flash_type.to_s
   %>
+
+  <%
+    formatted_message =
+      if message.is_a?(Array)
+        content_tag(:ul) do
+          message.each { |item| concat content_tag(:li, item) }
+        end
+      else
+        message
+      end
+  %>
   <div class="flash active alert <%= flash_class %> fade in">
     <button class="close" data-dismiss="alert">x</button>
-    <%= message %>
+    <%= formatted_message.html_safe %>
   </div>
 <% end %>

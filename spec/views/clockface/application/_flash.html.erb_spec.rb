@@ -29,5 +29,20 @@ module Clockface
       expect(container).to have_content("Some error")
       expect(container.find(".close")).to have_content("x")
     end
+
+    context "message is an array" do
+      it "formats the message as a <ul> element" do
+        flash[:error] = %w(error1 error2)
+
+        render
+
+        container = page.find(".flash")
+        elements = container.all("li")
+
+        expect(elements.size).to eq(2)
+        expect(elements[0]).to have_content("error1")
+        expect(elements[1]).to have_content("error2")
+      end
+    end
   end
 end
