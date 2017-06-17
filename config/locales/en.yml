@@ -38,15 +38,15 @@ en:
         heading: Clockface
     jobs:
       edit:
-        heading: Edit job
+        heading: edit job
         validation:
           invalid_id: Job not found
       index:
-        heading: Clockwork Jobs
+        heading: all jobs
         new: +
       job_form:
         submit: Save
         cancel: Cancel
       new:
-        heading: Schedule a new job
+        heading: new job
 
