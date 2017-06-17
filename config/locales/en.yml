@@ -42,6 +42,7 @@ en:
         heading: Clockface
       index:
         heading: Clockwork Jobs
+        new: +
       job_form:
         submit: Save
         cancel: Cancel

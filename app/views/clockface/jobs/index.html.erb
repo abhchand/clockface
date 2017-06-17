@@ -4,6 +4,12 @@
 
   <h3><%= t(".heading") %></h3>
 
+  <%= link_to new_job_path do %>
+    <button type="button" class="jobs-index__new-btn btn btn-success">
+      <%= t(".new") %>
+    </button>
+  <% end %>
+
   <table class="jobs-index__jobs table table-striped">
     <thead class="thead-inverse">
       <tr class="jobs-index__jobs-header-row">
