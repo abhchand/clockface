@@ -1,13 +1,17 @@
 <div class="container">
   <%= render "clockface/application/flash" %>
 
-  <h1><%= t(".heading") %></h1>
+  <div class="jobs-index__heading-banner">
+    <h1>
+      <%= t(".heading") %>
+    </h1>
 
-  <%= link_to clockface.new_job_path, class: "jobs-index__new-link" do %>
-    <button type="button" class="jobs-index__new-btn btn btn-success">
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    </button>
-  <% end %>
+    <%= link_to clockface.new_job_path, class: "jobs-index__new-link" do %>
+      <button type="button" class="jobs-index__new-btn btn btn-success">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+    <% end %>
+  </div>
 
   <table class="jobs-index__jobs table table-striped">
     <thead class="thead-inverse">

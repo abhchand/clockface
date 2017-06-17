@@ -1,5 +1,22 @@
+.jobs-index__heading-banner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.jobs-index__new-link {
+  margin: 10px 10px 10px auto;
+}
+
 .jobs-index__new-btn {
-  margin: 10px 0;
+  height: 45px;
+  width: 45px;
+
+  .glyphicon {
+    font-size: 20px;
+  }
 }
 
 .jobs-index__jobs-column--enabled {
