@@ -27,7 +27,8 @@ module Clockface
     it "displays the field headings" do
       render
 
-      %w(id name period at timezone if_condition).each do |attribute|
+      # Include 'edit' as an attribute here for testing convenience
+      %w(id name period at timezone if_condition edit).each do |attribute|
         label = Clockface::ClockworkScheduledJob.human_attribute_name(attribute)
         css_id = "thead .jobs-index__jobs-column--#{attribute}"
 
@@ -91,6 +92,15 @@ module Clockface
       it_behaves_like "displayed job field", :at
       it_behaves_like "displayed job field", :timezone
       it_behaves_like "displayed job field", :if_condition
+
+      it "displays a link to edit the job" do
+        render
+
+        table_row = page.find("tr.jobs-index__jobs-row[data-id='#{job.id}']")
+        field = table_row.find(".jobs-index__jobs-column--edit")
+
+        expect(field).to have_selector("a[href='#{edit_job_path(job)}']")
+      end
     end
   end
 end
