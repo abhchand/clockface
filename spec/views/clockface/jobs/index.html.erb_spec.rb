@@ -99,7 +99,8 @@ module Clockface
         table_row = page.find("tr.jobs-index__jobs-row[data-id='#{job.id}']")
         field = table_row.find(".jobs-index__jobs-column--edit")
 
-        expect(field).to have_selector("a[href='#{edit_job_path(job)}']")
+        expect(field).
+          to have_selector("a[href='#{clockface.edit_job_path(job)}']")
       end
     end
   end

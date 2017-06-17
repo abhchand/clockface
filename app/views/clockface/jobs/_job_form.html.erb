@@ -1,5 +1,5 @@
 <div class="jobs-new__form-container">
-  <%= form_for(Clockface::ClockworkScheduledJob.new, url: jobs_path, html: { class: "form-horizontal" }) do |form| %>
+  <%= form_for(Clockface::ClockworkScheduledJob.new, url: clockface.jobs_path, html: { class: "form-horizontal" }) do |form| %>
     <div class="jobs-new__form-element--name form-group">
       <label class="control-label col-sm-2" for="name">
         <%= Clockface::ClockworkScheduledJob.human_attribute_name("name") %>
@@ -118,7 +118,7 @@
 
     <div class="form-group">
       <div class="jobs-new__form-submit col-sm-2">
-        <%= link_to jobs_path do %>
+        <%= link_to clockface.jobs_path do %>
           <button type="button" class="btn btn-default"><%= t(".cancel") %></button>
         <% end %>
         <%= form.submit(t(".submit"), class: "btn btn-success") %>
