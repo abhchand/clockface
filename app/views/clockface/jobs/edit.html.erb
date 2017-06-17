@@ -1,5 +1,13 @@
 <div class="container">
-  <h1><%= t(".heading") %></h1>
+  <div class="jobs-edit__heading-banner">
+    <h1>
+      <%= link_to clockface.jobs_path, class: "jobs-edit__heading-banner-link" do %>
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <% end %>
+      <%= t(".heading") %>
+    </h1>
+  </div>
+
   <%= render "clockface/application/flash" %>
 
   <%= render "job_form", job: @job, default_timezone: nil %>
