@@ -1,3 +1,4 @@
 --color
 --no-profile
 --format progress
+--exclude-pattern "spec/dummy/spec/**/*_spec.rb"
