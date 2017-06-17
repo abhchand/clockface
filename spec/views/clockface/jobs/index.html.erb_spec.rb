@@ -11,9 +11,7 @@ module Clockface
 
     it "renders the header" do
       render
-      expect(page.find(".jobs-header__container")).to have_content(
-        t("clockface.jobs.header.heading")
-      )
+      expect(view).to render_template(partial: "_header")
     end
 
     it "renders the flash" do
