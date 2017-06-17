@@ -4,8 +4,11 @@
   end
 end
 
+require Rails.root.join("spec/support/translation_helpers.rb")
+
 RSpec.configure do |config|
+  config.include TranslationHelpers
+
   config.include ViewHelpers, type: :view
   config.include Clockface::Engine.routes.url_helpers, type: [:view]
-  config.include ControllerHelpers, type: :controller
 end
