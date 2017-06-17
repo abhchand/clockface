@@ -9,8 +9,18 @@ module Clockface
     end
 
     def at
-      # TODO: This needs to be properly translatable via I18n
-      job.at
+      at = job.at
+
+      # `at` uses the day name from the ruby standard library - Date::DAYNAMES
+      # Need to replace that with the translated version for any given locale
+      if job.day_of_week.present?
+        at.gsub!(
+          Date::DAYNAMES[job.day_of_week],
+          I18n.t("date.day_names")[job.day_of_week]
+        )
+      end
+
+      at
     end
 
     def if_condition
