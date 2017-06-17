@@ -39,6 +39,8 @@ en:
           invalid_id: Job not found
       header:
         heading: Clockface
+      index:
+        heading: Clockwork Jobs
       job_form:
         submit: Save
       new:

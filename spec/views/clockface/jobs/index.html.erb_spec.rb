@@ -19,6 +19,11 @@ module Clockface
       expect(view).to render_template(partial: "_flash")
     end
 
+    it "renders the heading" do
+      render
+      expect(page).to have_content(t("clockface.jobs.index.heading"))
+    end
+
     it "displays the field headings" do
       render
 
