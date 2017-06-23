@@ -17,5 +17,14 @@ module Clockface
       generate.test_framework :rspec
       generate.view_specs false
     end
+
+    # Ensure this initializer runs before the host applications initializers
+    # so that the config structure gets defined.
+    initializer "clockface.config", before: :load_config_initializers do |app|
+      ClockfaceConfig = Struct.new(:logger)
+
+      app.config.clockface = ClockfaceConfig.new
+      app.config.clockface.logger = ""
+    end
   end
 end
