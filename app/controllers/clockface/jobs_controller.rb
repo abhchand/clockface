@@ -17,6 +17,7 @@ module Clockface
       if validation.success?
         job.save
         flash[:success] = t("clockface.jobs.#{params[:action]}.success")
+        log(:info, "Created Job: #{job.inspect}")
         redirect_to clockface.jobs_path
       else
         flash[:error] = validation.errors
@@ -49,6 +50,7 @@ module Clockface
       if validation.success?
         job.save
         flash[:success] = t("clockface.jobs.#{params[:action]}.success")
+        log(:info, "Updated Job: #{job.inspect}")
         redirect_to clockface.jobs_path
       else
         flash[:error] = validation.errors
@@ -82,6 +84,7 @@ module Clockface
       if (params[:captcha] || "") == captcha_for(job)
         if job.destroy
           flash[:success] = t("clockface.jobs.destroy.success")
+          log(:info, "Destroyed Job: #{job.inspect}")
           redirect_to jobs_path
         else
           flash[:error] = t("clockface.jobs.destroy.failure")

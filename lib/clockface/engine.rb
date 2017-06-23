@@ -24,7 +24,7 @@ module Clockface
       ClockfaceConfig = Struct.new(:logger)
 
       app.config.clockface = ClockfaceConfig.new
-      app.config.clockface.logger = ""
+      app.config.clockface.logger = Logger.new(STDOUT)
     end
   end
 end
