@@ -31,6 +31,8 @@ en:
         even_week: Only run on even weeks
         odd_week: Only run on even weeks
         weekday: Only run on weekdays
+        first_of_month: Only run on first day of the Month
+        last_of_month: Only run on last day of the Month
 
     errors:
       models:

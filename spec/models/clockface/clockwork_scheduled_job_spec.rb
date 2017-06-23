@@ -232,6 +232,34 @@ module Clockface
         end
       end
 
+      context "if_condition is first_of_month" do
+        before(:each) { subject.update(if_condition: "first_of_month") }
+
+        it "returns true when the day is a the first of the month" do
+          time = Time.parse("Jan 01 2017")
+          expect(subject.if?(time)).to be_truthy
+        end
+
+        it "returns false when the day is not a the first of the month" do
+          time = Time.parse("Jan 02 2017")
+          expect(subject.if?(time)).to be_falsey
+        end
+      end
+
+      context "if_condition is last_of_month" do
+        before(:each) { subject.update(if_condition: "last_of_month") }
+
+        it "returns true when the day is the last of the month" do
+          time = Time.parse("Jan 31 2017")
+          expect(subject.if?(time)).to be_truthy
+        end
+
+        it "returns false when the day is not the last of the month" do
+          time = Time.parse("Jan 30 2017")
+          expect(subject.if?(time)).to be_falsey
+        end
+      end
+
       context "if_condition is nil" do
         before(:each) { subject.update(if_condition: nil) }
 

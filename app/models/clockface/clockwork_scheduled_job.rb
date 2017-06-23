@@ -4,7 +4,9 @@ module Clockface
     IF_CONDITIONS = {
       "even_week" => lambda { |time| (time.strftime("%W").to_i % 2) == 0 },
       "odd_week" => lambda { |time| (time.strftime("%W").to_i % 2) == 1 },
-      "weekday" => lambda { |time| (time.strftime("%a")[0] != "S") }
+      "weekday" => lambda { |time| (time.strftime("%a")[0] != "S") },
+      "first_of_month" => lambda { |time| time.strftime("%-d").to_i == 1 },
+      "last_of_month" => lambda { |time| (time + 1.day).strftime("%-d").to_i == 1 },
     }.freeze
 
     belongs_to(
