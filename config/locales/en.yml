@@ -26,13 +26,13 @@ en:
         period: Every
         at: At
         timezone: Time Zone
-        if_condition: Condition
+        if_condition: Only run on...
       clockface/clockwork_scheduled_job/if_condition:
-        even_week: Only run on even weeks
-        odd_week: Only run on even weeks
-        weekday: Only run on weekdays
-        first_of_month: Only run on first day of the Month
-        last_of_month: Only run on last day of the Month
+        even_week: even weeks
+        odd_week: even weeks
+        weekday: weekdays
+        first_of_month: first day of the month
+        last_of_month: last day of the month
 
     errors:
       models:
