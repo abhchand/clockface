@@ -16,7 +16,7 @@ module Clockface
 
       if validation.success?
         job.save
-        flash[:success] = t("clockface.jobs.#{params[:action]}.success")
+        flash[:success] = t("clockface.jobs.create.success")
         log(:info, "Created Job: #{job.inspect}")
         redirect_to clockface.jobs_path
       else
@@ -49,7 +49,7 @@ module Clockface
 
       if validation.success?
         job.save
-        flash[:success] = t("clockface.jobs.#{params[:action]}.success")
+        flash[:success] = t("clockface.jobs.update.success")
         log(:info, "Updated Job: #{job.inspect}")
         redirect_to clockface.jobs_path
       else
