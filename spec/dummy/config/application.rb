@@ -11,7 +11,11 @@ require "action_cable/engine"
 require "sprockets/railtie"
 
 Bundler.require(*Rails.groups)
-require "clockface"
+
+# The host application should not auto-require clockface. The host clock
+# configuration file will require it directly
+# Leaving commented-out version in place for searchability and documentation
+# require "clockface"
 
 module Dummy
   class Application < Rails::Application

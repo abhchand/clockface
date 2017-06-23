@@ -13,7 +13,7 @@
     <% end %>
   </div>
 
-  <table class="jobs-index__jobs table table-striped">
+  <table class="jobs-index__jobs table table-striped sortable">
     <thead class="thead-inverse">
       <tr class="jobs-index__jobs-header-row">
         <th class="jobs-index__jobs-column jobs-index__jobs-column--id">
@@ -44,10 +44,10 @@
           <%= Clockface::ClockworkScheduledJob.human_attribute_name("enabled") %>
         </th>
 
-        <th class="jobs-index__jobs-column jobs-index__jobs-column--edit">
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--edit sorttable_nosort">
         </th>
 
-        <th class="jobs-index__jobs-column jobs-index__jobs-column--destroy">
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--destroy sorttable_nosort">
         </th>
       </tr>
     </thead>
@@ -78,7 +78,7 @@
         <%= job.if_condition %>
       </td>
 
-      <td class="jobs-index__jobs-column jobs-index__jobs-column--enabled">
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--enabled" sorttable_customkey="<%= job.enabled? ? 1 : 0 %>">
         <span class="<%= job.enabled? ? "enabled-job" : "disabled-job" %> glyphicon glyphicon-<%= job.enabled? ? "ok" : "remove" %>" aria-hidden="true"></span>
       </td>
 

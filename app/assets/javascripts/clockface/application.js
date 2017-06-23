@@ -13,4 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require ./flash
+//= require ./sorttable
 //= require_tree .

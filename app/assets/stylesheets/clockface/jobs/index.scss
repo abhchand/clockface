@@ -19,6 +19,19 @@
   }
 }
 
+.jobs-index__jobs {
+  thead {
+    background-color: $light_gray;
+    color: $dark_gray;
+    font-weight: bold;
+    cursor: pointer;
+
+    .sorttable_nosort {
+      cursor: default;
+    }
+  }
+}
+
 .jobs-index__jobs-column--enabled {
   .enabled-job {
     color: green;
