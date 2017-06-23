@@ -332,5 +332,106 @@ module Clockface
         end
       end
     end
+
+    describe "DELETE destroy" do
+      let(:event) { create(:clockwork_event) }
+      let(:job) { create(:clockwork_scheduled_job) }
+      let(:captcha) { @controller.send(:captcha_for, job) }
+
+      before(:each) do
+        event
+        job
+      end
+
+      it "destroys the existing job" do
+        expect do
+          patch :destroy, params: { id: job.id, captcha: captcha }
+        end.to change { Clockface::ClockworkScheduledJob.count }.by(-1)
+      end
+
+      it "sets the flash success message" do
+        patch :destroy, params: { id: job.id, captcha: captcha }
+
+        expect(flash[:success]).to eq(t("clockface.jobs.destroy.success"))
+      end
+
+      it "redirects to the jobs/index path" do
+        patch :destroy, params: { id: job.id, captcha: captcha }
+
+        expect(response).to redirect_to(jobs_path)
+      end
+
+      context "job with specified id does not exist" do
+        it "doesn't destroy the job" do
+          expect do
+            patch :destroy, params: { id: job.id + 1, captcha: captcha }
+          end.to change { Clockface::ClockworkScheduledJob.count }.by(0)
+        end
+
+        it "sets the flash error message" do
+          patch :destroy, params: { id: job.id + 1, captcha: captcha }
+
+          expect(flash[:error]).to eq(
+            t("clockface.jobs.destroy.job_not_found", id: job.id + 1)
+          )
+        end
+
+        it "redirects to the jobs_path" do
+          patch :destroy, params: { id: job.id + 1, captcha: captcha }
+
+          expect(response).to redirect_to(jobs_path)
+        end
+      end
+
+      context "job fails validation" do
+        context "captcha is incorrect" do
+          let(:captcha) { "bad captcha" }
+
+          it "doesn't destroy the job" do
+            expect do
+              patch :destroy, params: { id: job.id, captcha: captcha }
+            end.to change { Clockface::ClockworkScheduledJob.count }.by(0)
+          end
+
+          it "sets the flash error message" do
+            patch :destroy, params: { id: job.id, captcha: captcha }
+
+            expect(flash[:error]).
+              to eq(t("clockface.jobs.destroy.validation.incorrect_captcha"))
+          end
+
+          it "redirects to the jobs/delete path" do
+            patch :destroy, params: { id: job.id, captcha: captcha }
+
+            expect(response).to redirect_to(job_delete_path(job))
+          end
+        end
+      end
+
+      context "destroying the model is unsuccessful" do
+        before(:each) do
+          allow_any_instance_of(Clockface::ClockworkScheduledJob).
+            to receive(:destroy) { false }
+        end
+
+        it "doesn't destroy the job" do
+          expect do
+            patch :destroy, params: { id: job.id, captcha: captcha }
+          end.to change { Clockface::ClockworkScheduledJob.count }.by(0)
+        end
+
+        it "sets the flash error message" do
+          patch :destroy, params: { id: job.id, captcha: captcha }
+
+          expect(flash[:error]).to eq(t("clockface.jobs.destroy.failure"))
+        end
+
+        it "redirects to the jobs/delete path" do
+          patch :destroy, params: { id: job.id, captcha: captcha }
+
+          expect(response).to redirect_to(job_delete_path(job))
+        end
+      end
+    end
   end
 end

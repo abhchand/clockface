@@ -66,10 +66,31 @@ module Clockface
       end
 
       @job = Clockface::JobsPresenter.new(job)
-      @captcha = Digest::SHA1.hexdigest(@job.id.to_s).first(CAPTCHA_LENGTH)
+      @captcha = captcha_for(job)
     end
 
     def destroy
+      job = Clockface::ClockworkScheduledJob.find_by_id(params[:id])
+
+      if !job
+        flash[:error] =
+          t("clockface.jobs.destroy.job_not_found", id: params[:id])
+        redirect_to jobs_path
+        return
+      end
+
+      if (params[:captcha] || "") == captcha_for(job)
+        if job.destroy
+          flash[:success] = t("clockface.jobs.destroy.success")
+          redirect_to jobs_path
+        else
+          flash[:error] = t("clockface.jobs.destroy.failure")
+          redirect_to job_delete_path(job)
+        end
+      else
+        flash[:error] = t("clockface.jobs.destroy.validation.incorrect_captcha")
+        redirect_to job_delete_path(job)
+      end
     end
 
     private
@@ -98,6 +119,10 @@ module Clockface
 
     def validate_job(job)
       Clockface::JobValidationInteractor.call(job: job, action: params[:action])
+    end
+
+    def captcha_for(job)
+      Digest::SHA1.hexdigest(job.id.to_s).first(CAPTCHA_LENGTH)
     end
   end
 end

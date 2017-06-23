@@ -69,7 +69,12 @@ en:
         validation:
           invalid_id: Job not found
         warning: "Deleting a job is irreversible!"
-
+      destroy:
+        job_not_found: Unknown job id %{id}
+        success: Job deleted successfully
+        failure: Whoops, something went wrong! Please contact your site administrator
+        validation:
+          incorrect_captcha: Please enter the correct code to confirm deletion
       edit:
         heading: edit job
         validation:
