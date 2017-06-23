@@ -1,5 +1,7 @@
 module Clockface
   class JobsController < ApplicationController
+    CAPTCHA_LENGTH = 5
+
     def index
       @jobs = all_jobs.map { |job| Clockface::JobsPresenter.new(job) }
     end
@@ -52,6 +54,19 @@ module Clockface
         flash[:error] = validation.errors
         redirect_to clockface.edit_job_path(job)
       end
+    end
+
+    def delete
+      job = Clockface::ClockworkScheduledJob.find_by_id(params[:job_id])
+
+      unless job
+        redirect_to jobs_path
+        flash[:error] = t("clockface.jobs.delete.validation.invalid_id")
+        return
+      end
+
+      @job = Clockface::JobsPresenter.new(job)
+      @captcha = Digest::SHA1.hexdigest(@job.id.to_s).first(CAPTCHA_LENGTH)
     end
 
     def destroy

@@ -296,5 +296,41 @@ module Clockface
         end
       end
     end
+
+    describe "GET #delete" do
+      let(:job) { create(:clockwork_scheduled_job) }
+
+      it "returns 200 and renders the jobs/delete template" do
+        get :delete, params: { job_id: job.id }
+
+        expect(response.status).to eq(200)
+        expect(response).to render_template("jobs/delete")
+      end
+
+      it "sets the job" do
+        get :delete, params: { job_id: job.id }
+
+        expect(assigns(:job)).to be_an_instance_of(Clockface::JobsPresenter)
+        expect(assigns(:job).__getobj__).to eq(job)
+      end
+
+      it "sets the captcha as the first few charactes of the id's SHA-1" do
+        captcha_length = Clockface::JobsController::CAPTCHA_LENGTH
+
+        get :delete, params: { job_id: job.id }
+
+        expect(assigns(:captcha)).
+          to eq(Digest::SHA1.hexdigest(job.id.to_s).first(captcha_length))
+      end
+
+      context "no job exists with the specified id" do
+        it "sets the flash error and redirects to the index page" do
+          get :delete, params: { job_id: job.id + 1 }
+          expect(response).to redirect_to(jobs_path)
+          expect(flash[:error]).
+            to eq(t("clockface.jobs.delete.validation.invalid_id"))
+        end
+      end
+    end
   end
 end
