@@ -13,7 +13,7 @@ module Clockface
 
     it "renders the heading" do
       render
-      expect(page).to have_content(t("clockface.jobs.edit.heading"))
+      expect(page).to have_content(t("clockface.jobs.edit.heading").downcase)
     end
 
     it "renders the back link" do

@@ -16,7 +16,7 @@ module Clockface
 
     it "renders the heading" do
       render
-      expect(page).to have_content(t("clockface.jobs.index.heading"))
+      expect(page).to have_content(t("clockface.jobs.index.heading").downcase)
     end
 
     it "displays a 'new' button" do
