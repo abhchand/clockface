@@ -28,9 +28,9 @@ en:
         timezone: Time Zone
         if_condition: Condition
       clockface/clockwork_scheduled_job/if_condition:
-        even_week: Even Numbered Weeks
-        odd_week: Odd Numbered Weeks
-        weekday: Only On Weekdays
+        even_week: Only run on even weeks
+        odd_week: Only run on even weeks
+        weekday: Only run on weekdays
 
     errors:
       models:
