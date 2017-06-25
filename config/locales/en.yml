@@ -1,7 +1,7 @@
 en:
   datetime:
     formats:
-      international: "%Y-%m-%d %H:%M %Z"
+      international: "%Y-%m-%d %H:%M <span>%Z</span>"
     distance_in_words:
       # Core I18n doesn't define values for hours and weeks
       x_hours:
