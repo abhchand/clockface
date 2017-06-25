@@ -27,6 +27,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pg'
   s.add_development_dependency 'pry-rails'
   s.add_development_dependency 'rails-controller-testing', '~> 1.0', '>= 1.0.1'
+  s.add_development_dependency 'redis'
   s.add_development_dependency 'rspec-rails', '>= 3.5'
   s.add_development_dependency 'shoulda-matchers'
+  s.add_development_dependency 'sidekiq'
 end
