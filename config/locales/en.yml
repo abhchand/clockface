@@ -32,7 +32,7 @@ en:
         if_condition: Only run on...
       clockface/clockwork_scheduled_job/if_condition:
         even_week: even weeks
-        odd_week: even weeks
+        odd_week: odd weeks
         weekday: weekdays
         first_of_month: first day of the month
         last_of_month: last day of the month
