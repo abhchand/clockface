@@ -1,5 +1,7 @@
-$(function(){
-  $(".flash .close").on("click", function(){
-    $(this).parent().removeClass("active");
+function flashClose() {
+  document.querySelectorAll(".flash .close").forEach(function(e) {
+    e.addEventListener("click", function(){
+      this.parentElement.classList.remove("active");
+    })
   })
-});
+}
