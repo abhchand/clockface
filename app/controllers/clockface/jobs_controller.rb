@@ -11,7 +11,7 @@ module Clockface
     end
 
     def create
-      job = Clockface::ClockworkScheduledJob.new(jobs_params)
+      job = Clockface::ClockworkScheduledJob.new(jobs_params_for_create)
       validation = validate_job(job)
 
       if validation.success?
@@ -44,7 +44,7 @@ module Clockface
         return
       end
 
-      job.attributes = jobs_params
+      job.attributes = jobs_params_for_update
       validation = validate_job(job)
 
       if validation.success?
@@ -102,9 +102,26 @@ module Clockface
       Clockface::ClockworkScheduledJob.includes(:event).order(:id)
     end
 
-    def jobs_params
+    def jobs_params_for_create
       params.require(:clockwork_scheduled_job).permit(
         :clockface_clockwork_event_id,
+        :name,
+        :enabled,
+        :period_value,
+        :period_units,
+        :day_of_week,
+        :hour,
+        :minute,
+        :timezone,
+        :if_condition
+      ).tap do |params|
+        params[:hour] = nil if params[:hour] == "**"
+        params[:minute] = nil if params[:minute] == "**"
+      end
+    end
+
+    def jobs_params_for_update
+      params.require(:clockwork_scheduled_job).permit(
         :name,
         :enabled,
         :period_value,

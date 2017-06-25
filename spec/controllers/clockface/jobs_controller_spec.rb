@@ -168,7 +168,6 @@ module Clockface
 
     describe "PATCH #update" do
       let(:event) { create(:clockwork_event) }
-      let(:other_event) { create(:clockwork_event) }
 
       let(:job) do
         create(
@@ -190,7 +189,6 @@ module Clockface
         # that the update works for each attribute
         {
           clockwork_scheduled_job: {
-            clockface_clockwork_event_id: other_event.id,
             enabled: "1",
             period_value: "20",
             period_units: "hours",
@@ -204,7 +202,6 @@ module Clockface
       end
 
       before(:each) do
-        other_event
         job
         params
       end
@@ -216,7 +213,9 @@ module Clockface
 
         job = Clockface::ClockworkScheduledJob.last
 
-        expect(job.clockface_clockwork_event_id).to eq(other_event.id)
+        # Event is not update-able. Validate it hasn't changed
+        expect(job.clockface_clockwork_event_id).to eq(event.id)
+
         expect(job.enabled).to be_truthy
         expect(job.period_value).to eq(20)
         expect(job.period_units).to eq("hours")
