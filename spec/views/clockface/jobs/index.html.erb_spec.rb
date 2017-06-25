@@ -32,7 +32,10 @@ module Clockface
     it "displays the field headings" do
       render
 
-      %w(id name period at timezone if_condition enabled).each do |attribute|
+      columns =
+        %w(id name period at timezone if_condition last_run_at enabled)
+
+      columns.each do |attribute|
         label = Clockface::ClockworkScheduledJob.human_attribute_name(attribute)
         css_id = "thead .jobs-index__jobs-column--#{attribute}"
 
@@ -71,8 +74,9 @@ module Clockface
         # Ensure each job field has a non-nil value so the view test is
         # valid
 
-        # Only `if_condition` is not populated by the factory, so set it
+        # Some fields are not populated by the factor, so update manually
         job.update(if_condition: "odd_week")
+        job.update(last_run_at: 1.day.ago)
 
 
         # Run a sanity check to make sure every field is not nil, should the
@@ -85,6 +89,7 @@ module Clockface
           minute
           timezone
           if_condition
+          last_run_at
         ).each do |attr|
           raise "#{attr} can not be nil!" if job.send(attr).blank?
         end
@@ -96,6 +101,7 @@ module Clockface
       it_behaves_like "displayed job field", :at
       it_behaves_like "displayed job field", :timezone
       it_behaves_like "displayed job field", :if_condition
+      it_behaves_like "displayed job field", :last_run_at
 
       describe "enabled field" do
         context "job is enabled" do

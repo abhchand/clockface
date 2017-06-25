@@ -1,5 +1,7 @@
 en:
   datetime:
+    formats:
+      international: "%Y-%m-%d %H:%M %Z"
     distance_in_words:
       # Core I18n doesn't define values for hours and weeks
       x_hours:
@@ -22,6 +24,7 @@ en:
       clockface/clockwork_scheduled_job:
         id: ID
         enabled: Enabled
+        last_run_at: Last Run On
         name: Event
         period: Every
         at: At

@@ -30,6 +30,12 @@ module Clockface
       end
     end
 
+    def last_run_at
+      if job.last_run_at
+        job.last_run_at.strftime(I18n.t("datetime.formats.international"))
+      end
+    end
+
     private
 
     def job
