@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'clockwork', '~> 2.0', '>= 2.0.2'
   s.add_dependency 'inline_svg', '~> 1.2', '>= 1.2.1'
   s.add_dependency 'interactor', '~> 3.1'
-  s.add_dependency 'jquery-rails', '~> 4.3', '>= 4.3.1'
   s.add_dependency 'sass-rails', '>= 3.2'
 
   s.add_development_dependency 'capybara-webkit', '~> 1.11.1'
