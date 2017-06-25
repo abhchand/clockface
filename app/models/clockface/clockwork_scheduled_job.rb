@@ -1,5 +1,7 @@
 module Clockface
   class ClockworkScheduledJob < ApplicationRecord
+    extend Forwardable
+
     PERIOD_UNITS = %w(seconds minutes hours days weeks months years).freeze
     IF_CONDITIONS = {
       "even_week" => lambda { |time| (time.strftime("%W").to_i % 2) == 0 },
@@ -29,6 +31,11 @@ module Clockface
     validates :timezone, inclusion: ActiveSupport::TimeZone::MAPPING.keys, allow_nil: true
     validates :if_condition, inclusion: IF_CONDITIONS.keys, allow_nil: true
 
+    def_delegators :event,
+      :name,
+      :description,
+      :command
+
     def self.find_duplicates_of(job)
       Clockface::ClockworkScheduledJob.where(
         period_value: job.period_value,
@@ -39,10 +46,6 @@ module Clockface
         timezone: job.timezone,
         if_condition: job.if_condition
       ).where.not(id: job.id)
-    end
-
-    def name
-      event.name
     end
 
     def period
