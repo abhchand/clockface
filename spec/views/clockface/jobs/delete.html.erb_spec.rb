@@ -35,6 +35,7 @@ module Clockface
           field_label =
             Clockface::ClockworkScheduledJob.human_attribute_name(field_name)
           field_value = job.send(field_name)
+          field_value = strip_tags(field_value) if field_value.is_a?(String)
 
           row = page.find(".jobs-delete__job-detail-element--#{field_name}")
 
