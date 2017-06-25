@@ -10,7 +10,7 @@ class CreateClockfaceClockworkScheduledJobs < ActiveRecord::Migration[5.1]
         index: { name: "index_clockwork_scheduled_jobs_on_clockwork_event_id" }
       )
       t.boolean :enabled, default: false
-      t.datetime :last_ran_at
+      t.datetime :last_run_at
       t.integer :period_value, null: false
       t.string :period_units, null: false
       t.integer :day_of_week
