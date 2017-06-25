@@ -33,7 +33,7 @@ module Clockface
     def last_run_at
       if job.last_run_at
         job.last_run_at.
-          in_time_zone(Clockface::Engine.config.clockface.time_zone).
+          in_time_zone(time_zone_for_display).
           strftime(I18n.t("datetime.formats.international"))
       end
     end
@@ -42,6 +42,11 @@ module Clockface
 
     def job
       __getobj__
+    end
+
+    def time_zone_for_display
+      tz = Clockface::Engine.config.clockface.time_zone
+      ActiveSupport::TimeZone::MAPPING.key?(tz) ? tz : "UTC"
     end
   end
 end
