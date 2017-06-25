@@ -32,7 +32,9 @@ module Clockface
 
     def last_run_at
       if job.last_run_at
-        job.last_run_at.strftime(I18n.t("datetime.formats.international"))
+        job.last_run_at.
+          in_time_zone(Clockface::Engine.config.clockface.time_zone).
+          strftime(I18n.t("datetime.formats.international"))
       end
     end
 
