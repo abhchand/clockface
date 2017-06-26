@@ -38,12 +38,12 @@ module Clockface
         expect(response).to render_template("jobs/new")
       end
 
-      it "sets the default_time_zone to the clockface_time_zone" do
+      it "sets the time_zone_selector_default to the clockface_time_zone" do
         allow(controller).to receive(:clockface_time_zone) { "Alaska" }
 
         get :new
 
-        expect(assigns(:default_time_zone)).to eq("Alaska")
+        expect(assigns(:time_zone_selector_default)).to eq("Alaska")
       end
     end
 

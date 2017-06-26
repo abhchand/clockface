@@ -7,7 +7,7 @@ module Clockface
     end
 
     def new
-      @default_time_zone = clockface_time_zone
+      @time_zone_selector_default = clockface_time_zone
     end
 
     def create
