@@ -49,6 +49,7 @@ en:
               inclusion: Invalid value for %{attribute}
             day_of_week:
               inclusion: Invalid value for %{attribute}
+              day_of_week_must_have_timestamp: "Day of week can not be specified without a time"
             hour:
               inclusion: Invalid value for %{attribute}
             minute:

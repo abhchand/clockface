@@ -31,6 +31,8 @@ module Clockface
     validates :timezone, inclusion: ActiveSupport::TimeZone::MAPPING.keys, allow_nil: true
     validates :if_condition, inclusion: IF_CONDITIONS.keys, allow_nil: true
 
+    validate :day_of_week_must_have_timestamp
+
     def_delegators :event,
       :name,
       :description,
@@ -84,6 +86,18 @@ module Clockface
     end
 
     private
+
+    def day_of_week_must_have_timestamp
+      if self[:hour].nil? && self[:minute].nil? && !self[:day_of_week].nil?
+        errors.add(
+          :day_of_week,
+          I18n.t(
+            "activerecord.errors.models.clockface/clockwork_scheduled_job."\
+              "attributes.day_of_week.day_of_week_must_have_timestamp"
+          )
+        )
+      end
+    end
 
     def at_formatted_day_of_week
       Date::DAYNAMES[self[:day_of_week]] if self[:day_of_week].present?

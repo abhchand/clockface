@@ -44,6 +44,26 @@ module Clockface
             in_array((0..6).to_a).
             allow_blank
         end
+
+        describe "day_of_week_must_have_timestamp" do
+          context "day_of_week is present but hour and minute are nil" do
+            it "should fail validation" do
+              subject.day_of_week = 1
+              subject.hour = nil
+              subject.minute = nil
+
+              expect(subject.valid?).to be_falsey
+
+              error = subject.errors.messages[:day_of_week].first
+              expect(error).to eq(
+                t(
+                  "activerecord.errors.models.clockface/clockwork_scheduled_job."\
+                    "attributes.day_of_week.day_of_week_must_have_timestamp"
+                )
+              )
+            end
+          end
+        end
       end
 
       describe "hour" do
