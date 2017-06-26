@@ -38,21 +38,12 @@ module Clockface
         expect(response).to render_template("jobs/new")
       end
 
-      it "sets the default_timezone to the timezone of the last job" do
-        job1 = create(:clockwork_scheduled_job, timezone: "UTC")
-        job2 = create(:clockwork_scheduled_job, timezone: "Alaska")
+      it "sets the default_time_zone to the clockface_time_zone" do
+        allow(controller).to receive(:clockface_time_zone) { "Alaska" }
 
         get :new
 
-        expect(assigns(:default_timezone)).to eq("Alaska")
-      end
-
-      context "no last job exists" do
-        it "sets the default_timezone to nil" do
-          get :new
-
-          expect(assigns(:default_timezone)).to be_nil
-        end
+        expect(assigns(:default_time_zone)).to eq("Alaska")
       end
     end
 
