@@ -95,7 +95,7 @@
           form.time_zone_select(
             :time_zone,
             nil,
-            { include_blank: false, default: clockface_time_zone },
+            { include_blank: false, default: default_timezone || "UTC" },
             { class: "form-control" }
           )
         %>
