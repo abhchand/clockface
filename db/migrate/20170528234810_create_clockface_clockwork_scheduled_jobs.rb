@@ -16,7 +16,7 @@ class CreateClockfaceClockworkScheduledJobs < ActiveRecord::Migration[5.1]
       t.integer :day_of_week
       t.integer :hour
       t.integer :minute
-      t.string :timezone
+      t.string :time_zone
       t.string :if_condition
     end
   end

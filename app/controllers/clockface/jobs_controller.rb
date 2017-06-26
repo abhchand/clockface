@@ -111,7 +111,7 @@ module Clockface
         :day_of_week,
         :hour,
         :minute,
-        :timezone,
+        :time_zone,
         :if_condition
       ).tap do |params|
         params[:hour] = nil if params[:hour] == "**"
@@ -128,7 +128,7 @@ module Clockface
         :day_of_week,
         :hour,
         :minute,
-        :timezone,
+        :time_zone,
         :if_condition
       ).tap do |params|
         params[:hour] = nil if params[:hour] == "**"

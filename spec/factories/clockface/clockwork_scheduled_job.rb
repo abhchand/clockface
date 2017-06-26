@@ -8,7 +8,7 @@ FactoryGirl.define do
     day_of_week 0
     hour 12
     minute 0
-    timezone "UTC"
+    time_zone "UTC"
     if_condition nil
   end
 end

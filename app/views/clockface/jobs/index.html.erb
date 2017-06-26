@@ -32,8 +32,8 @@
           <%= Clockface::ClockworkScheduledJob.human_attribute_name("at") %>
         </th>
 
-        <th class="jobs-index__jobs-column jobs-index__jobs-column--timezone">
-          <%= Clockface::ClockworkScheduledJob.human_attribute_name("timezone") %>
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--time_zone">
+          <%= Clockface::ClockworkScheduledJob.human_attribute_name("time_zone") %>
         </th>
 
         <th class="jobs-index__jobs-column jobs-index__jobs-column--if_condition">
@@ -74,8 +74,8 @@
         <%= job.at %>
       </td>
 
-      <td class="jobs-index__jobs-column jobs-index__jobs-column--timezone">
-        <%= job.timezone %>
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--time_zone">
+        <%= job.time_zone %>
       </td>
 
       <td class="jobs-index__jobs-column jobs-index__jobs-column--if_condition">

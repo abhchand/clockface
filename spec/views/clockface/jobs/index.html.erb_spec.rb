@@ -33,7 +33,7 @@ module Clockface
       render
 
       columns =
-        %w(id name period at timezone if_condition last_run_at enabled)
+        %w(id name period at time_zone if_condition last_run_at enabled)
 
       columns.each do |attribute|
         label = Clockface::ClockworkScheduledJob.human_attribute_name(attribute)
@@ -87,7 +87,7 @@ module Clockface
           day_of_week
           hour
           minute
-          timezone
+          time_zone
           if_condition
           last_run_at
         ).each do |attr|
@@ -99,7 +99,7 @@ module Clockface
       it_behaves_like "displayed job field", :name
       it_behaves_like "displayed job field", :period
       it_behaves_like "displayed job field", :at
-      it_behaves_like "displayed job field", :timezone
+      it_behaves_like "displayed job field", :time_zone
       it_behaves_like "displayed job field", :if_condition
       it_behaves_like "displayed job field", :last_run_at
 

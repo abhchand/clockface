@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20170528234810) do
     t.integer "day_of_week"
     t.integer "hour"
     t.integer "minute"
-    t.string "timezone"
+    t.string "time_zone"
     t.string "if_condition"
     t.index ["clockface_clockwork_event_id"], name: "index_clockwork_scheduled_jobs_on_clockwork_event_id"
   end

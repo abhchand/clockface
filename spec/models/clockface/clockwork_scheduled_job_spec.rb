@@ -82,9 +82,9 @@ module Clockface
         end
       end
 
-      describe "timezone" do
+      describe "time_zone" do
         it do
-          should validate_inclusion_of(:timezone).
+          should validate_inclusion_of(:time_zone).
             in_array(ActiveSupport::TimeZone::MAPPING.keys).
             allow_blank
         end
@@ -147,8 +147,8 @@ module Clockface
           ).to be_empty
         end
 
-        it "returns an empty array when timezone is not the same" do
-          job.update(timezone: "Alaska")
+        it "returns an empty array when time_zone is not the same" do
+          job.update(time_zone: "Alaska")
           expect(
             Clockface::ClockworkScheduledJob.find_duplicates_of(job)
           ).to be_empty

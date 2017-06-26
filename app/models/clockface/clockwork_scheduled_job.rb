@@ -19,7 +19,7 @@ module Clockface
 
     before_validation do
       self[:enabled] = false if self[:enabled].nil?
-      self[:timezone] = nil if self[:timezone].blank?
+      self[:time_zone] = nil if self[:time_zone].blank?
       self[:if_condition] = nil if self[:if_condition].blank?
     end
 
@@ -28,7 +28,7 @@ module Clockface
     validates :day_of_week, inclusion: { in: 0..6 }, allow_nil: true
     validates :hour, inclusion: { in: 0..23 }, allow_nil: true
     validates :minute, inclusion: { in: 0..59 }, allow_nil: true
-    validates :timezone, inclusion: ActiveSupport::TimeZone::MAPPING.keys, allow_nil: true
+    validates :time_zone, inclusion: ActiveSupport::TimeZone::MAPPING.keys, allow_nil: true
     validates :if_condition, inclusion: IF_CONDITIONS.keys, allow_nil: true
 
     validate :day_of_week_must_have_timestamp
@@ -45,7 +45,7 @@ module Clockface
         day_of_week: job.day_of_week,
         hour: job.hour,
         minute: job.minute,
-        timezone: job.timezone,
+        time_zone: job.time_zone,
         if_condition: job.if_condition
       ).where.not(id: job.id)
     end
@@ -73,11 +73,11 @@ module Clockface
     end
 
     def tz
-      self[:timezone]
+      self[:time_zone]
     end
 
     def tz=(tz)
-      self[:timezone] = tz
+      self[:time_zone] = tz
     end
 
     def if?(time)

@@ -52,7 +52,7 @@ module Clockface
             day_of_week: "0",
             hour: "**",
             minute: "12",
-            timezone: "Alaska",
+            time_zone: "Alaska",
             if_condition: "even_week"
           }
         }
@@ -72,7 +72,7 @@ module Clockface
         expect(job.day_of_week).to eq(0)
         expect(job.hour).to be_nil
         expect(job.minute).to eq(12)
-        expect(job.timezone).to eq("Alaska")
+        expect(job.time_zone).to eq("Alaska")
         expect(job.if_condition).to eq("even_week")
       end
 
@@ -162,7 +162,7 @@ module Clockface
           day_of_week: 0,
           hour: 1,
           minute: 3,
-          timezone: "UTC",
+          time_zone: "UTC",
           if_condition: "odd_week"
         )
       end
@@ -178,7 +178,7 @@ module Clockface
             day_of_week: "5",
             hour: "**",
             minute: "12",
-            timezone: "Alaska",
+            time_zone: "Alaska",
             if_condition: "even_week"
           }
         }
@@ -205,7 +205,7 @@ module Clockface
         expect(job.day_of_week).to eq(5)
         expect(job.hour).to be_nil
         expect(job.minute).to eq(12)
-        expect(job.timezone).to eq("Alaska")
+        expect(job.time_zone).to eq("Alaska")
         expect(job.if_condition).to eq("even_week")
       end
 
