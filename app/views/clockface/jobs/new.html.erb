@@ -10,5 +10,5 @@
 
   <%= render "clockface/application/flash" %>
 
-  <%= render "job_form", job: Clockface::ClockworkScheduledJob.new, form_url: clockface.jobs_path,  allow_editing_event: true, default_timezone: @default_timezone %>
+  <%= render "job_form", job: Clockface::ClockworkScheduledJob.new, form_url: clockface.jobs_path,  allow_editing_event: true %>
 </div>
