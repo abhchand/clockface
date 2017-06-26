@@ -174,6 +174,11 @@ module Clockface
         subject.update(period_value: 1, period_units: "minutes")
         expect(subject.period).to eq(1.minutes)
       end
+
+      it "responds to :frequency as an alias" do
+        subject.update(period_value: 1, period_units: "minutes")
+        expect(subject.frequency).to eq(1.minutes)
+      end
     end
 
     describe "#at" do

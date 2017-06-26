@@ -55,6 +55,13 @@ module Clockface
       #  => 2.weeks
       period_value.send(period_units.to_sym)
     end
+    # Note: Clockwork refers to this value as the period internally, but
+    # `sync_database_events` expects this model to respond to `:frequency`
+    # Keep consistent with internal language by using period, but add alias
+    # for compatibility.
+    # It's also extra confusing since in most fields (e.g. Physics) the words
+    # 'period' and 'frequency' are inverses of each other... oh well.
+    alias_method :frequency, :period
 
     def at
       return nil if self[:hour].nil? && self[:minute].nil?
