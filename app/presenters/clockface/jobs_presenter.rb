@@ -1,6 +1,8 @@
 # TODO: Needs specs
 module Clockface
   class JobsPresenter < SimpleDelegator
+    include ClockfaceConfigHelper
+
     def period
       I18n.t(
         "datetime.distance_in_words.x_#{job.period_units}",
@@ -33,7 +35,7 @@ module Clockface
     def last_run_at
       if job.last_run_at
         job.last_run_at.
-          in_time_zone(timezone_for_display).
+          in_time_zone(clockface_timezone).
           strftime(I18n.t("datetime.formats.international"))
       end
     end
@@ -42,11 +44,6 @@ module Clockface
 
     def job
       __getobj__
-    end
-
-    def timezone_for_display
-      tz = Clockface::Engine.config.clockface.time_zone
-      ActiveSupport::TimeZone::MAPPING.key?(tz) ? tz : "UTC"
     end
   end
 end
