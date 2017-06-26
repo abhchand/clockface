@@ -7,6 +7,7 @@ module Clockface
     before(:each) do
       job
       assign(:jobs, Clockface::ClockworkScheduledJob.all)
+      view.extend ClockfaceConfigHelper
     end
 
     it "renders the flash" do
@@ -29,17 +30,44 @@ module Clockface
       expect(button).to have_selector(".glyphicon-plus")
     end
 
-    it "displays the field headings" do
-      render
+    describe "field headings" do
+      it "displays the field headings" do
+        render
 
-      columns =
-        %w(id name period at time_zone if_condition last_run_at enabled)
+        columns =
+          %w(id name period at time_zone if_condition last_run_at enabled)
 
-      columns.each do |attribute|
-        label = Clockface::ClockworkScheduledJob.human_attribute_name(attribute)
-        css_id = "thead .jobs-index__jobs-column--#{attribute}"
+        columns.each do |attribute|
+          label = Clockface::ClockworkScheduledJob.human_attribute_name(attribute)
+          css_id = "thead .jobs-index__jobs-column--#{attribute}"
 
-        expect(page.find(css_id)).to have_content(label)
+          expect(page.find(css_id)).to have_content(label)
+        end
+      end
+
+      describe "tenant" do
+        it "does not display the tenant field heading" do
+          render
+
+          css_id = "thead .jobs-index__jobs-column--tenant"
+          expect(page).to_not have_selector(css_id)
+        end
+
+        context "multi tenancy is enabled" do
+          before(:each) do
+            Clockface::Engine.config.clockface.tenant_list = %w(foo)
+            job.update(tenant: "foo")
+          end
+
+          it "does not display the tenant field heading" do
+            render
+
+            label = Clockface::ClockworkScheduledJob.human_attribute_name("tenant")
+            css_id = "thead .jobs-index__jobs-column--tenant"
+
+            expect(page.find(css_id)).to have_content(label)
+          end
+        end
       end
     end
 
@@ -129,6 +157,33 @@ module Clockface
 
             expect(field).to have_selector(".disabled-job")
             expect(field).to have_selector(".glyphicon-remove")
+          end
+        end
+      end
+
+      describe "tenant field" do
+        before(:each) { job.update(tenant: nil) }
+
+        it "doesn't display the tenant field" do
+          render
+
+          table_row = page.find("tr.jobs-index__jobs-row[data-id='#{job.id}']")
+          expect(table_row).to_not have_selector("jobs-index__jobs-column--tenant")
+        end
+
+        context "multi tenancy is enabled" do
+          before(:each) do
+            Clockface::Engine.config.clockface.tenant_list = %w(foo)
+            job.update(tenant: "foo")
+          end
+
+          it "displays the tenant field" do
+            render
+
+            table_row = page.find("tr.jobs-index__jobs-row[data-id='#{job.id}']")
+            field = table_row.find(".jobs-index__jobs-column--tenant")
+
+            expect(field).to have_content(job.tenant)
           end
         end
       end

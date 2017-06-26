@@ -2,6 +2,16 @@ require "rails_helper"
 
 module Clockface
   RSpec.describe JobsHelper, type: :helper do
+    describe "#job_form_select_options_for_tenant" do
+      it "returns the select options for tenant" do
+        Clockface::Engine.config.clockface.tenant_list = %w(foo bar)
+
+        expect(job_form_select_options_for_tenant).to eq(
+          [ [ "foo", "foo" ], [ "bar", "bar" ] ]
+        )
+      end
+    end
+
     describe "#job_form_select_options_for_name" do
       it "returns the select options for name" do
         event1 = create(:clockwork_event)

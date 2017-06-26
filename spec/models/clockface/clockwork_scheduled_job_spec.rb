@@ -13,6 +13,23 @@ module Clockface
     end
 
     describe "Validations" do
+      describe "tenant" do
+        it "does not validate the field" do
+          subject.tenant = "foo"
+          expect(subject.valid?).to be_truthy
+        end
+
+        context "multi-tenancy is enabled" do
+          subject { create(:clockwork_scheduled_job, tenant: "foo") }
+
+          before(:each) do
+            Clockface::Engine.config.clockface.tenant_list = %w(foo)
+          end
+
+          it { should validate_inclusion_of(:tenant).in_array(%w(foo)) }
+        end
+      end
+
       describe "enabled" do
         it "defaults to false when unspecified" do
           job = create(:clockwork_scheduled_job, enabled: nil)

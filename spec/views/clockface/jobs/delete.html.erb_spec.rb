@@ -9,6 +9,7 @@ module Clockface
       job
       assign(:job, job)
       assign(:captcha, captcha)
+      view.extend ClockfaceConfigHelper
     end
 
     it "renders the flash" do
@@ -109,6 +110,35 @@ module Clockface
             expect(row.find("label")).to have_content(field_label)
             expect(row).to have_selector(".disabled-job")
             expect(row).to have_selector(".glyphicon-remove")
+          end
+        end
+      end
+
+      describe "tenant field" do
+        before(:each) { job.update(tenant: nil) }
+
+        it "doesn't display the tenant field" do
+          render
+
+          expect(page).
+            to_not have_selector(".jobs-delete__job-detail-element--tenant")
+        end
+
+        context "multi tenancy is enabled" do
+          before(:each) do
+            Clockface::Engine.config.clockface.tenant_list = %w(foo)
+            job.update(tenant: "foo")
+          end
+
+          it "displays the tenant field" do
+            render
+
+            field_label =
+              Clockface::ClockworkScheduledJob.human_attribute_name("tenant")
+            row = page.find(".jobs-delete__job-detail-element--tenant")
+
+            expect(row.find("label")).to have_content(field_label)
+            expect(row).to have_content(job.tenant)
           end
         end
       end

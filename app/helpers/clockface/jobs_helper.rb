@@ -1,5 +1,11 @@
 module Clockface
   module JobsHelper
+    include ClockfaceConfigHelper
+
+    def job_form_select_options_for_tenant
+      clockface_tenant_list.map { |tenant| [tenant, tenant] }
+    end
+
     def job_form_select_options_for_name
       Clockface::ClockworkEvent.order(:id).collect { |e| [ e.name, e.id ] }
     end

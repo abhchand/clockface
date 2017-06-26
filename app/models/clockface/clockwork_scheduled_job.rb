@@ -31,6 +31,7 @@ module Clockface
     validates :time_zone, inclusion: ActiveSupport::TimeZone::MAPPING.keys, allow_nil: true
     validates :if_condition, inclusion: IF_CONDITIONS.keys, allow_nil: true
 
+    validate :tenant_is_in_tenant_list
     validate :day_of_week_must_have_timestamp
 
     def_delegators :event,
@@ -93,6 +94,25 @@ module Clockface
     end
 
     private
+
+    def tenant_is_in_tenant_list
+      return true unless clockface_multi_tenancy_enabled?
+
+      tenant = self[:tenant].dup
+      tenant = nil if tenant.blank?
+
+      unless clockface_tenant_list.include?(tenant)
+        errors.add(
+          :tenant,
+          I18n.t(
+            "activerecord.errors.models.clockface/clockwork_scheduled_job."\
+              "attributes.tenant.inclusion",
+            attribute: Clockface::ClockworkScheduledJob.
+              human_attribute_name("tenant")
+          )
+        )
+      end
+    end
 
     def day_of_week_must_have_timestamp
       if self[:hour].nil? && self[:minute].nil? && !self[:day_of_week].nil?

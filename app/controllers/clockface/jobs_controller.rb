@@ -106,6 +106,7 @@ module Clockface
       params.require(:clockwork_scheduled_job).permit(
         :clockface_clockwork_event_id,
         :name,
+        :tenant,
         :enabled,
         :period_value,
         :period_units,
@@ -117,6 +118,7 @@ module Clockface
       ).tap do |params|
         params[:hour] = nil if params[:hour] == "**"
         params[:minute] = nil if params[:minute] == "**"
+        params.delete(:tenant) unless clockface_multi_tenancy_enabled?
       end
     end
 

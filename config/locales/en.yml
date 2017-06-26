@@ -24,6 +24,7 @@ en:
       clockface/clockwork_scheduled_job:
         id: ID
         enabled: Enabled
+        tenant: Tenant
         last_run_at: Last Run On
         name: Event
         period: Every
@@ -41,6 +42,8 @@ en:
       models:
         clockface/clockwork_scheduled_job:
           attributes:
+            tenant:
+              inclusion: Invalid value for %{attribute}
             period_value:
               blank: "Please specify a %{attribute}"
               greater_than: "%{attribute} must be greater than %{count}"

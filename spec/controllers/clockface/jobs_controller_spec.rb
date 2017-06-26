@@ -55,6 +55,7 @@ module Clockface
           clockwork_scheduled_job: {
             clockface_clockwork_event_id: event.id,
             enabled: "1",
+            tenant: "foo",
             period_value: "7",
             period_units: "minutes",
             day_of_week: "0",
@@ -75,6 +76,7 @@ module Clockface
 
         expect(job.clockface_clockwork_event_id).to eq(event.id)
         expect(job.enabled).to be_truthy
+        expect(job.tenant).to be_nil
         expect(job.period_value).to eq(7)
         expect(job.period_units).to eq("minutes")
         expect(job.day_of_week).to eq(0)
@@ -95,6 +97,23 @@ module Clockface
         post :create, params: params
 
         expect(response).to redirect_to(jobs_path)
+      end
+
+      context "multi tenancy is enabled" do
+        before(:each) do
+          Clockface::Engine.config.clockface.tenant_list = %w(foo)
+        end
+
+        it "creates a new job with the specified tenant" do
+          expect do
+            post :create, params: params
+          end.to change { Clockface::ClockworkScheduledJob.count }.by(1)
+
+          job = Clockface::ClockworkScheduledJob.last
+
+          expect(job.clockface_clockwork_event_id).to eq(event.id)
+          expect(job.tenant).to eq("foo")
+        end
       end
 
       context "job fails validation" do

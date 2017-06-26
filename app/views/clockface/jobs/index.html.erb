@@ -24,6 +24,12 @@
           <%= Clockface::ClockworkScheduledJob.human_attribute_name("name") %>
         </th>
 
+        <% if clockface_multi_tenancy_enabled? %>
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--tenant">
+          <%= Clockface::ClockworkScheduledJob.human_attribute_name("tenant") %>
+        </th>
+        <% end %>
+
         <th class="jobs-index__jobs-column jobs-index__jobs-column--period">
           <%= Clockface::ClockworkScheduledJob.human_attribute_name("period") %>
         </th>
@@ -65,6 +71,12 @@
       <td class="jobs-index__jobs-column jobs-index__jobs-column--name">
         <%= job.name %>
       </td>
+
+      <% if clockface_multi_tenancy_enabled? %>
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--tenant">
+        <%= job.tenant %>
+      </td>
+      <% end %>
 
       <td class="jobs-index__jobs-column jobs-index__jobs-column--period">
         <%= job.period %>

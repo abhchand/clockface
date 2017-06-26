@@ -11,4 +11,10 @@ RSpec.configure do |config|
 
   config.include ViewHelpers, type: :view
   config.include Clockface::Engine.routes.url_helpers, type: [:view]
+
+  config.before(:each) do
+    Clockface::Engine.config.clockface.time_zone = "UTC"
+    Clockface::Engine.config.clockface.logger = Rails.logger
+    Clockface::Engine.config.clockface.tenant_list = []
+  end
 end
