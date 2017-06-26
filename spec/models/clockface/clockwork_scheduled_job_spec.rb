@@ -157,34 +157,64 @@ module Clockface
     end
 
     describe "#at" do
-      it "includes the day of week, hour and minute in the Clockwork format" do
-        subject.update(day_of_week: 1, hour: 12, minute: 30)
-        expect(subject.at).to eq("Monday 12:30")
-      end
-
       it "left pads the hour and minute" do
-        subject.update(day_of_week: 1, hour: 1, minute: 1)
-        expect(subject.at).to eq("Monday 01:01")
+        subject.update(day_of_week: nil, hour: 1, minute: 1)
+        expect(subject.at).to eq("01:01")
       end
 
-      context "minute is nil" do
-        it "uses the placeholder Clockwork expects" do
-          subject.update(day_of_week: 1, hour: 12, minute: nil)
-          expect(subject.at).to eq("Monday 12:**")
-        end
-      end
-
-      context "hour is nil" do
-        it "uses the placeholder Clockwork expects" do
-          subject.update(day_of_week: 1, hour: nil, minute: 30)
-          expect(subject.at).to eq("Monday **:30")
-        end
-      end
-
-      context "day of week is nil" do
-        it "is not included in the string" do
+      context "day of week is not present" do
+        it "returns the formatted string" do
           subject.update(day_of_week: nil, hour: 12, minute: 30)
           expect(subject.at).to eq("12:30")
+        end
+
+        context "minute is nil" do
+          it "uses the '**' placeholder Clockwork expects" do
+            subject.update(day_of_week: nil, hour: 12, minute: nil)
+            expect(subject.at).to eq("12:**")
+          end
+        end
+
+        context "hour is nil" do
+          it "uses the '**' placeholder Clockwork expects" do
+            subject.update(day_of_week: nil, hour: nil, minute: 30)
+            expect(subject.at).to eq("**:30")
+          end
+        end
+
+        context "both minute and hour are nil" do
+          it "returns nil" do
+            subject.update(day_of_week: nil, hour: nil, minute: nil)
+            expect(subject.at).to be_nil
+          end
+        end
+      end
+
+      context "day of week is present" do
+        it "returns the formatted string" do
+          subject.update(day_of_week: 1, hour: 12, minute: 30)
+          expect(subject.at).to eq("Monday 12:30")
+        end
+
+        context "minute is nil" do
+          it "uses the '**' placeholder Clockwork expects" do
+            subject.update(day_of_week: 1, hour: 12, minute: nil)
+            expect(subject.at).to eq("Monday 12:**")
+          end
+        end
+
+        context "hour is nil" do
+          it "uses the '**' placeholder Clockwork expects" do
+            subject.update(day_of_week: 1, hour: nil, minute: 30)
+            expect(subject.at).to eq("Monday **:30")
+          end
+        end
+
+        context "both minute and hour are nil" do
+          it "returns nil" do
+            subject.update(day_of_week: 1, hour: nil, minute: nil)
+            expect(subject.at).to be_nil
+          end
         end
       end
     end

@@ -55,6 +55,8 @@ module Clockface
     end
 
     def at
+      return nil if self[:hour].nil? && self[:minute].nil?
+
       [
         at_formatted_day_of_week,
         [at_formatted_hour, at_formatted_minute].join(":")
