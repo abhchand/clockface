@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170528234810) do
+ActiveRecord::Schema.define(version: 20170714050640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,16 @@ ActiveRecord::Schema.define(version: 20170528234810) do
     t.string "time_zone"
     t.string "if_condition"
     t.index ["clockface_clockwork_event_id"], name: "index_clockwork_scheduled_jobs_on_clockwork_event_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "email", null: false
+    t.string "ability"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "clockface_clockwork_scheduled_jobs", "clockface_clockwork_events"
