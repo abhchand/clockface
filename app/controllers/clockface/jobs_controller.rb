@@ -81,17 +81,18 @@ module Clockface
         return
       end
 
-      if (params[:captcha] || "") == captcha_for(job)
-        if job.destroy
-          flash[:success] = t("clockface.jobs.destroy.success")
-          log(:info, "Destroyed Job: #{job.inspect}")
-          redirect_to jobs_path
-        else
-          flash[:error] = t("clockface.jobs.destroy.failure")
-          redirect_to job_delete_path(job)
-        end
-      else
+      if (params[:captcha] || "") != captcha_for(job)
         flash[:error] = t("clockface.jobs.destroy.validation.incorrect_captcha")
+        redirect_to job_delete_path(job)
+        return
+      end
+
+      if job.destroy
+        flash[:success] = t("clockface.jobs.destroy.success")
+        log(:info, "Destroyed Job: #{job.inspect}")
+        redirect_to jobs_path
+      else
+        flash[:error] = t("clockface.jobs.destroy.failure")
         redirect_to job_delete_path(job)
       end
     end
