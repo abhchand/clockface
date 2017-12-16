@@ -6,7 +6,7 @@ module Clockface
       class_name: "Clockface::ClockworkScheduledJob"
     )
 
-    validates :name, presence: true, uniqueness: true
+    validates :name, presence: true, uniqueness: { case_sensitive: false }
     validates :command, presence: true
   end
 end
