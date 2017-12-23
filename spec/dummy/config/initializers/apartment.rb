@@ -2,7 +2,15 @@ require 'apartment/elevators/generic'
 require 'apartment/elevators/subdomain'
 require 'apartment/elevators/first_subdomain'
 
-ALL_TENANTS = %w(venus earth mars)
+ALL_TENANTS =
+  case
+  when Rails.env.development?
+    %w(mercury venus earth mars)
+  when Rails.env.test?
+    %w(mercury venus)
+  else
+    raise "Only development and test environments allowed!"
+  end
 
 Apartment.configure do |config|
   config.tenant_names = ALL_TENANTS
