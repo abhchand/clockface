@@ -74,11 +74,23 @@ module Clockface
     end
 
     def tz
-      self[:time_zone]
-    end
-
-    def tz=(tz)
-      self[:time_zone] = tz
+      # Active Support stores a mapping between human readable and IANA time
+      # zones. These mappings can be found in `ActiveSupport::TimeZone::MAPPING`
+      #
+      # e.g.
+      #
+      #  "Chennai"    =>  "Asia/Kolkata"
+      #  "Kathmandu"  =>  "Asia/Kathmandu"
+      #  "Tokyo"      =>  "Asia/Tokyo"
+      #
+      # Since multiple human names can point to the same IANA time zone, we
+      # store the human readable name in the underlying `time_zone` DB field
+      #
+      # The Clockwork API dictates that the model must respond to `:tz` and
+      # return the IANA name (See `Clockwork::Event#convert_timezone`), so we
+      # convert the value using ActiveSupport Mapping first
+      #
+      ActiveSupport::TimeZone::MAPPING[self[:time_zone]]
     end
 
     def if?(time)

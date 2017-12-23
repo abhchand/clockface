@@ -261,6 +261,13 @@ module Clockface
       end
     end
 
+    describe "#tz" do
+      it "returns the IANA time zone" do
+        subject.update(time_zone: "Pacific Time (US & Canada)")
+        expect(subject.tz).to eq("America/Los_Angeles")
+      end
+    end
+
     describe "#if?" do
       context "if_condition is even_week" do
         before(:each) { subject.update(if_condition: "even_week") }
