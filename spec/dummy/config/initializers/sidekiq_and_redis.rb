@@ -1,5 +1,9 @@
 require "sidekiq/web"
 
+# Define a Sidekiq wrapper around the redis connections so that all calls to
+# redis go through Sidekiq and this wrapper. It not only configures the redis
+# connection but it essentially forwards all redis calls to Sidekiq which
+# internally manages the connection pool
 class SidekiqRedisConnectionWrapper
   unless defined? URL
     URL = "redis://localhost:6379/"
@@ -28,5 +32,8 @@ class SidekiqRedisConnectionWrapper
   end
 end
 
-Sidekiq::Logging.logger = Rails.logger
 $redis = SidekiqRedisConnectionWrapper.new
+
+
+# Have Sidekiq use the Rails logger
+Sidekiq::Logging.logger = Rails.logger

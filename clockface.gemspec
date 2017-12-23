@@ -21,9 +21,12 @@ Gem::Specification.new do |s|
   s.add_dependency 'interactor', '~> 3.1'
   s.add_dependency 'sass-rails', '>= 3.2'
 
+  s.add_development_dependency 'apartment'
+  s.add_development_dependency 'apartment-sidekiq'
   s.add_development_dependency 'capybara-webkit', '~> 1.11.1'
   s.add_development_dependency 'database_cleaner'
   s.add_development_dependency 'factory_girl_rails'
+  s.add_development_dependency 'foreman'
   s.add_development_dependency 'pg'
   s.add_development_dependency 'pry-rails'
   s.add_development_dependency 'rails-controller-testing', '~> 1.0', '>= 1.0.1'
