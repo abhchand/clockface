@@ -261,7 +261,7 @@ module Clockface
       end
     end
 
-    context "#if?" do
+    describe "#if?" do
       context "if_condition is even_week" do
         before(:each) { subject.update(if_condition: "even_week") }
 
