@@ -93,6 +93,17 @@ module Clockface
       self[:if_condition] = if_condition
     end
 
+    def ignored_attributes
+      # Every time Clockwork reloads the models from the database it compares
+      # the before/after attributes to see if the model `has_changed?`. If any
+      # attributes have been changed, it reloads the event.
+      # The Clockwork API lets us selectively ignore some fields in this
+      # attribute comparison.
+      # Exclude `last_run_at` and `updated_at` since they will always change
+      # each run
+      [ :last_run_at, :updated_at ]
+    end
+
     private
 
     def tenant_is_in_tenant_list
