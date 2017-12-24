@@ -16,5 +16,13 @@ module Clockface
     def clockface_multi_tenancy_enabled?
       clockface_tenant_list.any?
     end
+
+    def clockface_before_action
+      Clockface::Engine.config.clockface.before_action
+    end
+
+    def set_clockface_before_action(val)
+      Clockface::Engine.config.clockface.before_action = val
+    end
   end
 end

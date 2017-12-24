@@ -20,7 +20,12 @@ module Clockface
     # Ensure this initializer runs before the host applications initializers
     # so that the config structure gets defined.
     initializer "clockface.config", before: :load_config_initializers do |app|
-      ClockfaceConfig = Struct.new(:time_zone, :logger, :tenant_list)
+      ClockfaceConfig = Struct.new(
+        :time_zone,
+        :logger,
+        :tenant_list,
+        :before_action
+      )
 
       app.config.clockface = ClockfaceConfig.new
       app.config.clockface.time_zone = Rails.application.config.time_zone
