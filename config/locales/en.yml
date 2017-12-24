@@ -43,7 +43,8 @@ en:
         clockface/clockwork_scheduled_job:
           attributes:
             tenant:
-              inclusion: Invalid value for %{attribute}
+              inclusion: Must be in defined list of tenants
+              present: Must be blank
             period_value:
               blank: "Please specify a %{attribute}"
               greater_than: "%{attribute} must be greater than %{count}"

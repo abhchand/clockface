@@ -19,6 +19,7 @@ module Clockface
 
     before_validation do
       self[:enabled] = false if self[:enabled].nil?
+      self[:tenant] = nil if self[:tenant].blank?
       self[:time_zone] = nil if self[:time_zone].blank?
       self[:if_condition] = nil if self[:if_condition].blank?
     end
@@ -31,7 +32,16 @@ module Clockface
     validates :time_zone, inclusion: ActiveSupport::TimeZone::MAPPING.keys, allow_nil: true
     validates :if_condition, inclusion: IF_CONDITIONS.keys, allow_nil: true
 
-    validate :tenant_is_in_tenant_list
+    with_options if: proc { clockface_multi_tenancy_enabled? } do |x|
+      # Can't use `validates :tenant, includesion: ...` here because calling
+      # `clockface_tenant_list` is not possible from this context -_-
+      x.validate :tenant_is_valid
+    end
+
+    with_options if: proc { !clockface_multi_tenancy_enabled? } do |x|
+      x.validates :tenant, absence: true
+    end
+
     validate :day_of_week_must_have_timestamp
 
     def_delegators :event,
@@ -118,20 +128,13 @@ module Clockface
 
     private
 
-    def tenant_is_in_tenant_list
-      return true unless clockface_multi_tenancy_enabled?
-
-      tenant = self[:tenant].dup
-      tenant = nil if tenant.blank?
-
-      unless clockface_tenant_list.include?(tenant)
+    def tenant_is_valid
+      unless clockface_tenant_list.include?(self[:tenant])
         errors.add(
           :tenant,
           I18n.t(
             "activerecord.errors.models.clockface/clockwork_scheduled_job."\
-              "attributes.tenant.inclusion",
-            attribute: Clockface::ClockworkScheduledJob.
-              human_attribute_name("tenant")
+              "attributes.tenant.inclusion"
           )
         )
       end
