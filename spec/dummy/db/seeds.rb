@@ -24,12 +24,12 @@ if tenant == "public"
   Clockface::ClockworkEvent.create(
     name: "Example Event 1",
     description: "Runs the Example Event 1",
-    command: "{\"class\":\"ExampleWorkerOne\",\"args\":[1234]}"
+    command: "{\"class\":\"ExampleWorkerOne\"}"
   )
 
   Clockface::ClockworkEvent.create(
     name: "Example Event 2",
     description: "Runs the Example Event 2",
-    command: "{\"class\":\"ExampleWorkerTwo\",\"args\":[5678]}"
+    command: "{\"class\":\"ExampleWorkerTwo\"}"
   )
 end

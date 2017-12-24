@@ -1,8 +1,8 @@
 class ExampleWorkerTwo
   include Sidekiq::Worker
 
-  def perform(id)
-    message = "[#{tenant}] Running Example Worker Two with id: #{id}"
+  def perform
+    message = "[#{tenant}] Running Example Worker Two"
 
     Sidekiq.logger.info(message)
 

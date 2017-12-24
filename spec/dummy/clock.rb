@@ -12,13 +12,11 @@ module Clockface
     # ActiveJob, Rufus, etc..
 
     cmd_hash = JSON.parse(job.command)
-
     klass = cmd_hash["class"]
-    args = cmd_hash["args"]
 
     # Run it in the right Apartment Tenant
     tenant(job.tenant) do
-      klass.constantize.perform_async(*args)
+      klass.constantize.perform_async
     end
   end
 end
