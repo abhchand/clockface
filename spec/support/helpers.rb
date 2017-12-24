@@ -8,6 +8,7 @@ require Rails.root.join("spec/support/translation_helpers.rb")
 require Rails.root.join("spec/support/multi_tenancy_helpers.rb")
 
 RSpec.configure do |config|
+  config.include Clockface::ClockfaceConfigHelper
   config.include TranslationHelpers
   config.include MultiTenancyHelpers
 
