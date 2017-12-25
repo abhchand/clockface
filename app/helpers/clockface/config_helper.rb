@@ -17,11 +17,11 @@ module Clockface
       Clockface::Engine.config.clockface.current_tenant_proc.call
     end
 
-    def clockface_execute_in_tenant(tenant_name, some_proc)
-
+    def clockface_execute_in_tenant(tenant_name, some_proc, proc_args = [])
       Clockface::Engine.config.clockface.execute_in_tenant_proc.call(
         tenant_name,
-        some_proc
+        some_proc,
+        proc_args
       )
     end
   end

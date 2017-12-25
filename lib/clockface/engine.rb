@@ -44,8 +44,8 @@ module Clockface
 
       app.config.clockface.execute_in_tenant_proc =
         if defined?(Apartment)
-          Proc.new do |tenant_name, some_proc|
-            Apartment::Tenant.switch(tenant_name) { some_proc.call }
+          Proc.new do |tenant_name, some_proc, proc_args|
+            Apartment::Tenant.switch(tenant_name) { some_proc.call(*proc_args) }
           end
         end
     end

@@ -2,6 +2,7 @@ require "clockwork"
 require "clockwork/database_events"
 
 require_relative "./clockwork/database_events/synchronizer"
+require_relative "../app/helpers/clockface/config_helper"
 require_relative "../app/helpers/clockface/logging_helper"
 
 require "clockface/engine"
@@ -58,10 +59,25 @@ module Clockface
           )
 
           begin
-            # Update the timestamp *before* executing the job so that if there's
-            # any issue with the `update`, we don't run the job.
-            job.update!(last_run_at: Time.zone.now)
-            yield(job)
+            # We want to do 2 things here -
+            #
+            #   1. Update the timestamp. Do this before any job execution so
+            #      that if this fails, we don't continue with execution
+            #   2. Execute the job
+            #
+            #
+            # In the case of multi-tenancy we want to execute both of the
+            # above in the context of the correct tenant.
+
+            cmd = Proc.new { job.update!(last_run_at: Time.zone.now) }
+
+            if clockface_multi_tenancy_enabled?
+              clockface_execute_in_tenant(job.tenant, cmd)
+              clockface_execute_in_tenant(job.tenant, block, [job])
+            else
+              cmd.call
+              yield(job)
+            end
           rescue Exception => e
             clockface_log(
               :error,
@@ -80,6 +96,7 @@ module Clockface
     end
   end
 
+  extend ::Clockface::ConfigHelper
   extend ::Clockface::LoggingHelper
   extend Methods
 end
