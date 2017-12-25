@@ -1,7 +1,7 @@
 module Clockface
   class ApplicationController < ActionController::Base
     include ConfigHelper
-    include ClockfaceLoggingHelper
+    include LoggingHelper
 
     protect_from_forgery with: :exception
 

@@ -2,7 +2,7 @@ require "clockwork"
 require "clockwork/database_events"
 
 require_relative "./clockwork/database_events/synchronizer"
-require_relative "../app/helpers/clockface/clockface_logging_helper"
+require_relative "../app/helpers/clockface/logging_helper"
 
 require "clockface/engine"
 
@@ -82,6 +82,6 @@ module Clockface
     end
   end
 
-  extend ::Clockface::ClockfaceLoggingHelper
+  extend ::Clockface::LoggingHelper
   extend Methods
 end

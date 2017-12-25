@@ -1,5 +1,5 @@
 module Clockface
-  module ClockfaceLoggingHelper
+  module LoggingHelper
     def clockface_log(level, msg)
       # Clockface logger can be a single `Logger` or an array of many `Logger`s
       logs = Clockface::Engine.config.clockface.logger

@@ -1,6 +1,6 @@
 require "clockwork/database_events"
 require_relative "../../../app/helpers/clockface/config_helper"
-require_relative "../../../app/helpers/clockface/clockface_logging_helper"
+require_relative "../../../app/helpers/clockface/logging_helper"
 
 # Loaded from lib/clockface as part of the clock configuration
 #
@@ -17,7 +17,7 @@ module Clockwork
   module DatabaseEvents
     class Synchronizer
       extend ::Clockface::ConfigHelper
-      extend ::Clockface::ClockfaceLoggingHelper
+      extend ::Clockface::LoggingHelper
 
       def self.setup(options={}, &block_to_perform_on_event_trigger)
         every = options.fetch(:every) do
