@@ -50,12 +50,11 @@ module Clockface
         { model: Clockface::ClockworkScheduledJob, every: opts[:every] }
 
       ::Clockwork::sync_database_events(clockwork_opts) do |job|
+        job_name = "\"#{job.name}\" (ClockworkScheduledJob.id: #{job.id})"
+        tenant_tag = "[#{job.tenant}] " if job.tenant
+
         if !job.enabled?
-          clockface_log(
-            :info,
-            "Skipping Disabled \"#{job.name}\" "\
-              "(ClockworkScheduledJob.id: #{job.id})"
-          )
+          clockface_log(:info, "#{tenant_tag}Skipping disabled Job #{job_name}")
 
           # This whole block is eventually invoked from
           # `Clockwork::Event#execute` using `block.call(...)`. Using `return`
@@ -64,13 +63,6 @@ module Clockface
           # Further explanation: https://stackoverflow.com/a/1435781/2490003
           next
         end
-
-        t = "[#{job.tenant}] " if job.tenant
-
-        clockface_log(
-          :info,
-          "#{t}Running \"#{job.name}\" (ClockworkScheduledJob.id: #{job.id})"
-        )
 
         begin
           # We want to do 2 things here -
@@ -82,6 +74,8 @@ module Clockface
           #
           # In the case of multi-tenancy we want to execute both of the
           # above in the context of the correct tenant.
+
+          clockface_log(:info, "#{tenant_tag}Running Job #{job_name}")
 
           cmd = Proc.new { job.update!(last_run_at: Time.zone.now) }
 
@@ -95,11 +89,9 @@ module Clockface
         rescue Exception => e
           clockface_log(
             :error,
-            "Error while running \"#{job.name}\" "\
-              "(ClockworkScheduledJob.id: #{job.id}) -> #{e.message}"
+            "#{tenant_tag}Error running Job #{job_name} -> #{e.message}"
           )
         end
-
       end
     end
   end
