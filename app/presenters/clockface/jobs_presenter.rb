@@ -1,7 +1,7 @@
 # TODO: Needs specs
 module Clockface
   class JobsPresenter < SimpleDelegator
-    include ClockfaceConfigHelper
+    include ConfigHelper
 
     def period
       I18n.t(

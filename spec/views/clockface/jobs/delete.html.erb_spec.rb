@@ -9,7 +9,7 @@ module Clockface
       job
       assign(:job, job)
       assign(:captcha, captcha)
-      view.extend ClockfaceConfigHelper
+      view.extend ConfigHelper
     end
 
     it "renders the flash" do

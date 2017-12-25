@@ -1,6 +1,6 @@
 module Clockface
   class ApplicationRecord < ActiveRecord::Base
-    include Clockface::ClockfaceConfigHelper
+    include Clockface::ConfigHelper
 
     self.abstract_class = true
   end

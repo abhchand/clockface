@@ -7,7 +7,7 @@ module Clockface
     before(:each) do
       job
       assign(:jobs, Clockface::ClockworkScheduledJob.all)
-      view.extend ClockfaceConfigHelper
+      view.extend ConfigHelper
     end
 
     it "renders the flash" do

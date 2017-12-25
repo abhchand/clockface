@@ -1,6 +1,6 @@
 module Clockface
   module JobsHelper
-    include ClockfaceConfigHelper
+    include ConfigHelper
 
     def job_form_select_options_for_name
       Clockface::ClockworkEvent.order(:id).collect { |e| [ e.name, e.id ] }

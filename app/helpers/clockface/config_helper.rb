@@ -1,5 +1,5 @@
 module Clockface
-  module ClockfaceConfigHelper
+  module ConfigHelper
     def clockface_time_zone
       tz = Clockface::Engine.config.clockface.time_zone
       ActiveSupport::TimeZone::MAPPING.key?(tz) ? tz : "UTC"
