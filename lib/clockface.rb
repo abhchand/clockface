@@ -50,48 +50,56 @@ module Clockface
         model: Clockface::ClockworkScheduledJob,
         every: opts[:every]
       ) do |job|
-        if job.enabled?
-          t = "[#{job.tenant}] " if job.tenant
-
-          clockface_log(
-            :info,
-            "#{t}Running \"#{job.name}\" (ClockworkScheduledJob.id: #{job.id})"
-          )
-
-          begin
-            # We want to do 2 things here -
-            #
-            #   1. Update the timestamp. Do this before any job execution so
-            #      that if this fails, we don't continue with execution
-            #   2. Execute the job
-            #
-            #
-            # In the case of multi-tenancy we want to execute both of the
-            # above in the context of the correct tenant.
-
-            cmd = Proc.new { job.update!(last_run_at: Time.zone.now) }
-
-            if clockface_multi_tenancy_enabled?
-              clockface_execute_in_tenant(job.tenant, cmd)
-              clockface_execute_in_tenant(job.tenant, block, [job])
-            else
-              cmd.call
-              yield(job)
-            end
-          rescue Exception => e
-            clockface_log(
-              :error,
-              "Error while running \"#{job.name}\" "\
-                "(ClockworkScheduledJob.id: #{job.id}) -> #{e.message}"
-            )
-          end
-        else
+        if !job.enabled?
           clockface_log(
             :info,
             "Skipping Disabled \"#{job.name}\" "\
               "(ClockworkScheduledJob.id: #{job.id})"
           )
+
+          # This whole block is eventually invoked from
+          # `Clockwork::Event#execute` using `block.call(...)`. Using `return`
+          # inside a called object returns from the whole process, so we have
+          # to use `next` instead to return from just the block itself
+          # Further explanation: https://stackoverflow.com/a/1435781/2490003
+          next
         end
+
+        t = "[#{job.tenant}] " if job.tenant
+
+        clockface_log(
+          :info,
+          "#{t}Running \"#{job.name}\" (ClockworkScheduledJob.id: #{job.id})"
+        )
+
+        begin
+          # We want to do 2 things here -
+          #
+          #   1. Update the timestamp. Do this before any job execution so
+          #      that if this fails, we don't continue with execution
+          #   2. Execute the job
+          #
+          #
+          # In the case of multi-tenancy we want to execute both of the
+          # above in the context of the correct tenant.
+
+          cmd = Proc.new { job.update!(last_run_at: Time.zone.now) }
+
+          if clockface_multi_tenancy_enabled?
+            clockface_execute_in_tenant(job.tenant, cmd)
+            clockface_execute_in_tenant(job.tenant, block, [job])
+          else
+            cmd.call
+            yield(job)
+          end
+        rescue Exception => e
+          clockface_log(
+            :error,
+            "Error while running \"#{job.name}\" "\
+              "(ClockworkScheduledJob.id: #{job.id}) -> #{e.message}"
+          )
+        end
+
       end
     end
   end
