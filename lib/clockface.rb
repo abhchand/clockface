@@ -58,19 +58,17 @@ module Clockface
           )
 
           begin
+            # Update the timestamp *before* executing the job so that if there's
+            # any issue with the `update`, we don't run the job.
+            job.update!(last_run_at: Time.zone.now)
             yield(job)
           rescue Exception => e
-            # Clockwork supports defining an error_handler block that gets
-            # called when an error is raised. But we do our own error handling
-            # here so that we can still update the `last_run_at` below
             clockface_log(
               :error,
               "Error while running \"#{job.name}\" "\
-                "(ClockworkScheduledJob.id: #{job.id})"
+                "(ClockworkScheduledJob.id: #{job.id}) -> #{e.message}"
             )
           end
-
-          job.update(last_run_at: Time.zone.now)
         else
           clockface_log(
             :info,
