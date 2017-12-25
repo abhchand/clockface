@@ -12,7 +12,7 @@ class CreateClockfaceClockworkScheduledJobs < ActiveRecord::Migration[5.1]
       )
       t.boolean :enabled, default: false
       t.string :tenant
-      t.datetime :last_run_at
+      t.datetime :last_triggered_at
       t.integer :period_value, null: false
       t.string :period_units, null: false
       t.integer :day_of_week

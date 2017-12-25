@@ -77,7 +77,7 @@ module Clockface
 
           clockface_log(:info, "#{tenant_tag}Running Job #{job_name}")
 
-          cmd = Proc.new { job.update!(last_run_at: Time.zone.now) }
+          cmd = Proc.new { job.update!(last_triggered_at: Time.zone.now) }
 
           if clockface_multi_tenancy_enabled?
             clockface_execute_in_tenant(job.tenant, cmd)

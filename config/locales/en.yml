@@ -25,7 +25,7 @@ en:
         id: ID
         enabled: Enabled
         tenant: Tenant
-        last_run_at: Last Run On
+        last_triggered_at: Last Triggered At
         name: Event
         period: Every
         at: At

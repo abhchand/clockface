@@ -76,13 +76,13 @@
       </div>
     </div>
 
-    <div class="jobs-delete__job-detail-element jobs-delete__job-detail-element--last_run_at form-group">
-      <label class="control-label col-sm-2" for="last_run_at">
-        <%= Clockface::ClockworkScheduledJob.human_attribute_name("last_run_at") %>
+    <div class="jobs-delete__job-detail-element jobs-delete__job-detail-element--last_triggered_at form-group">
+      <label class="control-label col-sm-2" for="last_triggered_at">
+        <%= Clockface::ClockworkScheduledJob.human_attribute_name("last_triggered_at") %>
       </label>
 
       <div class="col-sm-10">
-        <%= raw @job.last_run_at %>
+        <%= raw @job.last_triggered_at %>
       </div>
     </div>
 

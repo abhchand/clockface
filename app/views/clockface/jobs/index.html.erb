@@ -40,8 +40,8 @@
           <%= Clockface::ClockworkScheduledJob.human_attribute_name("if_condition") %>
         </th>
 
-        <th class="jobs-index__jobs-column jobs-index__jobs-column--last_run_at">
-          <%= Clockface::ClockworkScheduledJob.human_attribute_name("last_run_at") %>
+        <th class="jobs-index__jobs-column jobs-index__jobs-column--last_triggered_at">
+          <%= Clockface::ClockworkScheduledJob.human_attribute_name("last_triggered_at") %>
         </th>
 
         <th class="jobs-index__jobs-column jobs-index__jobs-column--enabled">
@@ -82,8 +82,8 @@
         <%= job.if_condition %>
       </td>
 
-      <td class="jobs-index__jobs-column jobs-index__jobs-column--last_run_at">
-        <%= raw job.last_run_at %>
+      <td class="jobs-index__jobs-column jobs-index__jobs-column--last_triggered_at">
+        <%= raw job.last_triggered_at %>
       </td>
 
       <td class="jobs-index__jobs-column jobs-index__jobs-column--enabled" sorttable_customkey="<%= job.enabled? ? 1 : 0 %>">

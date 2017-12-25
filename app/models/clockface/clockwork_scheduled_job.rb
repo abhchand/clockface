@@ -119,9 +119,9 @@ module Clockface
       # attributes have been changed, it reloads the event.
       # The Clockwork API lets us selectively ignore some fields in this
       # attribute comparison.
-      # Exclude `last_run_at` and `updated_at` since they will always change
+      # Exclude `last_triggered_at` and `updated_at` since they will always change
       # each run
-      [ :last_run_at, :updated_at ]
+      [ :last_triggered_at, :updated_at ]
     end
 
     private

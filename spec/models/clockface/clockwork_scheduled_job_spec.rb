@@ -69,8 +69,8 @@ module Clockface
         end
       end
 
-      describe "last_run_at" do
-        it { should allow_value(nil).for(:last_run_at) }
+      describe "last_triggered_at" do
+        it { should allow_value(nil).for(:last_triggered_at) }
       end
 
       describe "period_value" do
