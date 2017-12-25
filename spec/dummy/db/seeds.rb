@@ -17,19 +17,17 @@ User.create!(
 )
 
 #
-# Create the Clockwork Events, but only on public tenant
+# Create the Clockwork Events
 #
 
-if tenant == "public"
-  Clockface::ClockworkEvent.create(
-    name: "Example Event 1",
-    description: "Runs the Example Event 1",
-    command: "{\"class\":\"ExampleWorkerOne\"}"
-  )
+Clockface::ClockworkEvent.create(
+  name: "Example Event 1",
+  description: "Runs the Example Event 1",
+  command: "{\"class\":\"ExampleWorkerOne\"}"
+)
 
-  Clockface::ClockworkEvent.create(
-    name: "Example Event 2",
-    description: "Runs the Example Event 2",
-    command: "{\"class\":\"ExampleWorkerTwo\"}"
-  )
-end
+Clockface::ClockworkEvent.create(
+  name: "Example Event 2",
+  description: "Runs the Example Event 2",
+  command: "{\"class\":\"ExampleWorkerTwo\"}"
+)
