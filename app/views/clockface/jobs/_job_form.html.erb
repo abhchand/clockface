@@ -29,26 +29,6 @@
       </div>
     </div>
 
-    <div class="jobs-new__form-element--tenant form-group">
-      <label class="control-label col-sm-2" for="tenant">
-        <%= Clockface::ClockworkScheduledJob.human_attribute_name("tenant") %>
-      </label>
-      <div class="col-sm-10">
-        <% if allow_editing_tenant %>
-        <%=
-          form.select(
-            :tenant,
-            job_form_select_options_for_tenant,
-            { include_blank: false },
-            { class: "form-control" }
-          )
-        %>
-        <% else %>
-          <%= job.tenant %>
-        <% end %>
-      </div>
-    </div>
-
     <div class="jobs-new__form-element--period form-group">
       <label class="control-label col-sm-2" for="period">
         <%= Clockface::ClockworkScheduledJob.human_attribute_name("period") %>

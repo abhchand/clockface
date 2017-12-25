@@ -17,12 +17,16 @@ module Clockface
       clockface_tenant_list.any?
     end
 
-    def clockface_before_action
-      Clockface::Engine.config.clockface.before_action
+    def clockface_current_tenant
+      Clockface::Engine.config.clockface.current_tenant_proc.call
     end
 
-    def set_clockface_before_action(val)
-      Clockface::Engine.config.clockface.before_action = val
+    def clockface_execute_in_tenant(tenant_name, some_proc)
+
+      Clockface::Engine.config.clockface.execute_in_tenant_proc.call(
+        tenant_name,
+        some_proc
+      )
     end
   end
 end

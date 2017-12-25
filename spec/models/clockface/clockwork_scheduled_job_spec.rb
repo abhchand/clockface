@@ -12,6 +12,34 @@ module Clockface
       end
     end
 
+    describe "Before Validations" do
+      describe "tenant" do
+        it "doesn't touch the tenant field" do
+          job = build(:clockwork_scheduled_job, tenant: nil)
+          job.valid?
+          expect(job.tenant).to be_nil
+
+          job = build(:clockwork_scheduled_job, tenant: "foo")
+          job.valid?
+          expect(job.tenant).to eq("foo")
+        end
+
+        context "multi-tenancy is enabled" do
+          before(:each) { enable_multi_tenancy! }
+
+          it "defaults the tenant field only when it is blank" do
+            job = build(:clockwork_scheduled_job, tenant: nil)
+            job.valid?
+            expect(job.tenant).to eq(tenant)
+
+            job = build(:clockwork_scheduled_job, tenant: "foo")
+            job.valid?
+            expect(job.tenant).to eq("foo")
+          end
+        end
+      end
+    end
+
     describe "Validations" do
       describe "tenant" do
         it { should validate_absence_of(:tenant) }
@@ -19,14 +47,17 @@ module Clockface
         context "multi-tenancy is enabled" do
           before(:each) { enable_multi_tenancy! }
 
-          subject do
-            create(:clockwork_scheduled_job, tenant: ALL_TENANTS.first)
-          end
+          subject { create(:clockwork_scheduled_job, tenant: tenant) }
 
           it do
-            should validate_inclusion_of(:tenant)
-              .in_array(ALL_TENANTS)
-              .allow_nil(false)
+            should allow_value(tenant).for(:tenant)
+            should_not allow_value("foo").for(:tenant)
+
+            # The `before_validation` hook will update the tenant since it is
+            # nil and this test will incorrectly pass. To bypass that, bypass
+            # the whole validation hook
+            allow(subject).to receive(:default_tenant_if_needed)
+            should_not allow_value(nil).for(:tenant)
           end
         end
       end

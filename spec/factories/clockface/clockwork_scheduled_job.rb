@@ -2,7 +2,6 @@ FactoryGirl.define do
   factory :clockwork_scheduled_job, :class => "Clockface::ClockworkScheduledJob" do
     association :event, factory: :clockwork_event
     enabled true
-    tenant nil
     last_run_at nil
     period_value 1
     period_units "hours"

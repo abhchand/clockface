@@ -14,6 +14,7 @@ Bundler.require(*Rails.groups)
 # The host application should not auto-require clockface. The host clock
 # configuration file will require it directly
 # Leaving commented-out version in place for searchability and documentation
+# See `lib/clockface.rb` for more information
 # require "clockface"
 
 module Dummy

@@ -19,9 +19,9 @@ module Clockface
 
     before_validation do
       self[:enabled] = false if self[:enabled].nil?
-      self[:tenant] = nil if self[:tenant].blank?
       self[:time_zone] = nil if self[:time_zone].blank?
       self[:if_condition] = nil if self[:if_condition].blank?
+      default_tenant_if_needed
     end
 
     validates :period_value, presence: true, numericality: { greater_than: 0 }
@@ -33,8 +33,6 @@ module Clockface
     validates :if_condition, inclusion: IF_CONDITIONS.keys, allow_nil: true
 
     with_options if: proc { clockface_multi_tenancy_enabled? } do |x|
-      # Can't use `validates :tenant, includesion: ...` here because calling
-      # `clockface_tenant_list` is not possible from this context -_-
       x.validate :tenant_is_valid
     end
 
@@ -128,13 +126,19 @@ module Clockface
 
     private
 
+    def default_tenant_if_needed
+      if clockface_multi_tenancy_enabled? && self[:tenant].blank?
+        self[:tenant] = clockface_current_tenant
+      end
+    end
+
     def tenant_is_valid
-      unless clockface_tenant_list.include?(self[:tenant])
+      if self[:tenant] != clockface_current_tenant
         errors.add(
           :tenant,
           I18n.t(
             "activerecord.errors.models.clockface/clockwork_scheduled_job."\
-              "attributes.tenant.inclusion"
+              "attributes.tenant.invalid"
           )
         )
       end

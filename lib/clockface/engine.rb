@@ -24,13 +24,30 @@ module Clockface
         :time_zone,
         :logger,
         :tenant_list,
-        :before_action
+        :current_tenant_proc,
+        :execute_in_tenant_proc
       )
 
       app.config.clockface = ClockfaceConfig.new
       app.config.clockface.time_zone = Rails.application.config.time_zone
       app.config.clockface.logger = Logger.new(STDOUT)
       app.config.clockface.tenant_list = []
+
+      # Out-of-the-box functionality support for the Apartment gem, if the
+      # host app is using it
+      app.config.clockface.current_tenant_proc =
+        if defined?(Apartment)
+          Proc.new do
+            Apartment::Tenant.current
+          end
+        end
+
+      app.config.clockface.execute_in_tenant_proc =
+        if defined?(Apartment)
+          Proc.new do |tenant_name, some_proc|
+            Apartment::Tenant.switch(tenant_name) { some_proc.call }
+          end
+        end
     end
   end
 end

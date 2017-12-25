@@ -16,6 +16,8 @@ module Clockface
 
     # Run it in the right Apartment Tenant
     tenant(job.tenant) do
+      logger = Logger.new(Rails.root.join("log", "example_workers.log"))
+      logger.info "Running in tenant #{tenant}"
       klass.constantize.perform_async
     end
   end

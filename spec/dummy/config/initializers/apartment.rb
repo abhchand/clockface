@@ -7,7 +7,7 @@ ALL_TENANTS =
   when Rails.env.development?
     %w(mercury venus earth mars)
   when Rails.env.test?
-    %w(mercury venus)
+    %w(mercury)
   else
     raise "Only development and test environments allowed!"
   end

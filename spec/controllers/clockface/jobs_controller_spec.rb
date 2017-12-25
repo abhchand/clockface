@@ -55,7 +55,6 @@ module Clockface
           clockwork_scheduled_job: {
             clockface_clockwork_event_id: event.id,
             enabled: "1",
-            tenant: "foo",
             period_value: "7",
             period_units: "minutes",
             day_of_week: "0",
@@ -110,9 +109,8 @@ module Clockface
           end.to change { Clockface::ClockworkScheduledJob.count }.by(1)
 
           job = Clockface::ClockworkScheduledJob.last
-
-          expect(job.clockface_clockwork_event_id).to eq(event.id)
-          expect(job.tenant).to eq("foo")
+          expect(job.event).to eq(event)
+          expect(job.tenant).to eq(tenant)
         end
       end
 
