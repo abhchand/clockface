@@ -23,4 +23,9 @@ group :development, :test do
   gem 'rspec-rails', '>= 3.5'
   gem 'shoulda-matchers'
   gem 'sidekiq'
+
+  # Nokogiri has a flagged vulnerability for < 1.8.1
+  # Capybara requires it indirectly, so maintain this explicit version until
+  # we upgrade capybara to match
+  gem 'nokogiri', '>= 1.8.1'
 end
