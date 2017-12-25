@@ -50,9 +50,11 @@ module Clockface
         every: opts[:every]
       ) do |job|
         if job.enabled?
+          t = "[#{job.tenant}] " if job.tenant
+
           clockface_log(
             :info,
-            "Running ClockworkScheduledJob id #{job.id} (\"#{job.name}\")"
+            "#{t}Running \"#{job.name}\" (ClockworkScheduledJob.id: #{job.id})"
           )
 
           begin
@@ -63,8 +65,8 @@ module Clockface
             # here so that we can still update the `last_run_at` below
             clockface_log(
               :error,
-              "Error while running ClockworkScheduledJob id "\
-                "#{job.id} (\"#{job.name}\") => #{e.message}"
+              "Error while running \"#{job.name}\" "\
+                "(ClockworkScheduledJob.id: #{job.id})"
             )
           end
 
@@ -72,8 +74,8 @@ module Clockface
         else
           clockface_log(
             :info,
-            "Skipping Disabled ClockworkScheduledJob id "\
-              "#{job.id} (\"#{job.name}\")"
+            "Skipping Disabled \"#{job.name}\" "\
+              "(ClockworkScheduledJob.id: #{job.id})"
           )
         end
       end

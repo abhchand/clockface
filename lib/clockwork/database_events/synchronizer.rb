@@ -1,5 +1,6 @@
 require "clockwork/database_events"
 require_relative "../../../app/helpers/clockface/clockface_config_helper"
+require_relative "../../../app/helpers/clockface/clockface_logging_helper"
 
 # Loaded from lib/clockface as part of the clock configuration
 #
@@ -16,13 +17,14 @@ module Clockwork
   module DatabaseEvents
     class Synchronizer
       extend ::Clockface::ClockfaceConfigHelper
+      extend ::Clockface::ClockfaceLoggingHelper
 
       def self.setup(options={}, &block_to_perform_on_event_trigger)
         every = options.fetch(:every) do
           raise KeyError, ":every must be set to the database sync frequency"
         end
 
-        event_name = "sync_database_events_from_Clockface::ClockworkScheduledJob"
+        event_name = "sync_database_events"
 
 
         #
@@ -44,6 +46,7 @@ module Clockwork
               end
               models = clockface_execute_in_tenant(t, cmd)
 
+              clockface_log(:info, "[#{t}] Running #{t}.#{event_name}")
               event_store.update(models)
             end
           end
@@ -59,6 +62,7 @@ module Clockwork
         event_store = EventStore.new(block_to_perform_on_event_trigger)
 
         Clockwork.manager.every(every, event_name) do
+          clockface_log(:info, "Running #{event_name}")
           event_store.update(Clockface::ClockworkScheduledJob.all)
         end
       end
