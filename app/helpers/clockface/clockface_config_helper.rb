@@ -5,10 +5,6 @@ module Clockface
       ActiveSupport::TimeZone::MAPPING.key?(tz) ? tz : "UTC"
     end
 
-    def clockface_logger
-      Clockface::Engine.config.clockface.logger
-    end
-
     def clockface_tenant_list
       Clockface::Engine.config.clockface.tenant_list
     end

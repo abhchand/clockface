@@ -17,7 +17,7 @@ module Clockface
       if validation.success?
         job.save
         flash[:success] = t("clockface.jobs.create.success")
-        log(:info, "Created Job: #{job.inspect}")
+        clockface_log(:info, "Created Job: #{job.inspect}")
         redirect_to clockface.jobs_path
       else
         flash[:error] = validation.errors
@@ -50,7 +50,7 @@ module Clockface
       if validation.success?
         job.save
         flash[:success] = t("clockface.jobs.update.success")
-        log(:info, "Updated Job: #{job.inspect}")
+        clockface_log(:info, "Updated Job: #{job.inspect}")
         redirect_to clockface.jobs_path
       else
         flash[:error] = validation.errors
@@ -89,7 +89,7 @@ module Clockface
 
       if job.destroy
         flash[:success] = t("clockface.jobs.destroy.success")
-        log(:info, "Destroyed Job: #{job.inspect}")
+        clockface_log(:info, "Destroyed Job: #{job.inspect}")
         redirect_to jobs_path
       else
         flash[:error] = t("clockface.jobs.destroy.failure")
