@@ -14,11 +14,7 @@ module Clockface
     cmd_hash = JSON.parse(job.command)
     klass = cmd_hash["class"]
 
-    # Run it in the right Apartment Tenant
-    tenant(job.tenant) do
-      logger = Logger.new(Rails.root.join("log", "example_workers.log"))
-      logger.info "Running in tenant #{tenant}"
-      klass.constantize.perform_async
-    end
+    logger = Logger.new(Rails.root.join("log", "example_workers.log"))
+    klass.constantize.perform_async
   end
 end
