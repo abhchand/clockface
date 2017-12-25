@@ -46,10 +46,10 @@ module Clockface
         raise "Please specify a block to Clockface::sync_database_events"
       end
 
-      ::Clockwork::sync_database_events(
-        model: Clockface::ClockworkScheduledJob,
-        every: opts[:every]
-      ) do |job|
+      clockwork_opts =
+        { model: Clockface::ClockworkScheduledJob, every: opts[:every] }
+
+      ::Clockwork::sync_database_events(clockwork_opts) do |job|
         if !job.enabled?
           clockface_log(
             :info,
