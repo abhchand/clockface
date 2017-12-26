@@ -1,0 +1,44 @@
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+    - 'db/migrate/**'
+    - 'spec/cassettes/**/*'
+Documentation:
+  Enabled: false
+Style/EmptyMethod:
+  Enabled: false
+Style/EmptyCaseCondition:
+  Enabled: false
+Layout/DotPosition:
+  EnforcedStyle: trailing
+Layout/MultilineOperationIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/GlobalVars:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+Metrics/MethodLength:
+  Max: 25
+Metrics/BlockLength:
+  ExcludedMethods:
+    - context
+    - describe
+    - it
+    - feature
+    - shared_examples
+    - shared_examples_for
+    - namespace
+    - task
+    - proc
+    - draw
+Metrics/ClassLength:
+  Max: 250
+Metrics/MethodLength:
+  Max: 30
+Metrics/AbcSize:
+ Max: 20
