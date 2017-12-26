@@ -9,6 +9,10 @@ module Clockface
       Clockface::Engine.config.clockface.tenant_list
     end
 
+    def clockface_single_tenancy_enabled?
+      clockface_tenant_list.empty?
+    end
+
     def clockface_multi_tenancy_enabled?
       clockface_tenant_list.any?
     end
