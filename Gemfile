@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 gemspec
 
+# Waiting on clockwork to create a new gem version. Until then, use
+# latest github version in Gemfile
+gem "clockwork", github: "Rykian/clockwork"
+
 group :development do
   gem 'foreman'
 end
