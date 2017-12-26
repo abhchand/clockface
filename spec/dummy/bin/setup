@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'pathname'
 require 'fileutils'
+require_relative '../spec/dummy/config/initializers/multi_tenant'
 include FileUtils
 
 # path to your application root.
@@ -24,8 +25,10 @@ chdir APP_ROOT do
   puts "\n== Creating database =="
   system! 'bin/rails db:create'
 
-  puts "\n== Creating Tenants =="
-  system! 'bin/rails apartment:create_tenants'
+  if multi_tenancy_enabled?
+    puts "\n== Creating Tenants =="
+    system! 'bin/rails apartment:create_tenants'
+  end
 
   puts "\n== Migrating =="
   system! 'bin/rails db:migrate'

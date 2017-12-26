@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    render plain: "Welcome to tenant #{tenant}"
+    render plain: "Hello, World!"
   end
 end

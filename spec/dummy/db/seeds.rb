@@ -5,14 +5,14 @@
 User.create!(
   first_name: "Shakuntala",
   last_name: "Devi",
-  email: "Shakuntala.Devi@#{tenant}.com",
+  email: "Shakuntala.Devi@example.com",
   ability: "read_write"
 )
 
 User.create!(
   first_name: "Srinivasa",
   last_name: "Ramanujan",
-  email: "Srinivasa.Ramanujan@#{tenant}.com",
+  email: "Srinivasa.Ramanujan@example.com",
   ability: "read"
 )
 
