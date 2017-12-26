@@ -8,3 +8,5 @@ spec/dummy/tmp/
 spec/dummy/public/*
 spec/examples.txt
 .DS_Store
+.ruby-version
+.ruby-gemset
