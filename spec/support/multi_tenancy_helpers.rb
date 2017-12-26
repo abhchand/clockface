@@ -5,7 +5,7 @@ module MultiTenancyHelpers
   def enable_multi_tenancy!
     allow(
       Clockface::Engine.config.clockface
-    ).to receive(:tenant_list) { ALL_TENANTS }
+    ).to receive(:tenant_list) { TENANTS }
   end
 
   def disable_multi_tenancy!

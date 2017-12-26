@@ -4,19 +4,19 @@ require 'apartment/elevators/generic'
 require 'apartment/elevators/subdomain'
 require 'apartment/elevators/first_subdomain'
 
-ALL_TENANTS = %w(earth mars)
+TENANTS = %w(earth mars)
 
 Apartment.configure do |config|
   config.tenant_names =
     case
     when Rails.env.development?
       # On development, set up as single/multi tenant depending on configuration
-      multi_tenancy_enabled? ? ALL_TENANTS : []
+      multi_tenancy_enabled? ? TENANTS : []
     when Rails.env.test?
       # On test, always set up as multi-tenant so schemas are created in the
       # DB. The specs will stub as needed to make it appear as single or multi
       # tenant
-      ALL_TENANTS
+      TENANTS
     end
 end
 
@@ -37,7 +37,7 @@ end
 def each_tenant(&block)
   raise "No block sepcified!" unless block_given?
 
-  ALL_TENANTS.each do |tenant_name|
+  TENANTS.each do |tenant_name|
     puts "==== #{tenant_name}"
     tenant(tenant_name) { yield(tenant_name) }
   end
