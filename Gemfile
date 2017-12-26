@@ -1,11 +1,6 @@
 source 'https://rubygems.org'
 gemspec
 
-# gemspec definitions aren't great for managing various groups. For instance,
-# they don't provide an easy way to add to a `test` group.
-#
-# Define development and test dependencies here instead
-
 group :development do
   gem 'foreman'
 end
