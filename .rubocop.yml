@@ -1,6 +1,6 @@
 AllCops:
   Exclude:
-    - 'db/schema.rb'
+    - 'spec/dummy/db/schema.rb'
     - 'db/migrate/**'
     - 'spec/cassettes/**/*'
 Documentation:

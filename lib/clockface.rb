@@ -25,7 +25,7 @@ require "clockface/engine"
 #
 # 2. As mentioned above, Clockwork provides the `sync_database_events` method
 #    as part of its API. However, we want to make things as easy as possible for
-#    each user, and we want to take care of error handling, logging, and updating
+#    each user and we want to take care of error handling, logging, and updating
 #    records as well in a predictable fashion. The solution to that is to define
 #    *another* custom `sync_database_events` below, which calls the original
 #    Clockwork method. When users call `sync_database_events` it will hit this

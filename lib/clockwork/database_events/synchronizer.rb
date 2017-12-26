@@ -42,7 +42,10 @@ module Clockwork
                 # 2. ActiveRecord lazily evaluates the query, so #all won't
                 #    actually run against the DB when executed. Force it to
                 #    execute by calling something on it (e.g. #to_a)
-                Clockface::ClockworkScheduledJob.includes(:event).all.tap(&:to_a)
+                Clockface::ClockworkScheduledJob.
+                  includes(:event).
+                  all.
+                  tap(&:to_a)
               end
               models = clockface_execute_in_tenant(t, cmd)
 

@@ -8,7 +8,7 @@ module Clockface
         event2 = create(:clockwork_event)
 
         expect(job_form_select_options_for_name).to eq(
-          [ [ event1.name, event1.id ], [ event2.name, event2.id ] ]
+          [[event1.name, event1.id], [event2.name, event2.id]]
         )
       end
     end

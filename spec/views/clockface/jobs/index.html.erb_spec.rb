@@ -38,7 +38,8 @@ module Clockface
           %w(id name period at time_zone if_condition last_triggered_at enabled)
 
         columns.each do |attribute|
-          label = Clockface::ClockworkScheduledJob.human_attribute_name(attribute)
+          label =
+            Clockface::ClockworkScheduledJob.human_attribute_name(attribute)
           css_id = "thead .jobs-index__jobs-column--#{attribute}"
 
           expect(page.find(css_id)).to have_content(label)
@@ -81,7 +82,6 @@ module Clockface
         job.update(if_condition: "odd_week")
         job.update(last_triggered_at: 1.day.ago)
 
-
         # Run a sanity check to make sure every field is not nil, should the
         # factory ever change in the future
         %w(
@@ -113,7 +113,8 @@ module Clockface
           it "displays the enabled icon with CSS status" do
             render
 
-            table_row = page.find("tr.jobs-index__jobs-row[data-id='#{job.id}']")
+            table_row =
+              page.find("tr.jobs-index__jobs-row[data-id='#{job.id}']")
             field = table_row.find(".jobs-index__jobs-column--enabled")
 
             expect(field).to have_selector(".enabled-job")
@@ -127,7 +128,8 @@ module Clockface
           it "displays the disabled icon with CSS status" do
             render
 
-            table_row = page.find("tr.jobs-index__jobs-row[data-id='#{job.id}']")
+            table_row =
+              page.find("tr.jobs-index__jobs-row[data-id='#{job.id}']")
             field = table_row.find(".jobs-index__jobs-column--enabled")
 
             expect(field).to have_selector(".disabled-job")

@@ -3,6 +3,7 @@ module Clockface
     extend Forwardable
 
     PERIOD_UNITS = %w(seconds minutes hours days weeks months years).freeze
+    # rubocop:disable LineLength
     IF_CONDITIONS = {
       "even_week" => lambda { |time| (time.strftime("%W").to_i % 2) == 0 },
       "odd_week" => lambda { |time| (time.strftime("%W").to_i % 2) == 1 },
@@ -10,6 +11,7 @@ module Clockface
       "first_of_month" => lambda { |time| time.strftime("%-d").to_i == 1 },
       "last_of_month" => lambda { |time| (time + 1.day).strftime("%-d").to_i == 1 },
     }.freeze
+    # rubocop:enable LineLength
 
     belongs_to(
       :event,
@@ -24,6 +26,7 @@ module Clockface
       default_tenant_if_needed
     end
 
+    # rubocop:disable LineLength
     validates :period_value, presence: true, numericality: { greater_than: 0 }
     validates :period_units, presence: true, inclusion: PERIOD_UNITS
     validates :day_of_week, inclusion: { in: 0..6 }, allow_nil: true
@@ -31,6 +34,7 @@ module Clockface
     validates :minute, inclusion: { in: 0..59 }, allow_nil: true
     validates :time_zone, inclusion: ActiveSupport::TimeZone::MAPPING.keys, allow_nil: true
     validates :if_condition, inclusion: IF_CONDITIONS.keys, allow_nil: true
+    # rubocop:enable LineLength
 
     with_options if: proc { clockface_multi_tenancy_enabled? } do |x|
       x.validate :tenant_is_valid
@@ -119,8 +123,8 @@ module Clockface
       # attributes have been changed, it reloads the event.
       # The Clockwork API lets us selectively ignore some fields in this
       # attribute comparison.
-      # Exclude `last_triggered_at` and `updated_at` since they will always change
-      # each run
+      # Exclude `last_triggered_at` and `updated_at` since they will always
+      # change on each run
       [ :last_triggered_at, :updated_at ]
     end
 

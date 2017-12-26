@@ -106,8 +106,9 @@ module Clockface
               error = subject.errors.messages[:day_of_week].first
               expect(error).to eq(
                 t(
-                  "activerecord.errors.models.clockface/clockwork_scheduled_job."\
-                    "attributes.day_of_week.day_of_week_must_have_timestamp"
+                  "activerecord.errors.models."\
+                    "clockface/clockwork_scheduled_job.attributes.day_of_week."\
+                    "day_of_week_must_have_timestamp"
                 )
               )
             end
