@@ -5,22 +5,21 @@
 end
 
 require Rails.root.join("spec/support/translation_helpers.rb")
-require Rails.root.join("spec/support/multi_tenancy_helpers.rb")
+require Rails.root.join("spec/support/tenancy_helpers.rb")
 
 RSpec.configure do |config|
   config.include Clockface::ConfigHelper
   config.include TranslationHelpers
-  config.include MultiTenancyHelpers
+  config.include TenancyHelpers
 
   config.include ViewHelpers, type: :view
   config.include Clockface::Engine.routes.url_helpers, type: [:view]
 
   config.before(:each) do
-    Clockface::Engine.config.clockface.time_zone = "UTC"
-    Clockface::Engine.config.clockface.logger = Rails.logger
-    # Assume single tenancy by default for most specs. Those specs that require
-    # multi-tenancy enabled can use the helpers in `MultiTenancyHelpers` to stub
-    # this config as needed
-    Clockface::Engine.config.clockface.tenant_list = []
+    # In the initializers we set up the test environment as mult-tenant so
+    # that it creates the correct DB schemas on startup. However we want to
+    # treat single tenancy as the default, so mock it before each spec
+    # Those specs that require multi-tenancy enabled can mock it accordingly
+    enable_single_tenancy!
   end
 end
