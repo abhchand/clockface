@@ -30,7 +30,7 @@ module Clockface
 
       app.config.clockface = ClockfaceConfig.new
       app.config.clockface.time_zone = Rails.application.config.time_zone
-      app.config.clockface.logger = Logger.new(STDOUT)
+      app.config.clockface.logger = Rails.logger
       app.config.clockface.tenant_list = []
 
       # Out-of-the-box functionality support for the Apartment gem, if the
