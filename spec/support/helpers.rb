@@ -1,11 +1,11 @@
+require_relative "translation_helpers"
+require_relative "tenancy_helpers"
+
 %w(views controllers).each do |subdirectory|
   Dir[Rails.root.join("spec/support/#{subdirectory}/*.rb")].each do |file|
     require file
   end
 end
-
-require Rails.root.join("spec/support/translation_helpers.rb")
-require Rails.root.join("spec/support/tenancy_helpers.rb")
 
 RSpec.configure do |config|
   config.include Clockface::ConfigHelper
