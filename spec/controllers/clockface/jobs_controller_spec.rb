@@ -99,9 +99,7 @@ module Clockface
       end
 
       context "multi tenancy is enabled" do
-        before(:each) do
-          Clockface::Engine.config.clockface.tenant_list = %w(foo)
-        end
+        before(:each) { enable_multi_tenancy! }
 
         it "creates a new job with the specified tenant" do
           expect do
