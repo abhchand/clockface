@@ -49,5 +49,43 @@ module Clockface
           end
         end
     end
+
+    # Ensure this initializer runs after the host applications initializers
+    # so it can verify what was configured
+    initializer "clockface.validate", after: :load_config_initializers do |app|
+      # Time Zone
+      time_zone = app.config.clockface.time_zone
+      valid_time_zones = ActiveSupport::TimeZone::MAPPING.keys
+      if !valid_time_zones.include?(time_zone)
+        raise "Invalid time zone #{time_zone}"
+      end
+
+      # Log
+      loggers = app.config.clockface.logger
+      loggers = [loggers] unless loggers.is_a?(Array)
+      methods = [:debug, :info, :warn, :error, :fatal]
+      loggers.each do |logger|
+        methods.each do |m|
+          unless logger.respond_to?(m)
+            raise "At least one logger is invalid. Did not respond to `:#{m}`"
+          end
+        end
+      end
+
+      # Tenant List
+      app.config.clockface.tenant_list = app.config.clockface.tenant_list.uniq
+
+      # Current Tenant
+      p = app.config.clockface.current_tenant_proc
+      if app.config.clockface.tenant_list.any? && p.blank?
+        raise "`current_tenant_proc` must be defined for multi-tenant mode"
+      end
+
+      # Execute In Tenant
+      p = app.config.clockface.execute_in_tenant_proc
+      if app.config.clockface.tenant_list.any? && p.blank?
+        raise "`execute_in_tenant_proc` must be defined for multi-tenant mode"
+      end
+    end
   end
 end
