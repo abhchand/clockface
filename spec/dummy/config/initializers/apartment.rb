@@ -33,12 +33,3 @@ def tenant(tenant = nil)
     Apartment::Tenant.current
   end
 end
-
-def each_tenant(&block)
-  raise "No block sepcified!" unless block_given?
-
-  TENANTS.each do |tenant_name|
-    puts "==== #{tenant_name}"
-    tenant(tenant_name) { yield(tenant_name) }
-  end
-end
