@@ -36,6 +36,8 @@ Metrics/BlockLength:
     - task
     - proc
     - draw
+Metrics/ModuleLength:
+  Enabled: false
 Metrics/ClassLength:
   Max: 250
 Metrics/MethodLength:
