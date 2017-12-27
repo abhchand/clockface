@@ -123,13 +123,28 @@ module Clockface
     end
 
     describe "form" do
-      it "displays the captch text input field" do
+      it "displays the captcha text input field" do
+        render
+        expect(page).to have_selector(".jobs-delete__form-element--captcha")
       end
 
       it "displays the submit button" do
+        render
+        form = page.find(".jobs-delete__form-submit")
+
+        expect(form.find("input[type='submit']")["value"]).
+          to eq(t("clockface.jobs.delete.submit"))
       end
 
       it "displays the cancel button, linking back to jobs_path" do
+        render
+        form = page.find(".jobs-delete__form-submit")
+
+        expect(form).
+          to have_link(
+            t("clockface.jobs.delete.cancel"),
+            href: clockface.jobs_path
+          )
       end
     end
   end
