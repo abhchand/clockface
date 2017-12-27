@@ -13,4 +13,9 @@ RSpec.configure do |config|
   config.after(:suite) do
     TENANTS.each { |t| Apartment::Tenant.drop(t) }
   end
+
+  config.before(:each) do
+    # Reset between specs in case a specific test changes tenant
+    tenant("public")
+  end
 end
