@@ -1,6 +1,6 @@
 <div class="jobs-new__form-container">
   <%= form_for(job, url: form_url, html: { class: "form-horizontal" }) do |form| %>
-    <div class="jobs-new__form-element--name form-group">
+    <div class="jobs-form__form-element--name form-group">
       <label class="control-label col-sm-2" for="name">
         <%= Clockface::ClockworkScheduledJob.human_attribute_name("name") %>
       </label>
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="jobs-new__form-element--enabled form-group">
+    <div class="jobs-form__form-element--enabled form-group">
       <label class="control-label col-sm-2" for="enabled">
         <%= Clockface::ClockworkScheduledJob.human_attribute_name("enabled") %>
       </label>
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div class="jobs-new__form-element--period form-group">
+    <div class="jobs-form__form-element--period form-group">
       <label class="control-label col-sm-2" for="period">
         <%= Clockface::ClockworkScheduledJob.human_attribute_name("period") %>
       </label>
@@ -38,20 +38,20 @@
           form.text_field(
             :period_value,
             size: 2,
-            class: "jobs-new__form-element--period-value form-control"
+            class: "jobs-form__form-element--period-value form-control"
           ) %>
         <%=
           form.select(
             :period_units,
             job_form_select_options_for_period_units,
             { include_blank: false },
-            { class: "jobs-new__form-element--period-units form-control" }
+            { class: "jobs-form__form-element--period-units form-control" }
           )
         %>
       </div>
     </div>
 
-    <div class="jobs-new__form-element--at form-group">
+    <div class="jobs-form__form-element--at form-group">
       <label class="control-label col-sm-2" for="at">
         <%= Clockface::ClockworkScheduledJob.human_attribute_name("at") %>
       </label>
@@ -61,7 +61,7 @@
             :day_of_week,
             job_form_select_options_for_day_of_week,
             { include_blank: true },
-            { class: "jobs-new__form-element--day-of-week form-control" }
+            { class: "jobs-form__form-element--day-of-week form-control" }
           )
         %>
         &nbsp;
@@ -71,7 +71,7 @@
             :hour,
             job_form_select_options_for_hour,
             { include_blank: false },
-            { class: "jobs-new__form-element--hour form-control" }
+            { class: "jobs-form__form-element--hour form-control" }
           )
         %>
         <b>:</b>
@@ -80,13 +80,13 @@
             :minute,
             job_form_select_options_for_minute,
             { include_blank: false },
-            { class: "jobs-new__form-element--minute form-control" }
+            { class: "jobs-form__form-element--minute form-control" }
           )
         %>
       </div>
     </div>
 
-    <div class="jobs-new__form-element--time_zone form-group">
+    <div class="jobs-form__form-element--time_zone form-group">
       <label class="control-label col-sm-2" for="time_zone">
         <%= Clockface::ClockworkScheduledJob.human_attribute_name("time_zone") %>
       </label>
@@ -102,7 +102,7 @@
       </div>
     </div>
 
-    <div class="jobs-new__form-element--if_condition form-group">
+    <div class="jobs-form__form-element--if_condition form-group">
       <label class="control-label col-sm-2" for="if_condition">
         <%= Clockface::ClockworkScheduledJob.human_attribute_name("if_condition") %>
       </label>

@@ -6,7 +6,7 @@ module Clockface
     let(:job) { create(:clockwork_scheduled_job) }
 
     describe "event (name)" do
-      let(:section) { page.find(".jobs-new__form-element--name") }
+      let(:section) { page.find(".jobs-form__form-element--name") }
 
       it "displays the section label and dropdown selector" do
         render_partial
@@ -43,7 +43,7 @@ module Clockface
     end
 
     describe "enabled" do
-      let(:section) { page.find(".jobs-new__form-element--enabled") }
+      let(:section) { page.find(".jobs-form__form-element--enabled") }
 
       it "displays the section label" do
         render_partial
@@ -75,7 +75,7 @@ module Clockface
     end
 
     describe "period" do
-      let(:section) { page.find(".jobs-new__form-element--period") }
+      let(:section) { page.find(".jobs-form__form-element--period") }
 
       it "displays the section label and the dropdown selectors" do
         render_partial
@@ -87,7 +87,7 @@ module Clockface
 
         # Period Units
         dropdown_elements =
-          section.find(".jobs-new__form-element--period-units").all("option")
+          section.find(".jobs-form__form-element--period-units").all("option")
 
         actual_options = dropdown_elements.map(&:text)
         expected_options =
@@ -105,7 +105,7 @@ module Clockface
 
         input_value = section.find("input").value
         selected_units = find_selected_option(
-          section.find(".jobs-new__form-element--period-units")
+          section.find(".jobs-form__form-element--period-units")
         )
 
         expect(input_value).to eq("17")
@@ -114,7 +114,7 @@ module Clockface
     end
 
     describe "at" do
-      let(:section) { page.find(".jobs-new__form-element--at") }
+      let(:section) { page.find(".jobs-form__form-element--at") }
 
       it "displays the section label and dropdown selectors" do
         render_partial
@@ -123,7 +123,7 @@ module Clockface
 
         # Day of Week
         dropdown_elements =
-          section.find(".jobs-new__form-element--day-of-week").all("option")
+          section.find(".jobs-form__form-element--day-of-week").all("option")
 
         actual_options = dropdown_elements.map(&:text)
         expected_options = [""] + t("date.day_names")
@@ -132,7 +132,7 @@ module Clockface
 
         # Hour
         dropdown_elements =
-          section.find(".jobs-new__form-element--hour").all("option")
+          section.find(".jobs-form__form-element--hour").all("option")
 
         actual_options = dropdown_elements.map(&:text)
         expected_options =
@@ -142,7 +142,7 @@ module Clockface
 
         # Minute
         dropdown_elements =
-          section.find(".jobs-new__form-element--minute").all("option")
+          section.find(".jobs-form__form-element--minute").all("option")
 
         actual_options = dropdown_elements.map(&:text)
         expected_options =
@@ -157,13 +157,13 @@ module Clockface
         render_partial
 
         selected_day_of_week = find_selected_option(
-          section.find(".jobs-new__form-element--day-of-week")
+          section.find(".jobs-form__form-element--day-of-week")
         )
         selected_hour = find_selected_option(
-          section.find(".jobs-new__form-element--hour")
+          section.find(".jobs-form__form-element--hour")
         )
         selected_minute = find_selected_option(
-          section.find(".jobs-new__form-element--minute")
+          section.find(".jobs-form__form-element--minute")
         )
 
         expect(selected_day_of_week.to_i).to eq(1)
@@ -178,10 +178,10 @@ module Clockface
           render_partial
 
           selected_hour = find_selected_option(
-            section.find(".jobs-new__form-element--hour")
+            section.find(".jobs-form__form-element--hour")
           )
           selected_minute = find_selected_option(
-            section.find(".jobs-new__form-element--minute")
+            section.find(".jobs-form__form-element--minute")
           )
 
           # Select forms don't handle nil values mapped to non-nil labels very
@@ -194,7 +194,7 @@ module Clockface
     end
 
     describe "time zone" do
-      let(:section) { page.find(".jobs-new__form-element--time_zone") }
+      let(:section) { page.find(".jobs-form__form-element--time_zone") }
 
       it "displays the section label and dropdown selector" do
         render_partial
@@ -251,7 +251,7 @@ module Clockface
     end
 
     describe "if condition" do
-      let(:section) { page.find(".jobs-new__form-element--if_condition") }
+      let(:section) { page.find(".jobs-form__form-element--if_condition") }
 
       it "displays the section label and dropdown selector" do
         render_partial
@@ -261,11 +261,14 @@ module Clockface
         dropdown_elements = section.find("select").all("option")
 
         actual_options = dropdown_elements.map(&:text)
+        # rubocop:disable Layout/MultilineMethodCallIndentation
         expected_options =
-          [""] + Clockface::ClockworkScheduledJob::IF_CONDITIONS.keys.map do |i|
+          [""] +
+          Clockface::ClockworkScheduledJob::IF_CONDITIONS.keys.map do |i|
             Clockface::ClockworkScheduledJob.
             human_attribute_name("if_condition.#{i}")
           end
+        # rubocop:enable Layout/MultilineMethodCallIndentation
 
         expect(actual_options).to eq(expected_options)
       end
