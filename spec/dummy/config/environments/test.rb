@@ -2,6 +2,22 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in
   # config/application.rb.
 
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
+  # NOTE: It seems to be a bit of a mystery why this is needed. By default it
+  # is disabled in the test environment. But when running Capybara webkit
+  # driver commands, it throws errors like
+  #
+  # ActionController::RoutingError:
+  #   No route matches [GET] "/assets/clockface/application-af04b226fd...css"
+  #
+  # Obviously it's looking for precompiled assets, which don't exist in test
+  # So the workaround is to enable debug mode which forces it to look for
+  # uncompiled assets.
+  # Taken from: https://stackoverflow.com/a/17145305/2490003
+  config.assets.debug = true
+
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped
