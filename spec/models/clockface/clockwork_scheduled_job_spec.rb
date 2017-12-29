@@ -38,6 +38,15 @@ module Clockface
           end
         end
       end
+
+      describe "time_zone" do
+        it "defaults the time zone to the Clockface time zone if blank" do
+          job = build(:clockwork_scheduled_job, time_zone: nil)
+          job.valid?
+
+          expect(job.time_zone).to eq(clockface_time_zone)
+        end
+      end
     end
 
     describe "Validations" do

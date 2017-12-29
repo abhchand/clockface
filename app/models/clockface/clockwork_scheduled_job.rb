@@ -21,7 +21,7 @@ module Clockface
 
     before_validation do
       self[:enabled] = false if self[:enabled].nil?
-      self[:time_zone] = nil if self[:time_zone].blank?
+      self[:time_zone] = clockface_time_zone if self[:time_zone].blank?
       self[:if_condition] = nil if self[:if_condition].blank?
       default_tenant_if_needed
     end
