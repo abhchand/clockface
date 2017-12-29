@@ -13,7 +13,6 @@ group :development, :test do
   gem "apartment-sidekiq"
   gem "apartment"
   gem 'capybara-webkit', '~> 1.11.1'
-  gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'pg'
   gem 'pry-rails'
