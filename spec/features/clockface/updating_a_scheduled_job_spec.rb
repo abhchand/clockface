@@ -31,7 +31,7 @@ module Clockface
       select_option("clockwork_scheduled_job[if_condition]", "weekday")
 
       expect do
-        submit && sleep(0.1)
+        submit
       end.to change { Clockface::ClockworkScheduledJob.count }.by(0)
 
       # Validate model
@@ -70,7 +70,7 @@ module Clockface
         select_option("clockwork_scheduled_job[period_units]", "Hours")
 
         expect do
-          submit && sleep(0.1)
+          submit
         end.to change { Clockface::ClockworkScheduledJob.count }.by(0)
 
         # Validate error
@@ -108,7 +108,7 @@ module Clockface
           # Update records
           select_option("clockwork_scheduled_job[period_units]", "Hours")
 
-          submit && sleep(0.1)
+          submit
 
           # Check records on both tenants
           expect(Clockface::ClockworkScheduledJob.first.period_units).
@@ -126,7 +126,7 @@ module Clockface
           # Update records
           select_option("clockwork_scheduled_job[period_units]", "Hours")
 
-          submit && sleep(0.1)
+          submit
 
           # Check records on both tenants
           expect(Clockface::ClockworkScheduledJob.first.period_units).
@@ -141,6 +141,9 @@ module Clockface
 
     def submit
       click_button(t("clockface.jobs.job_form.submit"))
+
+      # Force Capybara to wait until the new page loads before progressing
+      expect(current_path).to eq(current_path)
     end
   end
 end

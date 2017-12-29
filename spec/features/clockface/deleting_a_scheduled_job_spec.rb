@@ -14,7 +14,7 @@ module Clockface
       fill_in("captcha", with: captcha_for(job))
 
       expect do
-        submit && sleep(0.1)
+        submit
       end.to change { Clockface::ClockworkScheduledJob.count }.by(-1)
 
       # Validate model no longer exists
@@ -37,7 +37,7 @@ module Clockface
         fill_in("captcha", with: "foo")
 
         expect do
-          submit && sleep(0.1)
+          submit
         end.to change { Clockface::ClockworkScheduledJob.count }.by(0)
 
         # Validate error
@@ -71,7 +71,7 @@ module Clockface
           # Delete Job
           fill_in("captcha", with: captcha_for(earth_job))
 
-          submit && sleep(0.1)
+          submit
 
           # Check records on both tenants
           expect(Clockface::ClockworkScheduledJob.count).to eq(0)
@@ -87,7 +87,7 @@ module Clockface
           # Delete Job
           fill_in("captcha", with: captcha_for(mars_job))
 
-          submit && sleep(0.1)
+          submit
 
           # Check records on both tenants
           expect(Clockface::ClockworkScheduledJob.count).to eq(0)
@@ -100,6 +100,9 @@ module Clockface
 
     def submit
       click_button(t("clockface.jobs.delete.submit"))
+
+      # Force Capybara to wait until the new page loads before progressing
+      expect(current_path).to eq(current_path)
     end
 
     def captcha_for(job)
