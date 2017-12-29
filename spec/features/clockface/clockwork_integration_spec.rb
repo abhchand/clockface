@@ -4,7 +4,16 @@ module Clockface
   RSpec.feature "Clockwork Integration", type: :feature do
     include Clockface::Engine.routes.url_helpers
 
-    let(:epoch) { Time.parse("Jan 01 2017") }
+    let(:epoch) do
+      # See the note in `lib/clockface` about how we set time zone to ensure
+      # that Clockwork never relies on local system time. So what we set here
+      # shouldn't matter, functionally speaking
+      #
+      # But for our specs it's easiest to work with UTC, so pretend our
+      # local time is UTC. This has the added bonus of mimicing the local
+      # environment found on most deployment servers
+      Time.parse("2017-01-01 00:00:00 UTC")
+    end
     let(:sync_period) { 3.seconds }
 
     before(:each) { setup }
@@ -106,31 +115,41 @@ module Clockface
     end
 
     it "correctly handles changes to the 'at' configuration" do
-      # Jan 01 2017 was a Sunday (0) making the preceding day a Saturday (6)
-      job = new_job(every: 3.seconds, day_of_week: 6, hour: 23, minute: nil)
+      # Epoch:
+      #
+      #   UTC:        2017-01-01 00:00:00 (Sunday)
+      #   Pacific:    2016-12-31 16:00:00 (Saturday)
+
+      job = new_job(every: 3.seconds, day_of_week: 6, hour: 15, minute: nil)
 
       tick(-3, expect_to_trigger: { sync: true })
       tick(-2, expect_to_trigger: { jobs: [job] })
       tick(-1)
       tick(0, expect_to_trigger: { sync: true })
 
-      # Day has changed to Sunday, so job should no longer trigger
+      # Hour has changed from 15:00 to 16:00, so job should no longer trigger
       tick(1, expect_to_trigger: { jobs: [] })
       tick(2)
 
-      # Re-enable job to run on Sundays
-      job.update!(day_of_week: 0, hour: 0)
+      # Re-enable job to run on hour 16:00
+      job.update!(hour: 16)
       tick(3, expect_to_trigger: { sync: true })
       tick(4, expect_to_trigger: { jobs: [job] })
     end
 
     it "correctly handles changes to the time zone" do
+      # Epoch:
+      #
+      #   UTC:        2017-01-01 00:00:00 (Sunday)
+      #   Eastern:    2016-12-31 19:00:00 (Saturday)
+      #   Pacific:    2016-12-31 16:00:00 (Saturday)
+
       tz1 = "Eastern Time (US & Canada)"
       tz2 = "Pacific Time (US & Canada)"
 
-      # Since the job only runs at `hour: 0`, it should stop running when the
+      # Since the job only runs at `hour: 19`, it should stop running when the
       # time zone changes to Pacific since it is 3 hours behind
-      job = new_job(every: 3.seconds, time_zone: tz1, hour: 0)
+      job = new_job(every: 3.seconds, time_zone: tz1, hour: 19)
 
       tick(1, expect_to_trigger: { sync: true })
       tick(2, expect_to_trigger: { jobs: [job] })
