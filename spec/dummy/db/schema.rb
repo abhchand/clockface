@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20171223015914) do
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "email", null: false
-    t.string "ability"
+    t.string "role"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
