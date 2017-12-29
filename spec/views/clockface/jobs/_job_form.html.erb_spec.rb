@@ -209,43 +209,23 @@ module Clockface
         expect(dropdown_elements[0].text).to eq("(GMT-11:00) American Samoa")
       end
 
-      context "job time zone is set" do
-        before(:each) { job.update!(time_zone: "Samoa") }
+      it "defaults to that time zone selection " do
+        job.update!(time_zone: "Samoa")
 
-        it "defaults to that time zone selection " do
-          render_partial
+        render_partial
 
-          selected = find_selected_option(section.find("select"))
-          expect(selected).to eq("Samoa")
-        end
-
-        context "time_zone_selector_default is set" do
-          it "ignores the setting and uses the job's time zone" do
-            render_partial(time_zone_selector_default: "Alaska")
-
-            selected = find_selected_option(section.find("select"))
-            expect(selected).to eq("Samoa")
-          end
-        end
+        selected = find_selected_option(section.find("select"))
+        expect(selected).to eq("Samoa")
       end
 
       context "job time zone is nil" do
         before(:each) { job.update!(time_zone: nil) }
 
-        it "defaults to no selection (which browsers render as first element" do
+        it "defaults to the clockface time zone" do
           render_partial
 
           selected = find_selected_option(section.find("select"))
-          expect(selected).to be_nil
-        end
-
-        context "time_zone_selector_default is set" do
-          it "defaults to the specified value" do
-            render_partial(time_zone_selector_default: "Alaska")
-
-            selected = find_selected_option(section.find("select"))
-            expect(selected).to eq("Alaska")
-          end
+          expect(selected).to eq(clockface_time_zone)
         end
       end
     end
