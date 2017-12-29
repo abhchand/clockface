@@ -46,6 +46,33 @@ module Clockface
         raise "Please specify a block to Clockface::sync_database_events"
       end
 
+      #
+      # Configure Clockwork
+      #
+
+      Clockwork.manager.configure do |config|
+        # The underlying Clockwork gem tries to set time zone in the following
+        # order
+        #
+        #   a. Job-specific time
+        #   b. Clockwork Configured time (Clockwork.manager.config[:tz])
+        #   c. System Time
+        #
+        # Clockface enforces that each job *must* have a time zone. It defaults
+        # to the `clockface_time_zone` when the user doesn't choose one.
+        #
+        # Clockface also sets the Clockwork configured time to be
+        # `clockface_time_zone` in case for some reason a user updates the DB
+        # record directly and bypasses our validations.
+        #
+        # Howevever this doesn't work as expected right now. See -
+        #   https://github.com/Rykian/clockwork/issues/35
+        #
+        # As far as format, see explanation for time zone format in
+        # `Clockface::ClockworkScheduledJob#tz`
+        config[:tz] = ActiveSupport::TimeZone::MAPPING[clockface_time_zone]
+      end
+
       clockwork_opts =
         { model: Clockface::ClockworkScheduledJob, every: opts[:every] }
 
