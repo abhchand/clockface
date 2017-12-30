@@ -67,6 +67,8 @@ en:
     application:
       nav:
         heading: Clockface
+      footer:
+        need_help_html: "Need help? <a href=\"%{href}\" target=\"_blank\">Ask a question</a>"
     jobs:
       create:
         duplicate_job: Another job with this configuration already exists
