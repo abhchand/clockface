@@ -271,10 +271,19 @@ module Clockface
       # Clear any state from previous `tick`
       Sidekiq::Worker.clear_all
 
+      # Stub `Time.zone.now` to return `epoch + seconds_elapsed` for the
+      # of the Clockwork `tick` method so that we can do things like verify
+      # the value of `last_triggered_at` deterministically .
+      # This is slightly shifty because we're returning a `Time` object instead
+      # of `ActiveSupport::TimeWithZone`, but it works for our simple setup.
+      # If it gets any more complex, consider using a gem like Timecop to
+      # stub time
+      stub_active_support_time!(seconds_elapsed)
       Clockwork.manager.tick(epoch + seconds_elapsed.seconds)
+      unstub_active_support_time!(seconds_elapsed)
 
       jobs = opts[:expect_to_trigger].try(:[], :jobs)
-      expect_jobs_did_trigger(jobs) if jobs.present?
+      expect_jobs_did_trigger(jobs, seconds_elapsed) if jobs.present?
 
       sync = opts[:expect_to_trigger].try(:[], :sync)
       expect_sync_did_trigger(seconds_elapsed) if sync.present?
@@ -320,7 +329,7 @@ module Clockface
       )
     end
 
-    def expect_jobs_did_trigger(jobs)
+    def expect_jobs_did_trigger(jobs, seconds_elapsed)
       expected_jobs = jobs.map do |job|
         cmd_hash = JSON.parse(job.event.command)
         {
@@ -350,6 +359,9 @@ module Clockface
       end
 
       expect(actual_jobs).to match_array(expected_jobs)
+      jobs.each do |job|
+        expect(reload_job(job).last_triggered_at).to eq(epoch + seconds_elapsed)
+      end
     end
 
     def expect_sync_did_trigger(seconds_elapsed)
@@ -360,5 +372,29 @@ module Clockface
       seconds_elapsed == 1 && last_ran_at.nil? ||
         (last_ran_at - now).abs < 1.second
     end
+
+    def stub_active_support_time!(seconds_elapsed)
+      allow_any_instance_of(ActiveSupport::TimeZone).to receive(:now) do
+        epoch + seconds_elapsed
+      end
+    end
+
+    def unstub_active_support_time!(seconds_elapsed)
+      allow_any_instance_of(ActiveSupport::TimeZone).
+        to receive(:now).and_call_original
+    end
+
+    def reload_job(job)
+      # 1. If multi tenant, reload the job within the context of its own tenant
+      # 2. Pre-load the `event` association in memory for the same reason we do
+      #    in the Synchronizer called by `setup`
+
+      if clockface_multi_tenancy_enabled?
+        tenant(job.tenant) { job.reload.tap(&:event) }
+      else
+        job.reload.tap(&:event)
+      end
+    end
+
   end
 end
