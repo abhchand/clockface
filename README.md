@@ -5,3 +5,5 @@
 A UI for the [Clockwork gem](https://github.com/Rykian/clockwork) to easily schedule and manage background jobs.
 
 Currently under development :)
+
+![Clockface](https://raw.githubusercontent.com/abhchand/clockface/master/meta/screenshot.png)
