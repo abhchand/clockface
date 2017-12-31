@@ -68,7 +68,7 @@ en:
       nav:
         heading: Clockface
       footer:
-        need_help_html: "Need help? <a href=\"%{href}\" target=\"_blank\">Ask a question</a>"
+        need_help_html: "Have a question? <a href=\"%{href}\" target=\"_blank\">Ask here</a>"
     events:
       create:
         duplicate_event: Another event with this configuration already exists
