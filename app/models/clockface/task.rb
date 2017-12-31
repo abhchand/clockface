@@ -1,9 +1,9 @@
 module Clockface
   class Task < ApplicationRecord
     has_many(
-      :scheduled_jobs,
+      :events,
       foreign_key: "clockface_task_id",
-      class_name: "Clockface::ClockworkScheduledJob"
+      class_name: "Clockface::Event"
     )
 
     validates :name, presence: true, uniqueness: { case_sensitive: false }

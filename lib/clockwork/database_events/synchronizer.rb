@@ -5,13 +5,13 @@ require_relative "../../../app/helpers/clockface/logging_helper"
 # Loaded from lib/clockface as part of the clock configuration
 #
 # Clockwork doesn't support schema-based multi-tenancy by default. To acheive
-# functionality we need to have it create a synch job for each individual tenant
+# functionality we need to have it create a synch event for each individual tenant
 #
 # This overrides the Synchronizer class in the native Clockwork implementation
 # to do the following -
 #
-#   1. If multi-tenancy is enabled, create a synch job for each tenant
-#   2. If not, just create one synch job (same as default/native functionality)
+#   1. If multi-tenancy is enabled, create a synch event for each tenant
+#   2. If not, just create one synch event (same as default/native functionality)
 
 module Clockwork
   module DatabaseEvents
@@ -42,7 +42,7 @@ module Clockwork
                 # 2. ActiveRecord lazily evaluates the query, so #all won't
                 #    actually run against the DB when executed. Force it to
                 #    execute by calling something on it (e.g. #to_a)
-                Clockface::ClockworkScheduledJob.
+                Clockface::Event.
                   includes(:task).
                   all.
                   tap(&:to_a)
@@ -66,7 +66,7 @@ module Clockwork
 
         Clockwork.manager.every(every, task_name) do
           clockface_log(:info, "Running #{task_name}")
-          event_store.update(Clockface::ClockworkScheduledJob.all)
+          event_store.update(Clockface::Event.all)
         end
       end
     end

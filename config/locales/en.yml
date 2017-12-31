@@ -21,7 +21,7 @@ en:
 
   activerecord:
     attributes:
-      clockface/clockwork_scheduled_job:
+      clockface/event:
         id: ID
         enabled: Enabled
         tenant: Tenant
@@ -31,7 +31,7 @@ en:
         at: At
         time_zone: Time Zone
         if_condition: Only run on...
-      clockface/clockwork_scheduled_job/if_condition:
+      clockface/event/if_condition:
         even_week: even weeks
         odd_week: odd weeks
         weekday: weekdays
@@ -40,7 +40,7 @@ en:
 
     errors:
       models:
-        clockface/clockwork_scheduled_job:
+        clockface/event:
           attributes:
             tenant:
               invalid: Must be the name of the tenant
@@ -69,37 +69,37 @@ en:
         heading: Clockface
       footer:
         need_help_html: "Need help? <a href=\"%{href}\" target=\"_blank\">Ask a question</a>"
-    jobs:
+    events:
       create:
-        duplicate_job: Another job with this configuration already exists
-        success: Job created successfully
+        duplicate_event: Another event with this configuration already exists
+        success: Event created successfully
       delete:
-        heading: Delete Job
+        heading: Delete Event
         cancel: Cancel
         captcha_label: "Please enter the code <span>%{captcha}</span> to confirm deletion"
         submit: Delete
         validation:
-          invalid_id: Job not found
-        warning: "Deleting a job is irreversible!"
+          invalid_id: Event not found
+        warning: "Deleting a event is irreversible!"
       destroy:
-        job_not_found: Unknown job id %{id}
-        success: Job deleted successfully
+        event_not_found: Unknown event id %{id}
+        success: Event deleted successfully
         failure: Whoops, something went wrong! Please contact your site administrator
         validation:
           incorrect_captcha: Please enter the correct code to confirm deletion
       edit:
-        heading: Edit Job
+        heading: Edit Event
         validation:
-          invalid_id: Job not found
+          invalid_id: Event not found
       index:
-        heading: All Jobs
-      job_form:
+        heading: All Events
+      event_form:
         submit: Save
         cancel: Cancel
       new:
-        heading: New Job
+        heading: New Event
       update:
-        duplicate_job: Another job with this configuration already exists
-        job_not_found: Unknown job id %{id}
-        success: Job updated successfully
+        duplicate_event: Another event with this configuration already exists
+        event_not_found: Unknown event id %{id}
+        success: Event updated successfully
 

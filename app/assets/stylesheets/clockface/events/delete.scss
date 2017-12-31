@@ -1,0 +1,45 @@
+.events-delete__event-detail {
+  margin: 25px auto;
+}
+
+.events-delete__event-detail-element {
+  height: 25px;
+
+  &.form-group {
+    margin-bottom: 5px;
+  }
+}
+
+.events-delete__event-detail-element--last_triggered_at {
+  span {
+    font-weight: 700;
+  }
+}
+
+.events-delete__event-detail-element--enabled {
+  .enabled-event {
+    color: green;
+  }
+
+  .disabled-event {
+    color: red;
+  }
+}
+
+.events-delete__captcha-label {
+  margin-bottom: 10px;
+
+  span {
+    font-weight: 700;
+    font-family: monospace;
+    font-size: 16px;
+    background-color: $post_it_yellow;
+  }
+}
+
+.events-delete__form-element--captcha {
+  display: inline-block;
+  width: 15%;
+  margin-bottom: 25px;
+  min-width: 110px;
+}

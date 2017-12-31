@@ -24,9 +24,9 @@
 @import "application/footer";
 @import "application/flash";
 
-@import "jobs/index";
-@import "jobs/delete";
-@import "jobs/job_form";
+@import "events/index";
+@import "events/delete";
+@import "events/event_form";
 
 html {
   height: 100%;

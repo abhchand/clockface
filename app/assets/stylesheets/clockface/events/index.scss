@@ -1,0 +1,56 @@
+.events-index__heading-banner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.events-index__new-link {
+  margin: 10px 10px 10px auto;
+}
+
+.events-index__new-btn {
+  height: 45px;
+  width: 45px;
+
+  .glyphicon {
+    font-size: 20px;
+  }
+}
+
+.events-index__events {
+  thead {
+    background-color: $light_gray;
+    color: $dark_gray;
+    font-weight: bold;
+    cursor: pointer;
+
+    .sorttable_nosort {
+      cursor: default;
+    }
+  }
+}
+
+.events-index__events-column--last_triggered_at {
+  span {
+    background-color: $post_it_yellow;
+    font-weight: 700;
+  }
+}
+
+.events-index__events-column--enabled {
+  .enabled-event {
+    color: green;
+  }
+
+  .disabled-event {
+    color: red;
+  }
+}
+
+.events-index__events-column--destroy {
+  .glyphicon {
+    color: red;
+  }
+}

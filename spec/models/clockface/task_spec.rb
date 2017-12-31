@@ -4,8 +4,8 @@ module Clockface
   RSpec.describe Task, type: :model do
     describe "Associations" do
       it do
-        should have_many(:scheduled_jobs).
-          class_name("Clockface::ClockworkScheduledJob").
+        should have_many(:events).
+          class_name("Clockface::Event").
           with_foreign_key("clockface_task_id")
       end
     end

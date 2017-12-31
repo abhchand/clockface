@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="events-new__heading-banner">
+    <h1>
+      <%= link_to clockface.events_path, class: "events-new__heading-banner-link" do %>
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <% end %>
+      <%= t(".heading").downcase %>
+    </h1>
+  </div>
+
+  <%= render "clockface/application/flash" %>
+
+  <%= render "event_form", event: Clockface::Event.new, form_url: clockface.events_path,  allow_editing_task: true %>
+</div>

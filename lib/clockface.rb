@@ -11,9 +11,9 @@ require "clockface/engine"
 # Engine functionality.
 #
 # Clockface uses the `sync_database_events` method provided by Clockwork to
-# periodically refresh the list of jobs from a DB table.
+# periodically refresh the list of events from a DB table.
 #
-# In the case of multi-tenancy, there needs to be one refresh job for each
+# In the case of multi-tenancy, there needs to be one refresh event for each
 # individual tenant, but the same concept applies.
 #
 # Here's what happens -
@@ -34,7 +34,7 @@ require "clockface/engine"
 #
 # 3. Clockwork doesn't support schema-based multi-tenancy. In order
 #    to get that we need to override the Synchronizer it uses to create a synch
-#    job for each individual tenant. That overriden synchronizer is loaded at
+#    event for each individual tenant. That overriden synchronizer is loaded at
 #    the top of this file. See that file for further background
 
 module Clockface
@@ -54,11 +54,11 @@ module Clockface
         # The underlying Clockwork gem tries to set time zone in the following
         # order
         #
-        #   a. Job-specific time
+        #   a. Event-specific time
         #   b. Clockwork Configured time (Clockwork.manager.config[:tz])
         #   c. System Time
         #
-        # Clockface enforces that each job *must* have a time zone. It defaults
+        # Clockface enforces that each event *must* have a time zone. It defaults
         # to the `clockface_time_zone` when the user doesn't choose one.
         #
         # Clockface also sets the Clockwork configured time to be
@@ -69,19 +69,22 @@ module Clockface
         #   https://github.com/Rykian/clockwork/issues/35
         #
         # As far as format, see explanation for time zone format in
-        # `Clockface::ClockworkScheduledJob#tz`
+        # `Clockface::Event#tz`
         config[:tz] = ActiveSupport::TimeZone::MAPPING[clockface_time_zone]
       end
 
       clockwork_opts =
-        { model: Clockface::ClockworkScheduledJob, every: opts[:every] }
+        { model: Clockface::Event, every: opts[:every] }
 
-      ::Clockwork::sync_database_events(clockwork_opts) do |job|
-        job_name = "\"#{job.name}\" (ClockworkScheduledJob.id: #{job.id})"
-        tenant_tag = "[#{job.tenant}] " if job.tenant
+      ::Clockwork::sync_database_events(clockwork_opts) do |event|
+        event_name = "\"#{event.name}\" (Event.id: #{event.id})"
+        tenant_tag = "[#{event.tenant}] " if event.tenant
 
-        if !job.enabled?
-          clockface_log(:info, "#{tenant_tag}Skipping disabled Job #{job_name}")
+        if !event.enabled?
+          clockface_log(
+            :info,
+            "#{tenant_tag}Skipping disabled Event #{event_name}"
+          )
 
           # This whole block is eventually invoked from
           # `Clockwork::Event#execute` using `block.call(...)`. Using `return`
@@ -94,29 +97,29 @@ module Clockface
         begin
           # We want to do 2 things here -
           #
-          #   1. Update the timestamp. Do this before any job execution so
+          #   1. Update the timestamp. Do this before any event execution so
           #      that if this fails, we don't continue with execution
-          #   2. Execute the job
+          #   2. Execute the event
           #
           #
           # In the case of multi-tenancy we want to execute both of the
           # above in the context of the correct tenant.
 
-          clockface_log(:info, "#{tenant_tag}Running Job #{job_name}")
+          clockface_log(:info, "#{tenant_tag}Running Event #{event_name}")
 
-          cmd = Proc.new { job.update!(last_triggered_at: Time.zone.now) }
+          cmd = Proc.new { event.update!(last_triggered_at: Time.zone.now) }
 
           if clockface_multi_tenancy_enabled?
-            clockface_execute_in_tenant(job.tenant, cmd)
-            clockface_execute_in_tenant(job.tenant, block, [job])
+            clockface_execute_in_tenant(event.tenant, cmd)
+            clockface_execute_in_tenant(event.tenant, block, [event])
           else
             cmd.call
-            yield(job)
+            yield(event)
           end
         rescue Exception => e
           clockface_log(
             :error,
-            "#{tenant_tag}Error running Job #{job_name} -> #{e.message}"
+            "#{tenant_tag}Error running Event #{event_name} -> #{e.message}"
           )
         end
       end

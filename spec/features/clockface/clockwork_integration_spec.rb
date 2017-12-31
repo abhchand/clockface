@@ -20,61 +20,61 @@ module Clockface
 
     after(:each) { Clockwork.clear! }
 
-    shared_examples "triggers scheduled jobs" do
-      it "triggers a scheduled job" do
+    shared_examples "triggers events" do
+      it "triggers a event" do
         tick(1, expect: { sync: true })
 
-        job = new_job(every: 2.seconds)
+        event = new_event(every: 2.seconds)
 
         # rubocop:disable Layout/ExtraSpacing
         tick(2)
         tick(3)
         tick(4,  expect_to_trigger: { sync: true })
-        tick(5,  expect_to_trigger: { jobs: [job] })
+        tick(5,  expect_to_trigger: { events: [event] })
         tick(6)
-        tick(7,  expect_to_trigger: { sync: true, jobs: [job] })
+        tick(7,  expect_to_trigger: { sync: true, events: [event] })
         tick(8)
-        tick(9,  expect_to_trigger: { jobs: [job] })
+        tick(9,  expect_to_trigger: { events: [event] })
         tick(10, expect_to_trigger: { sync: true })
-        tick(11, expect_to_trigger: { jobs: [job] })
+        tick(11, expect_to_trigger: { events: [event] })
         # rubocop:enable Layout/ExtraSpacing
       end
 
-      it "triggers multiple scheduled jobs" do
+      it "triggers multiple events" do
         task1 = new_task(type: 1)
         task2 = new_task(type: 2)
 
-        job1 = new_job(every: 3.seconds, task: task1)
-        job2 = new_job(every: 2.seconds, task: task2)
-        job3 = new_job(every: 1.seconds, task: task1)
+        event1 = new_event(every: 3.seconds, task: task1)
+        event2 = new_event(every: 2.seconds, task: task2)
+        event3 = new_event(every: 1.seconds, task: task1)
 
         tick(1,  expect_to_trigger: { sync: true })
-        tick(2,  expect_to_trigger: { jobs: [job3, job2, job1] })
-        tick(3,  expect_to_trigger: { jobs: [job3] })
-        tick(4,  expect_to_trigger: { jobs: [job3, job2], sync: true })
-        tick(5,  expect_to_trigger: { jobs: [job3, job1] })
-        tick(6,  expect_to_trigger: { jobs: [job3, job2] })
-        tick(7,  expect_to_trigger: { jobs: [job3], sync: true })
-        tick(8,  expect_to_trigger: { jobs: [job3, job2, job1] })
-        tick(9,  expect_to_trigger: { jobs: [job3] })
-        tick(10, expect_to_trigger: { jobs: [job3, job2], sync: true })
-        tick(11, expect_to_trigger: { jobs: [job3, job1] })
+        tick(2,  expect_to_trigger: { events: [event3, event2, event1] })
+        tick(3,  expect_to_trigger: { events: [event3] })
+        tick(4,  expect_to_trigger: { events: [event3, event2], sync: true })
+        tick(5,  expect_to_trigger: { events: [event3, event1] })
+        tick(6,  expect_to_trigger: { events: [event3, event2] })
+        tick(7,  expect_to_trigger: { events: [event3], sync: true })
+        tick(8,  expect_to_trigger: { events: [event3, event2, event1] })
+        tick(9,  expect_to_trigger: { events: [event3] })
+        tick(10, expect_to_trigger: { events: [event3, event2], sync: true })
+        tick(11, expect_to_trigger: { events: [event3, event1] })
       end
     end
 
-    it_behaves_like "triggers scheduled jobs"
+    it_behaves_like "triggers events"
 
     it "correctly handles changes to the task" do
-      job = new_job(every: 3.seconds, task: new_task(type: 1))
+      event = new_event(every: 3.seconds, task: new_task(type: 1))
 
       tick(1, expect_to_trigger: { sync: true })
-      tick(2, expect_to_trigger: { jobs: [job] })
+      tick(2, expect_to_trigger: { events: [event] })
       tick(3)
 
-      job.update!(task: new_task(type: 2))
+      event.update!(task: new_task(type: 2))
 
       tick(4, expect_to_trigger: { sync: true })
-      tick(5, expect_to_trigger: { jobs: [job] })
+      tick(5, expect_to_trigger: { events: [event] })
 
       # Explicit confirmation that the new task was picked up
       expect(ExampleWorkerOne.jobs.count).to eq(0)
@@ -82,36 +82,36 @@ module Clockface
     end
 
     it "correctly handles changes to the enabled flag" do
-      job = new_job(every: 3.seconds, enabled: true)
+      event = new_event(every: 3.seconds, enabled: true)
 
       tick(1, expect_to_trigger: { sync: true })
-      tick(2, expect_to_trigger: { jobs: [job] })
+      tick(2, expect_to_trigger: { events: [event] })
       tick(3)
 
-      job.update!(enabled: false)
+      event.update!(enabled: false)
 
       tick(4, expect_to_trigger: { sync: true })
-      tick(5, expect_to_trigger: { jobs: [] })
+      tick(5, expect_to_trigger: { events: [] })
       tick(6)
 
-      job.update!(enabled: true)
+      event.update!(enabled: true)
 
       tick(7, expect_to_trigger: { sync: true })
-      tick(8, expect_to_trigger: { jobs: [job] })
+      tick(8, expect_to_trigger: { events: [event] })
     end
 
     it "correctly handles changes to the period" do
-      job = new_job(every: 3.seconds)
+      event = new_event(every: 3.seconds)
 
       tick(1, expect_to_trigger: { sync: true })
-      tick(2, expect_to_trigger: { jobs: [job] })
+      tick(2, expect_to_trigger: { events: [event] })
       tick(3)
 
-      job.update!(period_value: 1)
+      event.update!(period_value: 1)
 
       tick(4, expect_to_trigger: { sync: true })
-      tick(5, expect_to_trigger: { jobs: [job] })
-      tick(6, expect_to_trigger: { jobs: [job] })
+      tick(5, expect_to_trigger: { events: [event] })
+      tick(6, expect_to_trigger: { events: [event] })
     end
 
     it "correctly handles changes to the 'at' configuration" do
@@ -120,21 +120,21 @@ module Clockface
       #   UTC:        2017-01-01 00:00:00 (Sunday)
       #   Pacific:    2016-12-31 16:00:00 (Saturday)
 
-      job = new_job(every: 3.seconds, day_of_week: 6, hour: 15, minute: nil)
+      event = new_event(every: 3.seconds, day_of_week: 6, hour: 15, minute: nil)
 
       tick(-3, expect_to_trigger: { sync: true })
-      tick(-2, expect_to_trigger: { jobs: [job] })
+      tick(-2, expect_to_trigger: { events: [event] })
       tick(-1)
       tick(0, expect_to_trigger: { sync: true })
 
-      # Hour has changed from 15:00 to 16:00, so job should no longer trigger
-      tick(1, expect_to_trigger: { jobs: [] })
+      # Hour has changed from 15:00 to 16:00, so event should no longer trigger
+      tick(1, expect_to_trigger: { events: [] })
       tick(2)
 
-      # Re-enable job to run on hour 16:00
-      job.update!(hour: 16)
+      # Re-enable event to run on hour 16:00
+      event.update!(hour: 16)
       tick(3, expect_to_trigger: { sync: true })
-      tick(4, expect_to_trigger: { jobs: [job] })
+      tick(4, expect_to_trigger: { events: [event] })
     end
 
     it "correctly handles changes to the time zone" do
@@ -147,43 +147,43 @@ module Clockface
       tz1 = "Eastern Time (US & Canada)"
       tz2 = "Pacific Time (US & Canada)"
 
-      # Since the job only runs at `hour: 19`, it should stop running when the
+      # Since the event only runs at `hour: 19`, it should stop running when the
       # time zone changes to Pacific since it is 3 hours behind
-      job = new_job(every: 3.seconds, time_zone: tz1, hour: 19)
+      event = new_event(every: 3.seconds, time_zone: tz1, hour: 19)
 
       tick(1, expect_to_trigger: { sync: true })
-      tick(2, expect_to_trigger: { jobs: [job] })
+      tick(2, expect_to_trigger: { events: [event] })
       tick(3)
 
-      job.update!(time_zone: tz2)
+      event.update!(time_zone: tz2)
 
       tick(4, expect_to_trigger: { sync: true })
-      tick(5, expect_to_trigger: { jobs: [] })
+      tick(5, expect_to_trigger: { events: [] })
       tick(6)
 
-      job.update!(time_zone: tz1)
+      event.update!(time_zone: tz1)
 
       tick(7, expect_to_trigger: { sync: true })
-      tick(8, expect_to_trigger: { jobs: [job] })
+      tick(8, expect_to_trigger: { events: [event] })
     end
 
     it "correctly handles changes to the 'if' condition" do
-      job = new_job(every: 3.seconds, if: :even_week)
+      event = new_event(every: 3.seconds, if: :even_week)
 
       tick(1, expect_to_trigger: { sync: true })
-      tick(2, expect_to_trigger: { jobs: [job] })
+      tick(2, expect_to_trigger: { events: [event] })
       tick(3)
 
-      job.update!(if_condition: :odd_week)
+      event.update!(if_condition: :odd_week)
 
       tick(4, expect_to_trigger: { sync: true })
-      tick(5, expect_to_trigger: { jobs: [] })
+      tick(5, expect_to_trigger: { events: [] })
       tick(6)
 
-      job.update!(if_condition: :even_week)
+      event.update!(if_condition: :even_week)
 
       tick(7, expect_to_trigger: { sync: true })
-      tick(8, expect_to_trigger: { jobs: [job] })
+      tick(8, expect_to_trigger: { events: [event] })
     end
 
     context "multi tenancy is enabled" do
@@ -196,21 +196,21 @@ module Clockface
         tenant("earth")
       end
 
-      it_behaves_like "triggers scheduled jobs"
+      it_behaves_like "triggers events"
 
-      it "triggers multiple scheduled jobs across multiple tenants" do
+      it "triggers multiple events across multiple tenants" do
         task1 = tenant("earth") { new_task(type: 1) }
         task2 = tenant("mars") { new_task(type: 2) }
 
-        job1 = tenant("earth") { new_job(every: 3.seconds, task: task1) }
-        job2 = tenant("mars") { new_job(every: 2.seconds, task: task2) }
+        event1 = tenant("earth") { new_event(every: 3.seconds, task: task1) }
+        event2 = tenant("mars") { new_event(every: 2.seconds, task: task2) }
 
         tick(1,  expect_to_trigger: { sync: true })
-        tick(2,  expect_to_trigger: { jobs: [job2, job1] })
-        tick(3,  expect_to_trigger: { jobs: [] })
-        tick(4,  expect_to_trigger: { jobs: [job2], sync: true })
-        tick(5,  expect_to_trigger: { jobs: [job1] })
-        tick(6,  expect_to_trigger: { jobs: [job2] })
+        tick(2,  expect_to_trigger: { events: [event2, event1] })
+        tick(3,  expect_to_trigger: { events: [] })
+        tick(4,  expect_to_trigger: { events: [event2], sync: true })
+        tick(5,  expect_to_trigger: { events: [event1] })
+        tick(6,  expect_to_trigger: { events: [event2] })
       end
     end
 
@@ -218,41 +218,41 @@ module Clockface
       it "works in parrallel with any tasks hard-coded in a Clockfile" do
         task1 = new_task(type: 1)
 
-        job1 = new_job(every: 3.seconds, task: task1)
+        event1 = new_event(every: 3.seconds, task: task1)
 
-        # Schedule a static job with `every` and then extract it from the
+        # Schedule a static event with `every` and then extract it from the
         # list of tasks
-        Clockwork.manager.every(3.seconds, "static.job") do
+        Clockwork.manager.every(3.seconds, "static.event") do
           ExampleWorkerTwo.perform_async(2)
         end
 
-        job2 = Clockwork.manager.instance_variable_get(:@events).detect do |e|
-          e.job == "static.job"
+        event2 = Clockwork.manager.instance_variable_get(:@events).detect do |e|
+          e.job == "static.event"
         end
 
-        # 1. Unlike database tasks, job2 will run immediately because it
+        # 1. Unlike database tasks, event2 will run immediately because it
         #    doesn't need to sync from the DB.
-        # 2. Also, we can't use the `expect_to_trigger` helper because the jobs
-        #    have a very different data structure. Settle for testing it
+        # 2. Also, we can't use the `expect_to_trigger` helper because the
+        #    events have a very different data structure. Settle for testing it
         #    directly
 
-        tick(1, expect_to_trigger: { sync: true, jobs: [] })
-        expect(job2.last).to eq(epoch + 1.second)
+        tick(1, expect_to_trigger: { sync: true, events: [] })
+        expect(event2.last).to eq(epoch + 1.second)
         expect(ExampleWorkerTwo.jobs.count).to eq(1)
-        tick(2, expect_to_trigger: { jobs: [job1] })
+        tick(2, expect_to_trigger: { events: [event1] })
         tick(3)
-        tick(4, expect_to_trigger: { sync: true, jobs: [] })
-        expect(job2.last).to eq(epoch + 4.second)
+        tick(4, expect_to_trigger: { sync: true, events: [] })
+        expect(event2.last).to eq(epoch + 4.second)
         expect(ExampleWorkerTwo.jobs.count).to eq(1)
-        tick(5, expect_to_trigger: { jobs: [job1] })
+        tick(5, expect_to_trigger: { events: [event1] })
       end
     end
 
     def setup
       Clockwork.clear!
 
-      Clockface.sync_database_events(every: sync_period) do |job|
-        cmd_hash = JSON.parse(job.command)
+      Clockface.sync_database_events(every: sync_period) do |event|
+        cmd_hash = JSON.parse(event.command)
         klass = cmd_hash["class"]
         args = cmd_hash["args"]
 
@@ -282,21 +282,21 @@ module Clockface
       Clockwork.manager.tick(epoch + seconds_elapsed.seconds)
       unstub_active_support_time!(seconds_elapsed)
 
-      jobs = opts[:expect_to_trigger].try(:[], :jobs)
-      expect_jobs_did_trigger(jobs, seconds_elapsed) if jobs.present?
+      events = opts[:expect_to_trigger].try(:[], :events)
+      expect_events_did_trigger(events, seconds_elapsed) if events.present?
 
       sync = opts[:expect_to_trigger].try(:[], :sync)
       expect_sync_did_trigger(seconds_elapsed) if sync.present?
     end
 
-    def new_job(opts = {})
+    def new_event(opts = {})
       if opts.key?(:every)
         opts[:period_value] = opts.delete(:every) / 1.second
         opts[:period_units] = "seconds"
       end
 
       create(
-        :clockwork_scheduled_job,
+        :event,
         {
           # Go ahead and use task if specified in the args so we don't create
           # a new record
@@ -329,38 +329,40 @@ module Clockface
       )
     end
 
-    def expect_jobs_did_trigger(jobs, seconds_elapsed)
-      expected_jobs = jobs.map do |job|
-        cmd_hash = JSON.parse(job.task.command)
+    def expect_events_did_trigger(events, seconds_elapsed)
+      expected_events = events.map do |event|
+        cmd_hash = JSON.parse(event.task.command)
         {
           "class" => cmd_hash["class"],
           "args" => cmd_hash["args"],
-          "tenant" => job.tenant
+          "tenant" => event.tenant
         }
       end
 
-      actual_jobs = Sidekiq::Queues["default"].map do |job|
+      actual_events = Sidekiq::Queues["default"].map do |event|
         {
-          "class" => job["class"],
-          "args" => job["args"],
+          "class" => event["class"],
+          "args" => event["args"],
           "tenant" =>
             # The apartment gem / tenant functionality is enabled for all specs,
             # and we acheive "sing tenancy" by stubbing/mocking configs. So
-            # `apartment-sidekiq` still marks the job as being in the "public"
+            # `apartment-sidekiq` still marks the event as being in the "public"
             # tenant. Catch this specific case and mark it as `nil` so it
-            # matches the `job.tenant` value, which will be nil for single
+            # matches the `event.tenant` value, which will be nil for single
             # tenancy
-            if clockface_single_tenancy_enabled? && job["apartment"] == "public"
+            if clockface_single_tenancy_enabled? &&
+                event["apartment"] == "public"
               nil
             else
-              job["apartment"]
+              event["apartment"]
             end
         }
       end
 
-      expect(actual_jobs).to match_array(expected_jobs)
-      jobs.each do |job|
-        expect(reload_job(job).last_triggered_at).to eq(epoch + seconds_elapsed)
+      expect(actual_events).to match_array(expected_events)
+      events.each do |event|
+        expect(reload_event(event).last_triggered_at).
+          to eq(epoch + seconds_elapsed)
       end
     end
 
@@ -384,15 +386,15 @@ module Clockface
         to receive(:now).and_call_original
     end
 
-    def reload_job(job)
-      # 1. If multi tenant, reload the job within the context of its own tenant
+    def reload_event(event)
+      # 1. If multi tenant, reload the event within context of its own tenant
       # 2. Pre-load the `task` association in memory for the same reason we do
       #    in the Synchronizer called by `setup`
 
       if clockface_multi_tenancy_enabled?
-        tenant(job.tenant) { job.reload.tap(&:task) }
+        tenant(event.tenant) { event.reload.tap(&:task) }
       else
-        job.reload.tap(&:task)
+        event.reload.tap(&:task)
       end
     end
 
