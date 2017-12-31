@@ -3,7 +3,7 @@ module Clockface
     include ConfigHelper
 
     def job_form_select_options_for_name
-      Clockface::ClockworkEvent.order(:id).collect { |e| [ e.name, e.id ] }
+      Clockface::Task.order(:id).collect { |e| [ e.name, e.id ] }
     end
 
     def job_form_select_options_for_period_units

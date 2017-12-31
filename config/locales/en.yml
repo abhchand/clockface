@@ -26,7 +26,7 @@ en:
         enabled: Enabled
         tenant: Tenant
         last_triggered_at: Last Triggered At
-        name: Event
+        name: Task
         period: Every
         at: At
         time_zone: Time Zone

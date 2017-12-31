@@ -3,13 +3,13 @@ require "rails_helper"
 module Clockface
   RSpec.feature "Creating a Scheduled Job", type: :feature do
     it "user can create a scheduled job" do
-      events = create_list(:clockwork_event, 2)
+      tasks = create_list(:task, 2)
 
       visit clockface.new_job_path
 
       # Fill In Form
-      id = events[1].id
-      select_option("clockwork_scheduled_job[clockface_clockwork_event_id]", id)
+      id = tasks[1].id
+      select_option("clockwork_scheduled_job[clockface_task_id]", id)
       find(:css, "#clockwork_scheduled_job_enabled").set(true)
       fill_in("clockwork_scheduled_job[period_value]", with: "13")
       select_option("clockwork_scheduled_job[period_units]", "hours")
@@ -25,7 +25,7 @@ module Clockface
 
       # Validate model
       job = Clockface::ClockworkScheduledJob.last
-      expect(job.clockface_clockwork_event_id).to eq(id)
+      expect(job.clockface_task_id).to eq(id)
       expect(job.enabled).to eq(true)
       expect(job.tenant).to be_nil
       expect(job.last_triggered_at).to be_nil
@@ -44,7 +44,7 @@ module Clockface
 
     context "form is invalid" do
       it "user receives feedback on invalid forms" do
-        events = create_list(:clockwork_event, 2)
+        tasks = create_list(:task, 2)
 
         # Visit new jobs path
         visit clockface.jobs_path
@@ -76,8 +76,8 @@ module Clockface
       end
 
       it "user can create scheduled jobs in multiple tenants" do
-        tenant("earth") { create(:clockwork_event) }
-        tenant("mars") { create(:clockwork_event) }
+        tenant("earth") { create(:task) }
+        tenant("mars") { create(:task) }
 
         with_subdomain("earth") do
           # Visit new jobs path

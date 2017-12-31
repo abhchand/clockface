@@ -15,18 +15,10 @@ ActiveRecord::Schema.define(version: 20171223015914) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "clockface_clockwork_events", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "name", null: false
-    t.text "description"
-    t.string "command", null: false
-  end
-
   create_table "clockface_clockwork_scheduled_jobs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "clockface_clockwork_event_id"
+    t.bigint "clockface_task_id"
     t.boolean "enabled", default: false
     t.string "tenant"
     t.datetime "last_triggered_at"
@@ -37,7 +29,15 @@ ActiveRecord::Schema.define(version: 20171223015914) do
     t.integer "minute"
     t.string "time_zone"
     t.string "if_condition"
-    t.index ["clockface_clockwork_event_id"], name: "index_clockwork_scheduled_jobs_on_clockwork_event_id"
+    t.index ["clockface_task_id"], name: "index_clockwork_scheduled_jobs_on_task_id"
+  end
+
+  create_table "clockface_tasks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "command", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -50,5 +50,5 @@ ActiveRecord::Schema.define(version: 20171223015914) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "clockface_clockwork_scheduled_jobs", "clockface_clockwork_events"
+  add_foreign_key "clockface_clockwork_scheduled_jobs", "clockface_tasks"
 end

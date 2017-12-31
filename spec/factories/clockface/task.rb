@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :clockwork_event, :class => "Clockface::ClockworkEvent" do
+  factory :task, :class => "Clockface::Task" do
     sequence(:name) { |n| "Name #{n}" }
     description nil
     sequence(:command) { |n| "Command #{n}" }

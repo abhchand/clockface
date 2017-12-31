@@ -99,12 +99,12 @@ module Clockface
     private
 
     def all_jobs
-      Clockface::ClockworkScheduledJob.includes(:event).order(:id)
+      Clockface::ClockworkScheduledJob.includes(:task).order(:id)
     end
 
     def jobs_params_for_create
       params.require(:clockwork_scheduled_job).permit(
-        :clockface_clockwork_event_id,
+        :clockface_task_id,
         :name,
         :enabled,
         :period_value,

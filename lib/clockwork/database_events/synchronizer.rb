@@ -24,7 +24,7 @@ module Clockwork
           raise KeyError, ":every must be set to the database sync frequency"
         end
 
-        event_name = "sync_database_events"
+        task_name = "sync_database_events"
 
 
         #
@@ -35,21 +35,21 @@ module Clockwork
           clockface_tenant_list.each do |t|
             event_store = EventStore.new(block_to_perform_on_event_trigger)
 
-            Clockwork.manager.every(every, "#{t}.#{event_name}") do
+            Clockwork.manager.every(every, "#{t}.#{task_name}") do
               cmd = Proc.new do
-                # 1. Pre-load `:event` association so it doesn't need to be
+                # 1. Pre-load `:task` association so it doesn't need to be
                 #    re-queried
                 # 2. ActiveRecord lazily evaluates the query, so #all won't
                 #    actually run against the DB when executed. Force it to
                 #    execute by calling something on it (e.g. #to_a)
                 Clockface::ClockworkScheduledJob.
-                  includes(:event).
+                  includes(:task).
                   all.
                   tap(&:to_a)
               end
               models = clockface_execute_in_tenant(t, cmd)
 
-              clockface_log(:info, "[#{t}] Running #{t}.#{event_name}")
+              clockface_log(:info, "[#{t}] Running #{t}.#{task_name}")
               event_store.update(models)
             end
           end
@@ -64,8 +64,8 @@ module Clockwork
 
         event_store = EventStore.new(block_to_perform_on_event_trigger)
 
-        Clockwork.manager.every(every, event_name) do
-          clockface_log(:info, "Running #{event_name}")
+        Clockwork.manager.every(every, task_name) do
+          clockface_log(:info, "Running #{task_name}")
           event_store.update(Clockface::ClockworkScheduledJob.all)
         end
       end

@@ -1,8 +1,8 @@
 module Clockface
-  class ClockworkEvent < ApplicationRecord
+  class Task < ApplicationRecord
     has_many(
       :scheduled_jobs,
-      foreign_key: "clockface_clockwork_event_id",
+      foreign_key: "clockface_task_id",
       class_name: "Clockface::ClockworkScheduledJob"
     )
 

@@ -3,10 +3,10 @@ require "rails_helper"
 module Clockface
   RSpec.feature "Updating a Scheduled Job", type: :feature do
     it "user can update a scheduled job" do
-      events = create_list(:clockwork_event, 2)
+      tasks = create_list(:task, 2)
       job = create(
         :clockwork_scheduled_job,
-        event: events[1],
+        task: tasks[1],
         enabled: false,
         period_value: 99,
         period_units: "seconds",
@@ -16,7 +16,7 @@ module Clockface
         time_zone: "Samoa",
         if_condition: "odd_week"
       )
-      other_job = create(:clockwork_scheduled_job, event: events[0])
+      other_job = create(:clockwork_scheduled_job, task: tasks[0])
 
       visit clockface.edit_job_path(job)
 
@@ -36,7 +36,7 @@ module Clockface
 
       # Validate model
       job.reload
-      expect(job.clockface_clockwork_event_id).to eq(events[1].id)
+      expect(job.clockface_task_id).to eq(tasks[1].id)
       expect(job.enabled).to eq(true)
       expect(job.tenant).to be_nil
       expect(job.last_triggered_at).to be_nil

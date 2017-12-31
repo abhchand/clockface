@@ -3,10 +3,10 @@ require "rails_helper"
 module Clockface
   RSpec.feature "Deleting a Scheduled Job", type: :feature do
     it "user can delete a scheduled job" do
-      events = create_list(:clockwork_event, 2)
+      tasks = create_list(:task, 2)
 
-      job = create(:clockwork_scheduled_job, event: events[1])
-      other_job = create(:clockwork_scheduled_job, event: events[0])
+      job = create(:clockwork_scheduled_job, task: tasks[1])
+      other_job = create(:clockwork_scheduled_job, task: tasks[0])
 
       visit clockface.job_delete_path(job)
 

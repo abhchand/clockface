@@ -40,12 +40,12 @@ module Clockface
     end
 
     describe "POST #create" do
-      let(:event) { create(:clockwork_event) }
+      let(:task) { create(:task) }
 
       let(:params) do
         {
           clockwork_scheduled_job: {
-            clockface_clockwork_event_id: event.id,
+            clockface_task_id: task.id,
             enabled: "1",
             period_value: "7",
             period_units: "minutes",
@@ -65,7 +65,7 @@ module Clockface
 
         job = Clockface::ClockworkScheduledJob.last
 
-        expect(job.clockface_clockwork_event_id).to eq(event.id)
+        expect(job.clockface_task_id).to eq(task.id)
         expect(job.enabled).to be_truthy
         expect(job.tenant).to be_nil
         expect(job.period_value).to eq(7)
@@ -99,7 +99,7 @@ module Clockface
           end.to change { Clockface::ClockworkScheduledJob.count }.by(1)
 
           job = Clockface::ClockworkScheduledJob.last
-          expect(job.event).to eq(event)
+          expect(job.task).to eq(task)
           expect(job.tenant).to eq(tenant)
         end
       end
@@ -165,12 +165,12 @@ module Clockface
     end
 
     describe "PATCH #update" do
-      let(:event) { create(:clockwork_event) }
+      let(:task) { create(:task) }
 
       let(:job) do
         create(
           :clockwork_scheduled_job,
-          event: event,
+          task: task,
           enabled: false,
           period_value: 10,
           period_units: "minutes",
@@ -211,8 +211,8 @@ module Clockface
 
         job = Clockface::ClockworkScheduledJob.last
 
-        # Event is not update-able. Validate it hasn't changed
-        expect(job.clockface_clockwork_event_id).to eq(event.id)
+        # Task is not update-able. Validate it hasn't changed
+        expect(job.clockface_task_id).to eq(task.id)
 
         expect(job.enabled).to be_truthy
         expect(job.period_value).to eq(20)
@@ -248,9 +248,9 @@ module Clockface
             patch :update, params: params.merge(id: job.id)
           end.to change { Clockface::ClockworkScheduledJob.count }.by(0)
 
-          # Pick one field to test - event should be unchanged
+          # Pick one field to test - task should be unchanged
           job = Clockface::ClockworkScheduledJob.last
-          expect(job.clockface_clockwork_event_id).to eq(event.id)
+          expect(job.clockface_task_id).to eq(task.id)
         end
 
         it "sets the flash error message" do
@@ -331,12 +331,12 @@ module Clockface
     end
 
     describe "DELETE destroy" do
-      let(:event) { create(:clockwork_event) }
+      let(:task) { create(:task) }
       let(:job) { create(:clockwork_scheduled_job) }
       let(:captcha) { @controller.send(:captcha_for, job) }
 
       before(:each) do
-        event
+        task
         job
       end
 

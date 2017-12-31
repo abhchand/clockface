@@ -17,17 +17,17 @@ User.create!(
 )
 
 #
-# Create the Clockwork Events
+# Create the Clockface Tasks
 #
 
-Clockface::ClockworkEvent.create(
-  name: "Example Event 1",
-  description: "Runs the Example Event 1",
+Clockface::Task.create(
+  name: "Example Task 1",
+  description: "Runs the Example Task 1",
   command: "{\"class\":\"ExampleWorkerOne\"}"
 )
 
-Clockface::ClockworkEvent.create(
-  name: "Example Event 2",
-  description: "Runs the Example Event 2",
+Clockface::Task.create(
+  name: "Example Task 2",
+  description: "Runs the Example Task 2",
   command: "{\"class\":\"ExampleWorkerTwo\"}"
 )

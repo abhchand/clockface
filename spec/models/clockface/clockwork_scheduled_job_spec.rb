@@ -6,9 +6,9 @@ module Clockface
 
     describe "Associations" do
       it do
-        should belong_to(:event).
-          class_name("Clockface::ClockworkEvent").
-          with_foreign_key("clockface_clockwork_event_id")
+        should belong_to(:task).
+          class_name("Clockface::Task").
+          with_foreign_key("clockface_task_id")
       end
     end
 
@@ -223,8 +223,8 @@ module Clockface
     end
 
     describe "#name" do
-      it "returns the event's name" do
-        expect(subject.name).to eq(subject.event.name)
+      it "returns the task's name" do
+        expect(subject.name).to eq(subject.task.name)
       end
     end
 

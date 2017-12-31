@@ -14,9 +14,9 @@ module Clockface
     # rubocop:enable LineLength
 
     belongs_to(
-      :event,
-      foreign_key: "clockface_clockwork_event_id",
-      class_name: "Clockface::ClockworkEvent"
+      :task,
+      foreign_key: "clockface_task_id",
+      class_name: "Clockface::Task"
     )
 
     before_validation do
@@ -46,7 +46,7 @@ module Clockface
 
     validate :day_of_week_must_have_timestamp
 
-    def_delegators :event,
+    def_delegators :task,
       :name,
       :description,
       :command
@@ -120,7 +120,7 @@ module Clockface
     def ignored_attributes
       # Every time Clockwork reloads the models from the database it compares
       # the before/after attributes to see if the model `has_changed?`. If any
-      # attributes have been changed, it reloads the event.
+      # attributes have been changed, it reloads the task.
       # The Clockwork API lets us selectively ignore some fields in this
       # attribute comparison.
       # Exclude `last_triggered_at` and `updated_at` since they will always

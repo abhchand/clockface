@@ -1,17 +1,17 @@
 require "rails_helper"
 
 module Clockface
-  RSpec.describe ClockworkEvent, type: :model do
+  RSpec.describe Task, type: :model do
     describe "Associations" do
       it do
         should have_many(:scheduled_jobs).
           class_name("Clockface::ClockworkScheduledJob").
-          with_foreign_key("clockface_clockwork_event_id")
+          with_foreign_key("clockface_task_id")
       end
     end
 
     describe "Validations" do
-      subject { create(:clockwork_event) }
+      subject { create(:task) }
 
       describe "name" do
         it { should validate_presence_of(:name) }

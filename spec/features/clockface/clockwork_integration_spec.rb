@@ -41,12 +41,12 @@ module Clockface
       end
 
       it "triggers multiple scheduled jobs" do
-        event1 = new_event(type: 1)
-        event2 = new_event(type: 2)
+        task1 = new_task(type: 1)
+        task2 = new_task(type: 2)
 
-        job1 = new_job(every: 3.seconds, event: event1)
-        job2 = new_job(every: 2.seconds, event: event2)
-        job3 = new_job(every: 1.seconds, event: event1)
+        job1 = new_job(every: 3.seconds, task: task1)
+        job2 = new_job(every: 2.seconds, task: task2)
+        job3 = new_job(every: 1.seconds, task: task1)
 
         tick(1,  expect_to_trigger: { sync: true })
         tick(2,  expect_to_trigger: { jobs: [job3, job2, job1] })
@@ -64,19 +64,19 @@ module Clockface
 
     it_behaves_like "triggers scheduled jobs"
 
-    it "correctly handles changes to the event" do
-      job = new_job(every: 3.seconds, event: new_event(type: 1))
+    it "correctly handles changes to the task" do
+      job = new_job(every: 3.seconds, task: new_task(type: 1))
 
       tick(1, expect_to_trigger: { sync: true })
       tick(2, expect_to_trigger: { jobs: [job] })
       tick(3)
 
-      job.update!(event: new_event(type: 2))
+      job.update!(task: new_task(type: 2))
 
       tick(4, expect_to_trigger: { sync: true })
       tick(5, expect_to_trigger: { jobs: [job] })
 
-      # Explicit confirmation that the new event was picked up
+      # Explicit confirmation that the new task was picked up
       expect(ExampleWorkerOne.jobs.count).to eq(0)
       expect(ExampleWorkerTwo.jobs.count).to eq(1)
     end
@@ -199,11 +199,11 @@ module Clockface
       it_behaves_like "triggers scheduled jobs"
 
       it "triggers multiple scheduled jobs across multiple tenants" do
-        event1 = tenant("earth") { new_event(type: 1) }
-        event2 = tenant("mars") { new_event(type: 2) }
+        task1 = tenant("earth") { new_task(type: 1) }
+        task2 = tenant("mars") { new_task(type: 2) }
 
-        job1 = tenant("earth") { new_job(every: 3.seconds, event: event1) }
-        job2 = tenant("mars") { new_job(every: 2.seconds, event: event2) }
+        job1 = tenant("earth") { new_job(every: 3.seconds, task: task1) }
+        job2 = tenant("mars") { new_job(every: 2.seconds, task: task2) }
 
         tick(1,  expect_to_trigger: { sync: true })
         tick(2,  expect_to_trigger: { jobs: [job2, job1] })
@@ -214,14 +214,14 @@ module Clockface
       end
     end
 
-    describe "scheduling Clockwork events outside of database" do
-      it "works in parrallel with any events hard-coded in a Clockfile" do
-        event1 = new_event(type: 1)
+    describe "scheduling Clockwork tasks outside of database" do
+      it "works in parrallel with any tasks hard-coded in a Clockfile" do
+        task1 = new_task(type: 1)
 
-        job1 = new_job(every: 3.seconds, event: event1)
+        job1 = new_job(every: 3.seconds, task: task1)
 
         # Schedule a static job with `every` and then extract it from the
-        # list of events
+        # list of tasks
         Clockwork.manager.every(3.seconds, "static.job") do
           ExampleWorkerTwo.perform_async(2)
         end
@@ -230,7 +230,7 @@ module Clockface
           e.job == "static.job"
         end
 
-        # 1. Unlike database events, job2 will run immediately because it
+        # 1. Unlike database tasks, job2 will run immediately because it
         #    doesn't need to sync from the DB.
         # 2. Also, we can't use the `expect_to_trigger` helper because the jobs
         #    have a very different data structure. Settle for testing it
@@ -298,9 +298,9 @@ module Clockface
       create(
         :clockwork_scheduled_job,
         {
-          # Go ahead and use event if specified in the args so we don't create
+          # Go ahead and use task if specified in the args so we don't create
           # a new record
-          event: opts[:event] || new_event(type: 1),
+          task: opts[:task] || new_task(type: 1),
           tenant: nil,
           period_value: 1,
           period_units: "seconds",
@@ -313,8 +313,8 @@ module Clockface
       )
     end
 
-    def new_event(opts = {})
-      # For specs, limit our selves to creating events based on ExampleWorkerOne
+    def new_task(opts = {})
+      # For specs, limit our selves to creating tasks based on ExampleWorkerOne
       # or ExampleWorkerTwo - identified by argument type 1 or 2
       type = opts.fetch(:type)
       raise ":type must be 1 or 2" unless [1, 2].include?(type)
@@ -323,7 +323,7 @@ module Clockface
       args = type == 1 ? 1234 : 4567
 
       create(
-        :clockwork_event,
+        :task,
         name: "Example #{type}",
         command: "{\"class\":\"#{klass}\",\"args\":[#{args}]}"
       )
@@ -331,7 +331,7 @@ module Clockface
 
     def expect_jobs_did_trigger(jobs, seconds_elapsed)
       expected_jobs = jobs.map do |job|
-        cmd_hash = JSON.parse(job.event.command)
+        cmd_hash = JSON.parse(job.task.command)
         {
           "class" => cmd_hash["class"],
           "args" => cmd_hash["args"],
@@ -386,13 +386,13 @@ module Clockface
 
     def reload_job(job)
       # 1. If multi tenant, reload the job within the context of its own tenant
-      # 2. Pre-load the `event` association in memory for the same reason we do
+      # 2. Pre-load the `task` association in memory for the same reason we do
       #    in the Synchronizer called by `setup`
 
       if clockface_multi_tenancy_enabled?
-        tenant(job.tenant) { job.reload.tap(&:event) }
+        tenant(job.tenant) { job.reload.tap(&:task) }
       else
-        job.reload.tap(&:event)
+        job.reload.tap(&:task)
       end
     end
 

@@ -1,7 +1,7 @@
 # This migration comes from clockface (originally 20170528230549)
-class CreateClockfaceClockworkEvents < ActiveRecord::Migration[5.1]
+class CreateClockfaceTasks < ActiveRecord::Migration[5.1]
   def change
-    create_table :clockface_clockwork_events do |t|
+    create_table :clockface_tasks do |t|
       t.timestamps
       t.string :name, null: false
       t.text :description

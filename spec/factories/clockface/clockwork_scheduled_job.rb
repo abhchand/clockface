@@ -2,7 +2,7 @@ FactoryGirl.define do
   # rubocop:disable LineLength
   factory :clockwork_scheduled_job, :class => "Clockface::ClockworkScheduledJob" do
     # rubocop:enable LineLength
-    association :event, factory: :clockwork_event
+    association :task, factory: :task
     enabled true
     last_triggered_at nil
     period_value 1

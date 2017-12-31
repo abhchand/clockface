@@ -2,39 +2,39 @@ require "rails_helper"
 
 module Clockface
   RSpec.describe "clockface/jobs/_job_form.html.erb", type: :view do
-    let(:event) { job.event }
+    let(:task) { job.task }
     let(:job) { create(:clockwork_scheduled_job) }
 
-    describe "event (name)" do
+    describe "task (name)" do
       let(:section) { page.find(".jobs-form__form-element--name") }
 
       it "displays the section label and dropdown selector" do
         render_partial
 
-        expect(section.find("label")).to have_content("Event")
+        expect(section.find("label")).to have_content("Task")
 
         dropdown_elements = section.find("select").all("option")
 
         actual_options = dropdown_elements.map(&:text)
         expected_options =
-          Clockface::ClockworkEvent.order(:id).pluck(:name)
+          Clockface::Task.order(:id).pluck(:name)
 
         expect(actual_options).to eq(expected_options)
       end
 
       it "defaults the dropdwon to the job's value" do
-        event2 = create(:clockwork_event)
-        job.update!(event: event2)
+        task2 = create(:task)
+        job.update!(task: task2)
 
         render_partial
 
         selected = find_selected_option(section.find("select"))
-        expect(selected.to_i).to eq(event.id)
+        expect(selected.to_i).to eq(task.id)
       end
 
       context "dropdown is not editable" do
         it "displays the job name" do
-          render_partial(allow_editing_event: false)
+          render_partial(allow_editing_task: false)
 
           expect(section).to_not have_selector("select")
           expect(section).to have_content(job.name)
@@ -296,7 +296,7 @@ module Clockface
         locals: {
           job: job,
           form_url: clockface.jobs_path,
-          allow_editing_event: true,
+          allow_editing_task: true,
           time_zone_selector_default: nil
         }.merge(opts)
       )

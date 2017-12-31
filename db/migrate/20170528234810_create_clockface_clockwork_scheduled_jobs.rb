@@ -4,10 +4,10 @@ class CreateClockfaceClockworkScheduledJobs < ActiveRecord::Migration[5.1]
       t.timestamps
 
       t.references(
-        :clockface_clockwork_event,
+        :clockface_task,
         foreign_key: true,
         # Override index name because default is > 63 character postgres maximum
-        index: { name: "index_clockwork_scheduled_jobs_on_clockwork_event_id" }
+        index: { name: "index_clockwork_scheduled_jobs_on_task_id" }
       )
       t.boolean :enabled, default: false
       t.string :tenant

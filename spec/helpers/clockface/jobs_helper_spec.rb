@@ -4,11 +4,11 @@ module Clockface
   RSpec.describe JobsHelper, type: :helper do
     describe "#job_form_select_options_for_name" do
       it "returns the select options for name" do
-        event1 = create(:clockwork_event)
-        event2 = create(:clockwork_event)
+        task1 = create(:task)
+        task2 = create(:task)
 
         expect(job_form_select_options_for_name).to eq(
-          [[event1.name, event1.id], [event2.name, event2.id]]
+          [[task1.name, task1.id], [task2.name, task2.id]]
         )
       end
     end
