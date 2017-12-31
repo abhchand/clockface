@@ -2,16 +2,25 @@
   background-color: $dark_blue;
 }
 
+.navbar-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: no-wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.navbar-brand {
+  height: 100%;
+}
+
 .application-nav__heading {
   font-size: 32px;
   color: $teal;
 }
 
 .application-nav__version {
+  margin-top: 10px;
   margin-left: 12px;
   color: $white;
-}
-
-.navbar-brand {
-  height: 100%;
 }
