@@ -92,7 +92,7 @@ en:
         validation:
           invalid_id: Event not found
       index:
-        heading: All Events
+        heading: Events
       event_form:
         submit: Save
         cancel: Cancel
