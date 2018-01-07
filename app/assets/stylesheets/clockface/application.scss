@@ -24,6 +24,10 @@
 @import "application/footer";
 @import "application/flash";
 
+@import "tasks/index";
+@import "tasks/delete";
+@import "tasks/task_form";
+
 @import "events/index";
 @import "events/delete";
 @import "events/event_form";

@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="tasks-new__heading-banner">
+    <h1>
+      <%= link_to clockface.tasks_path, class: "tasks-new__heading-banner-link" do %>
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <% end %>
+      <%= t(".heading").downcase %>
+    </h1>
+  </div>
+
+  <%= render "clockface/application/flash" %>
+
+  <%= render "task_form", task: Clockface::Task.new, form_url: clockface.tasks_path %>
+</div>

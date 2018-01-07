@@ -1,0 +1,47 @@
+.tasks-index__heading-banner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.tasks-index__new-link {
+  margin: 10px 10px 10px auto;
+}
+
+.tasks-index__new-btn {
+  height: 45px;
+  width: 45px;
+
+  .glyphicon {
+    font-size: 20px;
+  }
+}
+
+.tasks-index__tasks {
+  thead {
+    background-color: $light_gray;
+    color: $dark_gray;
+    font-weight: bold;
+    cursor: pointer;
+
+    .sorttable_nosort {
+      cursor: default;
+    }
+  }
+}
+
+.tasks-index__tasks-column--description {
+  width: 40%;
+}
+
+.tasks-index__tasks-column--command {
+  font-family: 'Courier';
+}
+
+.tasks-index__tasks-column--destroy {
+  .glyphicon {
+    color: red;
+  }
+}

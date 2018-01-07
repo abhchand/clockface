@@ -37,6 +37,11 @@ en:
         weekday: weekdays
         first_of_month: first day of the month
         last_of_month: last day of the month
+      clockface/task:
+        id: ID
+        name: Name
+        description: Description
+        command: Command
 
     errors:
       models:
@@ -62,6 +67,13 @@ en:
               inclusion: Invalid value for %{attribute}
             if_condition:
               inclusion: Invalid value for %{attribute}
+        clockface/task:
+          attributes:
+            name:
+              blank: "Please specify a %{attribute}"
+            description: null
+            command:
+              blank: "Please specify a %{attribute}"
 
   clockface:
     application:
@@ -102,4 +114,38 @@ en:
         duplicate_event: Another event with this configuration already exists
         event_not_found: Unknown event id %{id}
         success: Event updated successfully
+    tasks:
+      create:
+        success: Task created successfully
+      delete:
+        heading: Delete Task
+        cancel: Cancel
+        captcha_label: "Please enter the code <span>%{captcha}</span> to confirm deletion"
+        submit: Delete
+        validation:
+          invalid_id: Task not found
+        warning: "Deleting a task is irreversible!"
+      destroy:
+        task_not_found: Unknown task id %{id}
+        success: Task deleted successfully
+        failure: Whoops, something went wrong! Please contact your site administrator
+        validation:
+          incorrect_captcha: Please enter the correct code to confirm deletion
+          events_exist:
+            one: "Error - 1 scheduled event exists for this task"
+            other: "Error - %{count} scheduled events exist for this task"
+      edit:
+        heading: Edit Task
+        validation:
+          invalid_id: Task not found
+      index:
+        heading: Tasks
+      task_form:
+        submit: Save
+        cancel: Cancel
+      new:
+        heading: New Task
+      update:
+        task_not_found: Unknown event id %{id}
+        success: Task updated successfully
 

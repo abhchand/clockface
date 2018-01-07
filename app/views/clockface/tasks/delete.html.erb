@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="tasks-edit__heading-banner">
+    <h1>
+      <%= link_to clockface.tasks_path, class: "tasks-edit__heading-banner-link" do %>
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <% end %>
+      <%= t(".heading").downcase %>
+    </h1>
+  </div>
+
+  <%= render "clockface/application/flash" %>
+
+  <div class="tasks-delete__warning alert alert-danger" role="alert">
+    <div class="glyphicon glyphicon-warning-sign"></div>
+    <%= t(".warning") %>
+  </div>
+
+  <div class="tasks-delete__task-detail container">
+    <div class="tasks-delete__task-detail-element tasks-delete__task-detail-element--id form-group">
+      <label class="control-label col-sm-2" for="id">
+        <%= Clockface::Task.human_attribute_name("id") %>
+      </label>
+
+      <div class="col-sm-10">
+        <%= @task.id %>
+      </div>
+    </div>
+
+    <div class="tasks-delete__task-detail-element tasks-delete__task-detail-element--name form-group">
+      <label class="control-label col-sm-2" for="name">
+        <%= Clockface::Task.human_attribute_name("name") %>
+      </label>
+
+      <div class="col-sm-10">
+        <%= @task.name %>
+      </div>
+    </div>
+
+    <div class="tasks-delete__task-detail-element tasks-delete__task-detail-element--description form-group">
+      <label class="control-label col-sm-2" for="description">
+        <%= Clockface::Task.human_attribute_name("description") %>
+      </label>
+
+      <div class="col-sm-10">
+        <%= @task.description %>
+      </div>
+    </div>
+
+    <div class="tasks-delete__task-detail-element tasks-delete__task-detail-element--command form-group">
+      <label class="control-label col-sm-2" for="command">
+        <%= Clockface::Task.human_attribute_name("command") %>
+      </label>
+
+      <div class="col-sm-10">
+        <%= @task.command %>
+      </div>
+    </div>
+  </div>
+
+  <div class="tasks-delete__captcha-label">
+    <%= raw t(".captcha_label", captcha: @captcha) %>
+  </div>
+
+  <%= form_for(@task, url: clockface.task_path(@task), method: "DELETE", html: { class: "form-horizontal" }) do |form| %>
+    <%=
+      text_field_tag(
+        :captcha,
+        nil,
+        size: Clockface::TasksController::CAPTCHA_LENGTH,
+        class: "tasks-delete__form-element--captcha form-control"
+      )
+    %>
+
+    <div class="form-group">
+      <div class="tasks-delete__form-submit col-sm-2">
+        <%= link_to clockface.tasks_path do %>
+          <button type="button" class="btn btn-default"><%= t(".cancel") %></button>
+        <% end %>
+        <%= submit_tag(t(".submit"), class: "btn btn-danger") %>
+      </div>
+    </div>
+  <% end %>
+</div>

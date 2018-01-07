@@ -1,0 +1,29 @@
+.tasks-delete__task-detail {
+  margin: 25px auto;
+}
+
+.tasks-delete__task-detail-element {
+  height: 25px;
+
+  &.form-group {
+    margin-bottom: 5px;
+  }
+}
+
+.tasks-delete__captcha-label {
+  margin-bottom: 10px;
+
+  span {
+    font-weight: 700;
+    font-family: monospace;
+    font-size: 16px;
+    background-color: $post_it_yellow;
+  }
+}
+
+.tasks-delete__form-element--captcha {
+  display: inline-block;
+  width: 15%;
+  margin-bottom: 25px;
+  min-width: 110px;
+}
