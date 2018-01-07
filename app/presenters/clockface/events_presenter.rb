@@ -1,4 +1,3 @@
-# TODO: Needs specs
 module Clockface
   class EventsPresenter < SimpleDelegator
     include ConfigHelper
