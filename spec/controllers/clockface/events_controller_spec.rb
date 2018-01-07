@@ -5,18 +5,14 @@ module Clockface
     routes { Clockface::Engine.routes }
 
     describe "GET #index" do
-      it "returns 200 and renders the events/index template" do
-        get :index
-
-        expect(response.status).to eq(200)
-        expect(response).to render_template("events/index")
-      end
-
       it "assigns the ordered list of all events, wrapped in a presenter" do
         event1 = create(:event)
         event2 = create(:event)
 
         get :index
+
+        expect(response.status).to eq(200)
+        expect(response).to render_template("events/index")
 
         events = assigns(:events)
 
@@ -58,7 +54,7 @@ module Clockface
         }
       end
 
-      it "creates a new event" do
+      it "creates a new event and redirects to events/index" do
         expect do
           post :create, params: params
         end.to change { Clockface::Event.count }.by(1)
@@ -75,17 +71,8 @@ module Clockface
         expect(event.minute).to eq(12)
         expect(event.time_zone).to eq("Alaska")
         expect(event.if_condition).to eq("even_week")
-      end
 
-      it "sets the flash success message" do
-        post :create, params: params
-
-        expect(flash[:success]).
-          to eq(t("clockface.events.create.success"))
-      end
-
-      it "redirects to the events/index path" do
-        post :create, params: params
+        expect(flash[:success]).to eq(t("clockface.events.create.success"))
 
         expect(response).to redirect_to(events_path)
       end
@@ -107,18 +94,12 @@ module Clockface
       context "event fails validation" do
         before { params[:event][:hour] = "-1" }
 
-        it "doesn't create a new event" do
+        it "doesn't create a new event and redirects to the new_event_path" do
           expect do
             post :create, params: params
           end.to change { Clockface::Event.count }.by(0)
-        end
 
-        it "sets the flash error message" do
-          post :create, params: params
-
-          attribute =
-            Clockface::Event.human_attribute_name("hour")
-
+          attribute = Clockface::Event.human_attribute_name("hour")
           expect(flash[:error]).to eq(
             [
               t(
@@ -128,12 +109,8 @@ module Clockface
               )
             ]
           )
-        end
 
-        it "redirects back to the new_event_path" do
-          post :create, params: params
-
-        expect(response).to redirect_to(new_event_path)
+          expect(response).to redirect_to(new_event_path)
         end
       end
     end
@@ -141,17 +118,13 @@ module Clockface
     describe "GET #edit" do
       let(:event) { create(:event) }
 
-      it "returns 200 and renders the events/edit template" do
-        get :edit, params: { id: event.id }
-
-        expect(response.status).to eq(200)
-        expect(response).to render_template("events/edit")
-      end
-
       it "sets the event" do
         get :edit, params: { id: event.id }
 
         expect(assigns(:event)).to eq(event)
+
+        expect(response.status).to eq(200)
+        expect(response).to render_template("events/edit")
       end
 
       context "no event exists with the specified id" do
@@ -204,7 +177,7 @@ module Clockface
         params
       end
 
-      it "updates the existing event" do
+      it "updates the existing event and redirects to events/index" do
         expect do
           patch :update, params: params.merge(id: event.id)
         end.to change { Clockface::Event.count }.by(0)
@@ -222,17 +195,8 @@ module Clockface
         expect(event.minute).to eq(12)
         expect(event.time_zone).to eq("Alaska")
         expect(event.if_condition).to eq("even_week")
-      end
 
-      it "sets the flash success message" do
-        patch :update, params: params.merge(id: event.id)
-
-        expect(flash[:success]).
-          to eq(t("clockface.events.update.success"))
-      end
-
-      it "redirects to the events/index path" do
-        patch :update, params: params.merge(id: event.id)
+        expect(flash[:success]).to eq(t("clockface.events.update.success"))
 
         expect(response).to redirect_to(events_path)
       end
@@ -240,9 +204,8 @@ module Clockface
       context "event fails validation" do
         before { params[:event][:hour] = "-1" }
 
-        it "doesn't update a new event" do
-          expect_any_instance_of(Clockface::Event).
-            to_not receive(:save)
+        it "doesn't update a new event and redirects to the edit_event_path" do
+          expect_any_instance_of(Clockface::Event).to_not receive(:save)
 
           expect do
             patch :update, params: params.merge(id: event.id)
@@ -251,14 +214,8 @@ module Clockface
           # Pick one field to test - task should be unchanged
           event = Clockface::Event.last
           expect(event.clockface_task_id).to eq(task.id)
-        end
 
-        it "sets the flash error message" do
-          patch :update, params: params.merge(id: event.id)
-
-          attribute =
-            Clockface::Event.human_attribute_name("hour")
-
+          attribute = Clockface::Event.human_attribute_name("hour")
           expect(flash[:error]).to eq(
             [
               t(
@@ -268,27 +225,18 @@ module Clockface
               )
             ]
           )
-        end
-
-        it "redirects back to the edit_event_path" do
-          patch :update, params: params.merge(id: event.id)
 
           expect(response).to redirect_to(edit_event_path(event))
         end
       end
 
       context "event with specified id does not exist" do
-        it "sets the flash error message" do
+        it "sets the flash error message and redirects to the events_path" do
           patch :update, params: params.merge(id: event.id + 1)
 
           expect(flash[:error]).to eq(
             t("clockface.events.update.event_not_found", id: event.id + 1)
           )
-        end
-
-        it "redirects to the events_path" do
-          patch :update, params: params.merge(id: event.id + 1)
-
           expect(response).to redirect_to(events_path)
         end
       end
@@ -297,25 +245,16 @@ module Clockface
     describe "GET #delete" do
       let(:event) { create(:event) }
 
-      it "returns 200 and renders the events/delete template" do
+      it "sets the event and captcha and renders events/delete" do
         get :delete, params: { event_id: event.id }
 
         expect(response.status).to eq(200)
         expect(response).to render_template("events/delete")
-      end
-
-      it "sets the event" do
-        get :delete, params: { event_id: event.id }
 
         expect(assigns(:event)).to be_an_instance_of(Clockface::EventsPresenter)
         expect(assigns(:event).__getobj__).to eq(event)
-      end
 
-      it "sets the captcha as the first few charactes of the id's SHA-1" do
         captcha_length = Clockface::EventsController::CAPTCHA_LENGTH
-
-        get :delete, params: { event_id: event.id }
-
         expect(assigns(:captcha)).
           to eq(Digest::SHA1.hexdigest(event.id.to_s).first(captcha_length))
       end
@@ -340,42 +279,24 @@ module Clockface
         event
       end
 
-      it "destroys the existing event" do
+      it "destroys the existing event and redirects to events/index" do
         expect do
           patch :destroy, params: { id: event.id, captcha: captcha }
         end.to change { Clockface::Event.count }.by(-1)
-      end
-
-      it "sets the flash success message" do
-        patch :destroy, params: { id: event.id, captcha: captcha }
 
         expect(flash[:success]).to eq(t("clockface.events.destroy.success"))
-      end
-
-      it "redirects to the events/index path" do
-        patch :destroy, params: { id: event.id, captcha: captcha }
-
         expect(response).to redirect_to(events_path)
       end
 
       context "event with specified id does not exist" do
-        it "doesn't destroy the event" do
+        it "doesn't destroy the event and redirects to the events_path" do
           expect do
             patch :destroy, params: { id: event.id + 1, captcha: captcha }
           end.to change { Clockface::Event.count }.by(0)
-        end
-
-        it "sets the flash error message" do
-          patch :destroy, params: { id: event.id + 1, captcha: captcha }
 
           expect(flash[:error]).to eq(
             t("clockface.events.destroy.event_not_found", id: event.id + 1)
           )
-        end
-
-        it "redirects to the events_path" do
-          patch :destroy, params: { id: event.id + 1, captcha: captcha }
-
           expect(response).to redirect_to(events_path)
         end
       end
@@ -384,22 +305,13 @@ module Clockface
         context "captcha is incorrect" do
           let(:captcha) { "bad captcha" }
 
-          it "doesn't destroy the event" do
+          it "doesn't destroy the event and redirects to events/delete" do
             expect do
               patch :destroy, params: { id: event.id, captcha: captcha }
             end.to change { Clockface::Event.count }.by(0)
-          end
-
-          it "sets the flash error message" do
-            patch :destroy, params: { id: event.id, captcha: captcha }
 
             expect(flash[:error]).
               to eq(t("clockface.events.destroy.validation.incorrect_captcha"))
-          end
-
-          it "redirects to the events/delete path" do
-            patch :destroy, params: { id: event.id, captcha: captcha }
-
             expect(response).to redirect_to(event_delete_path(event))
           end
         end
@@ -407,25 +319,15 @@ module Clockface
 
       context "destroying the model is unsuccessful" do
         before do
-          allow_any_instance_of(Clockface::Event).
-            to receive(:destroy) { false }
+          allow_any_instance_of(Clockface::Event).to receive(:destroy) { false }
         end
 
-        it "doesn't destroy the event" do
+        it "doesn't destroy the event and redirects events/delete" do
           expect do
             patch :destroy, params: { id: event.id, captcha: captcha }
           end.to change { Clockface::Event.count }.by(0)
-        end
-
-        it "sets the flash error message" do
-          patch :destroy, params: { id: event.id, captcha: captcha }
 
           expect(flash[:error]).to eq(t("clockface.events.destroy.failure"))
-        end
-
-        it "redirects to the events/delete path" do
-          patch :destroy, params: { id: event.id, captcha: captcha }
-
           expect(response).to redirect_to(event_delete_path(event))
         end
       end
