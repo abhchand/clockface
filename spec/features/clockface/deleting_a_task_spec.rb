@@ -41,7 +41,7 @@ module Clockface
         end.to change { Clockface::Task.count }.by(0)
 
         # Validate error
-        expect(current_path).to eq(clockface.task_delete_path(task))
+        expect(page).to have_current_path(clockface.task_delete_path(task))
         expect(page.find(".flash")).to have_content(
           t("clockface.tasks.destroy.validation.incorrect_captcha")
         )
@@ -66,7 +66,7 @@ module Clockface
         end.to change { Clockface::Task.count }.by(0)
 
         # Validate error
-        expect(current_path).to eq(clockface.task_delete_path(task))
+        expect(page).to have_current_path(clockface.task_delete_path(task))
         expect(page.find(".flash")).to have_content(
           t("clockface.tasks.destroy.validation.events_exist", count: 1)
         )
@@ -77,7 +77,7 @@ module Clockface
       click_button(t("clockface.tasks.delete.submit"))
 
       # Force Capybara to wait until the new page loads before progressing
-      expect(current_path).to eq(current_path)
+      expect(page).to have_current_path(current_path)
     end
 
     def captcha_for(task)

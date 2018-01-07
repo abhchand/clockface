@@ -74,7 +74,7 @@ module Clockface
         end.to change { Clockface::Event.count }.by(0)
 
         # Validate error
-        expect(current_path).to eq(clockface.edit_event_path(event))
+        expect(page).to have_current_path(clockface.edit_event_path(event))
         expect(page.find(".flash")).to have_content(
           t(
             "activerecord.errors.models.clockface/event."\
@@ -144,7 +144,7 @@ module Clockface
       click_button(t("clockface.events.event_form.submit"))
 
       # Force Capybara to wait until the new page loads before progressing
-      expect(current_path).to eq(current_path)
+      expect(page).to have_current_path(current_path)
     end
   end
 end
