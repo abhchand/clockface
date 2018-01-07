@@ -10,6 +10,7 @@ class CreateClockfaceEvents < ActiveRecord::Migration[5.1]
         index: { name: "index_events_on_task_id" }
       )
       t.boolean :enabled, default: false
+      t.boolean :skip_first_run, default: false
       t.string :tenant
       t.datetime :last_triggered_at
       t.integer :period_value, null: false

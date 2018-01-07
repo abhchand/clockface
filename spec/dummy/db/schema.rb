@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20171223015914) do
     t.datetime "updated_at", null: false
     t.bigint "clockface_task_id"
     t.boolean "enabled", default: false
+    t.boolean "skip_first_run", default: false
     t.string "tenant"
     t.datetime "last_triggered_at"
     t.integer "period_value", null: false
