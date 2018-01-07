@@ -13,15 +13,16 @@ module Clockface
       event = Clockface::Event.new(events_params_for_create)
       validation = validate_event(event)
 
-      if validation.success?
-        event.save
-        flash[:success] = t("clockface.events.create.success")
-        clockface_log(:info, "Created Event: #{event.inspect}")
-        redirect_to clockface.events_path
-      else
+      if !validation.success?
         flash[:error] = validation.errors
         redirect_to clockface.new_event_path
+        return
       end
+
+      event.save
+      flash[:success] = t("clockface.events.create.success")
+      clockface_log(:info, "Created Event: #{event.inspect}")
+      redirect_to clockface.events_path
     end
 
     def edit
@@ -87,14 +88,15 @@ module Clockface
         return
       end
 
-      if event.destroy
-        flash[:success] = t("clockface.events.destroy.success")
-        clockface_log(:info, "Destroyed Event: #{event.inspect}")
-        redirect_to events_path
-      else
+      if !event.destroy
         flash[:error] = t("clockface.events.destroy.failure")
         redirect_to event_delete_path(event)
+        return
       end
+
+      flash[:success] = t("clockface.events.destroy.success")
+      clockface_log(:info, "Destroyed Event: #{event.inspect}")
+      redirect_to events_path
     end
 
     private
