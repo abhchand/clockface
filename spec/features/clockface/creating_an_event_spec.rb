@@ -63,9 +63,10 @@ module Clockface
         expect(page.find(".flash")).to have_content(
           t(
             "activerecord.errors.models.clockface/event."\
-              "attributes.period_value.greater_than"
-          ),
-          count: 0
+              "attributes.period_value.greater_than",
+            attribute: Clockface::Event.human_attribute_name("period_value"),
+            count: 0
+          )
         )
       end
     end
