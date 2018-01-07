@@ -296,8 +296,7 @@ module Clockface
         locals: {
           event: event,
           form_url: clockface.events_path,
-          allow_editing_task: true,
-          time_zone_selector_default: nil
+          allow_editing_task: true
         }.merge(opts)
       )
     end
