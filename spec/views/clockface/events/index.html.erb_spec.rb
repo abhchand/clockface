@@ -147,6 +147,17 @@ module Clockface
         expect(field).
           to have_selector("a[href='#{clockface.edit_event_path(event)}']")
       end
+
+      it "displays a link to delete the event" do
+        render
+
+        table_row =
+          page.find("tr.events-index__events-row[data-id='#{event.id}']")
+        field = table_row.find(".events-index__events-column--destroy")
+
+        expect(field).
+          to have_selector("a[href='#{clockface.event_delete_path(event)}']")
+      end
     end
   end
 end
