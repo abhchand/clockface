@@ -13,7 +13,8 @@ module Clockface
         render_partial
 
         expect(section.find("label")).to have_content(label)
-        expect(section).to have_selector("input")
+        expect(section.find("input")["placeholder"]).
+          to eq(t("clockface.tasks.task_form.placeholder.name"))
       end
     end
 
@@ -25,7 +26,8 @@ module Clockface
         render_partial
 
         expect(section.find("label")).to have_content(label)
-        expect(section).to have_selector("textarea")
+        expect(section.find("textarea")["placeholder"]).
+          to eq(t("clockface.tasks.task_form.placeholder.description"))
       end
     end
 
@@ -37,7 +39,8 @@ module Clockface
         render_partial
 
         expect(section.find("label")).to have_content(label)
-        expect(section).to have_selector("input")
+        expect(section.find("input")["placeholder"]).
+          to eq(t("clockface.tasks.task_form.placeholder.command"))
       end
     end
 

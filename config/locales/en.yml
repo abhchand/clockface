@@ -141,6 +141,10 @@ en:
       index:
         heading: Tasks
       task_form:
+        placeholder:
+          name: e.g. Send RSVP Reminders
+          description: e.g. Send emails to users that have RSVP'd for an event
+          command: "e.g. {\"class\":\"EventReminderWorker\"}"
         submit: Save
         cancel: Cancel
       new:
