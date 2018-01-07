@@ -4,7 +4,7 @@ module Clockface
   RSpec.describe "clockface/tasks/index.html.erb", type: :view do
     let(:task) { create(:task) }
 
-    before(:each) do
+    before do
       task
       assign(:tasks, Clockface::Task.all)
       view.extend ConfigHelper
@@ -73,7 +73,7 @@ module Clockface
         end
       end
 
-      before(:each) do
+      before do
         # Ensure each task field has a non-nil value so the view test is
         # valid
 

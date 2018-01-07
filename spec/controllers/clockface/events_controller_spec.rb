@@ -91,7 +91,7 @@ module Clockface
       end
 
       context "multi tenancy is enabled" do
-        before(:each) { enable_multi_tenancy! }
+        before { enable_multi_tenancy! }
 
         it "creates a new event with the specified tenant" do
           expect do
@@ -105,7 +105,7 @@ module Clockface
       end
 
       context "event fails validation" do
-        before(:each) { params[:event][:hour] = "-1" }
+        before { params[:event][:hour] = "-1" }
 
         it "doesn't create a new event" do
           expect do
@@ -199,7 +199,7 @@ module Clockface
         }
       end
 
-      before(:each) do
+      before do
         event
         params
       end
@@ -238,7 +238,7 @@ module Clockface
       end
 
       context "event fails validation" do
-        before(:each) { params[:event][:hour] = "-1" }
+        before { params[:event][:hour] = "-1" }
 
         it "doesn't update a new event" do
           expect_any_instance_of(Clockface::Event).
@@ -335,7 +335,7 @@ module Clockface
       let(:event) { create(:event) }
       let(:captcha) { @controller.send(:captcha_for, event) }
 
-      before(:each) do
+      before do
         task
         event
       end
@@ -406,7 +406,7 @@ module Clockface
       end
 
       context "destroying the model is unsuccessful" do
-        before(:each) do
+        before do
           allow_any_instance_of(Clockface::Event).
             to receive(:destroy) { false }
         end

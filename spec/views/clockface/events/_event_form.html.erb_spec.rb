@@ -52,7 +52,7 @@ module Clockface
       end
 
       context "event is enabled" do
-        before(:each) { event.update!(enabled: true) }
+        before { event.update!(enabled: true) }
 
         it "displays the checked box" do
           render_partial
@@ -63,7 +63,7 @@ module Clockface
       end
 
       context "event is disabled" do
-        before(:each) { event.update!(enabled: false) }
+        before { event.update!(enabled: false) }
 
         it "displays the unchecked box" do
           render_partial
@@ -219,7 +219,7 @@ module Clockface
       end
 
       context "event time zone is nil" do
-        before(:each) { event.update!(time_zone: nil) }
+        before { event.update!(time_zone: nil) }
 
         it "defaults to the clockface time zone" do
           render_partial

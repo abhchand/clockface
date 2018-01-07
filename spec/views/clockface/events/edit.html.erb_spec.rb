@@ -4,7 +4,7 @@ module Clockface
   RSpec.describe "clockface/events/edit.html.erb", type: :view do
     let(:event) { create(:event) }
 
-    before(:each) { assign(:event, event) }
+    before { assign(:event, event) }
 
     it "renders the flash" do
       render

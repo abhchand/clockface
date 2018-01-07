@@ -16,7 +16,7 @@ module Clockface
     end
     let(:sync_period) { 3.seconds }
 
-    before(:each) { setup }
+    before { setup }
 
     after(:each) { Clockwork.clear! }
 
@@ -187,7 +187,7 @@ module Clockface
     end
 
     context "multi tenancy is enabled" do
-      before(:each) do
+      before do
         enable_multi_tenancy!
 
         # Re-run setup because multi tenancy is now enabled

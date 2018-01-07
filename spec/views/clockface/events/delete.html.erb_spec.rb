@@ -5,7 +5,7 @@ module Clockface
     let(:event) { Clockface::EventsPresenter.new(create(:event)) }
     let(:captcha) { "abcde" }
 
-    before(:each) do
+    before do
       event
       assign(:event, event)
       assign(:captcha, captcha)
@@ -45,7 +45,7 @@ module Clockface
         end
       end
 
-      before(:each) do
+      before do
         # Ensure each event field has a non-nil value so the view test is
         # valid
 
@@ -80,7 +80,7 @@ module Clockface
 
       describe "enabled field" do
         context "event is enabled" do
-          before(:each) { event.update(enabled: true) }
+          before { event.update(enabled: true) }
 
           it "displays the enabled icon with CSS status" do
             render
@@ -97,7 +97,7 @@ module Clockface
         end
 
         context "event is disabled" do
-          before(:each) { event.update(enabled: false) }
+          before { event.update(enabled: false) }
 
           it "displays the disabled icon with CSS status" do
             render

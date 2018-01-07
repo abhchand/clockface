@@ -23,7 +23,7 @@ module Clockface
     end
 
     context "model is invalid" do
-      before(:each) { event.hour = -1 }
+      before { event.hour = -1 }
 
       it "fails the context and sets the error" do
         attribute =
@@ -45,7 +45,7 @@ module Clockface
     end
 
     context "event is a duplicate" do
-      before(:each) { event.dup.tap { |event| event.save } }
+      before { event.dup.tap { |event| event.save } }
 
       it "fails the context and sets the error" do
         run

@@ -21,7 +21,7 @@ module Clockface
     end
 
     context "model is invalid" do
-      before(:each) { task.command = nil }
+      before { task.command = nil }
 
       it "fails the context and sets the error" do
         attribute =

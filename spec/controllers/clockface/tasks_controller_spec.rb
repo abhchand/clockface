@@ -69,7 +69,7 @@ module Clockface
       end
 
       context "task fails validation" do
-        before(:each) { params[:task][:name] = "" }
+        before { params[:task][:name] = "" }
 
         it "doesn't create a new task" do
           expect do
@@ -152,7 +152,7 @@ module Clockface
         }
       end
 
-      before(:each) do
+      before do
         task
         params
       end
@@ -183,7 +183,7 @@ module Clockface
       end
 
       context "task fails validation" do
-        before(:each) { params[:task][:name] = "" }
+        before { params[:task][:name] = "" }
 
         it "doesn't update a new task" do
           expect_any_instance_of(Clockface::Task).
@@ -274,7 +274,7 @@ module Clockface
       let(:task) { create(:task) }
       let(:captcha) { @controller.send(:captcha_for, task) }
 
-      before(:each) { task }
+      before { task }
 
       it "destroys the existing task" do
         expect do
@@ -367,7 +367,7 @@ module Clockface
       end
 
       context "destroying the model is unsuccessful" do
-        before(:each) do
+        before do
           allow_any_instance_of(Clockface::Task).
             to receive(:destroy) { false }
         end

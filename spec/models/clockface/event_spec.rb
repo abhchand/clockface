@@ -25,7 +25,7 @@ module Clockface
         end
 
         context "multi-tenancy is enabled" do
-          before(:each) { enable_multi_tenancy! }
+          before { enable_multi_tenancy! }
 
           it "defaults the tenant field only when it is blank" do
             event = build(:event, tenant: nil)
@@ -54,7 +54,7 @@ module Clockface
         it { should validate_absence_of(:tenant) }
 
         context "multi-tenancy is enabled" do
-          before(:each) { enable_multi_tenancy! }
+          before { enable_multi_tenancy! }
 
           subject { create(:event, tenant: tenant) }
 
@@ -312,7 +312,7 @@ module Clockface
 
     describe "#if?" do
       context "if_condition is even_week" do
-        before(:each) { subject.update(if_condition: "even_week") }
+        before { subject.update(if_condition: "even_week") }
 
         it "returns true when the week is even numbered" do
           time = Time.parse("Jan 01 2017")
@@ -326,7 +326,7 @@ module Clockface
       end
 
       context "if_condition is odd_week" do
-        before(:each) { subject.update(if_condition: "odd_week") }
+        before { subject.update(if_condition: "odd_week") }
 
         it "returns true when the week is odd numbered" do
           time = Time.parse("Jan 08 2017")
@@ -340,7 +340,7 @@ module Clockface
       end
 
       context "if_condition is weekday" do
-        before(:each) { subject.update(if_condition: "weekday") }
+        before { subject.update(if_condition: "weekday") }
 
         it "returns true when the day is a weekday" do
           time = Time.parse("Jan 02 2017")
@@ -354,7 +354,7 @@ module Clockface
       end
 
       context "if_condition is first_of_month" do
-        before(:each) { subject.update(if_condition: "first_of_month") }
+        before { subject.update(if_condition: "first_of_month") }
 
         it "returns true when the day is a the first of the month" do
           time = Time.parse("Jan 01 2017")
@@ -368,7 +368,7 @@ module Clockface
       end
 
       context "if_condition is last_of_month" do
-        before(:each) { subject.update(if_condition: "last_of_month") }
+        before { subject.update(if_condition: "last_of_month") }
 
         it "returns true when the day is the last of the month" do
           time = Time.parse("Jan 31 2017")
@@ -382,7 +382,7 @@ module Clockface
       end
 
       context "if_condition is nil" do
-        before(:each) { subject.update(if_condition: nil) }
+        before { subject.update(if_condition: nil) }
 
         it "returns true" do
           expect(subject.if?(Time.now)).to be_truthy

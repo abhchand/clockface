@@ -5,7 +5,7 @@ module Clockface
     let(:task) { create(:task) }
     let(:captcha) { "abcde" }
 
-    before(:each) do
+    before do
       task
       assign(:task, task)
       assign(:captcha, captcha)
@@ -45,7 +45,7 @@ module Clockface
         end
       end
 
-      before(:each) do
+      before do
         # Ensure each task field has a non-nil value so the view test is
         # valid
 

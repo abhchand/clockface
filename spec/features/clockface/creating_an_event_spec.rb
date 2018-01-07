@@ -72,7 +72,7 @@ module Clockface
     end
 
     context "multi-tenancy is enabled", :multi_tenant do
-      before(:each) do
+      before do
         enable_multi_tenancy!
       end
 
