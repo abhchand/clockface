@@ -79,6 +79,9 @@ en:
     application:
       nav:
         heading: Clockface
+        links:
+          tasks: Tasks
+          events: Events
       footer:
         need_help_html: "Have a question? <a href=\"%{href}\" target=\"_blank\">Ask here</a>"
     events:

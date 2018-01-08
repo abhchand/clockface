@@ -14,6 +14,28 @@ module Clockface
         to have_content("v" + Clockface::VERSION)
     end
 
+    it "renders the nav links" do
+      render_partial
+
+      links = page.find(".application-nav__link-container")
+
+      expect(links.all(".application-nav__link").count).to eq(2)
+      expect(links).
+        to have_link(
+          t(
+            "clockface.application.nav.links.tasks",
+            href: clockface.tasks_path
+          )
+        )
+      expect(links).
+        to have_link(
+          t(
+            "clockface.application.nav.links.events",
+            href: clockface.events_path
+          )
+        )
+    end
+
     def render_partial(opts = {})
       render(partial: "clockface/application/nav")
     end

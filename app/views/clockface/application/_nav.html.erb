@@ -1,11 +1,20 @@
 <nav class="application-nav navbar navbar-default container">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="<%= clockface.root_path %>">
+      <a class="application-nav__icon navbar-brand" href="<%= clockface.root_path %>">
         <%= inline_svg "clockface/clock.svg" %>
       </a>
       <div class="application-nav__heading"><%= t(".heading") %></div>
       <div class="application-nav__version">(v<%= Clockface::VERSION %>)</div>
+
+      <div class="application-nav__link-container">
+        <a class="application-nav__link application-nav__link--tasks navbar-brand" href="<%= clockface.tasks_path %>">
+          <%= t(".links.tasks") %>
+        </a>
+        <a class="application-nav__link application-nav__link--events navbar-brand" href="<%= clockface.events_path %>">
+          <%= t(".links.events") %>
+        </a>
+      </div>
     </div>
   </div>
 </nav>

@@ -14,6 +14,9 @@
   height: 100%;
 }
 
+.application-nav__icon {
+}
+
 .application-nav__heading {
   font-size: 32px;
   color: $teal;
@@ -23,4 +26,27 @@
   margin-top: 10px;
   margin-left: 12px;
   color: $white;
+}
+
+.application-nav__link-container {
+  margin-left: 20px;
+  height: 100%;
+}
+
+// Nav links also have a .navbar-brand sibling class with more specific
+// css rules that take precedence. Make these rules more specific by nesting
+// under .application-nav
+.application-nav {
+  .application-nav__link {
+    color: $white;
+    height: 100%;
+    // Similar to above, .navbar-brand also has a very specific rule that sets
+    // margin-left. Override with importance. Not the best practice but it's
+    // there for when you actually need it, right?
+    margin: auto 5px !important;
+
+    &:hover {
+      color: $teal;
+    }
+  }
 }
