@@ -2,16 +2,14 @@ module Clockface
   class Event < ApplicationRecord
     extend Forwardable
 
-    PERIOD_UNITS = %w(seconds minutes hours days weeks months years).freeze
-    # rubocop:disable LineLength
+    PERIOD_UNITS = %w[seconds minutes hours days weeks months years].freeze
     IF_CONDITIONS = {
-      "even_week" => lambda { |time| (time.strftime("%W").to_i % 2) == 0 },
-      "odd_week" => lambda { |time| (time.strftime("%W").to_i % 2) == 1 },
-      "weekday" => lambda { |time| (time.strftime("%a")[0] != "S") },
-      "first_of_month" => lambda { |time| time.strftime("%-d").to_i == 1 },
-      "last_of_month" => lambda { |time| (time + 1.day).strftime("%-d").to_i == 1 },
+      "even_week" => ->(time) { time.strftime("%W").to_i.even? },
+      "odd_week" => ->(time) { time.strftime("%W").to_i.odd? },
+      "weekday" => ->(time) { (time.strftime("%a")[0] != "S") },
+      "first_of_month" => ->(time) { time.strftime("%-d").to_i == 1 },
+      "last_of_month" => ->(time) { (time + 1.day).strftime("%-d").to_i == 1 }
     }.freeze
-    # rubocop:enable LineLength
 
     belongs_to(
       :task,
@@ -46,10 +44,12 @@ module Clockface
 
     validate :day_of_week_must_have_timestamp
 
-    def_delegators :task,
+    def_delegators(
+      :task,
       :name,
       :description,
       :command
+    )
 
     def self.find_duplicates_of(event)
       Clockface::Event.where(
@@ -74,7 +74,7 @@ module Clockface
     # for compatibility.
     # It's also extra confusing since in most fields (e.g. Physics) the words
     # 'period' and 'frequency' are inverses of each other... oh well.
-    alias_method :frequency, :period
+    alias frequency period
 
     def at
       return nil if self[:hour].nil? && self[:minute].nil?
@@ -125,10 +125,12 @@ module Clockface
       # attribute comparison.
       # Exclude `last_triggered_at` and `updated_at` since they will always
       # change on each run
-      [ :last_triggered_at, :updated_at ]
+      %i[last_triggered_at updated_at]
     end
 
     private
+
+    # rubocop:disable Style/GuardClause
 
     def default_tenant_if_needed
       if clockface_multi_tenancy_enabled? && self[:tenant].blank?
@@ -159,6 +161,8 @@ module Clockface
         )
       end
     end
+
+    # rubocop:enable Style/GuardClause
 
     def at_formatted_day_of_week
       Date::DAYNAMES[self[:day_of_week]] if self[:day_of_week].present?

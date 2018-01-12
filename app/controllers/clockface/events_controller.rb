@@ -13,7 +13,7 @@ module Clockface
       event = Clockface::Event.new(events_params_for_create)
       validation = validate_event(event)
 
-      if !validation.success?
+      if validation.failure?
         flash[:error] = validation.errors
         redirect_to clockface.new_event_path
         return
@@ -37,7 +37,7 @@ module Clockface
     def update
       event = Clockface::Event.find_by_id(params[:id])
 
-      if !event
+      unless event
         flash[:error] =
           t("clockface.events.update.event_not_found", id: params[:id])
         redirect_to events_path
@@ -74,7 +74,7 @@ module Clockface
     def destroy
       event = Clockface::Event.find_by_id(params[:id])
 
-      if !event
+      unless event
         flash[:error] =
           t("clockface.events.destroy.event_not_found", id: params[:id])
         redirect_to events_path
@@ -88,7 +88,7 @@ module Clockface
         return
       end
 
-      if !event.destroy
+      unless event.destroy
         flash[:error] = t("clockface.events.destroy.failure")
         redirect_to event_delete_path(event)
         return

@@ -6,7 +6,7 @@ require "sidekiq/web"
 # internally manages the connection pool
 class SidekiqRedisConnectionWrapper
   unless defined? URL
-    URL = "redis://localhost:6379/"
+    URL = "redis://localhost:6379/".freeze
   end
 
   def initialize

@@ -1,4 +1,4 @@
-require_relative 'boot'
+require_relative "boot"
 
 # Pick the frameworks you want:
 require "active_record/railtie"
@@ -29,4 +29,3 @@ module Dummy
     config.time_zone = "UTC"
   end
 end
-

@@ -58,8 +58,8 @@ module Clockface
         #   b. Clockwork Configured time (Clockwork.manager.config[:tz])
         #   c. System Time
         #
-        # Clockface enforces that each event *must* have a time zone. It defaults
-        # to the `clockface_time_zone` when the user doesn't choose one.
+        # Clockface enforces that each event *must* have a time zone. It
+        # defaults to the `clockface_time_zone` when the user doesn't choose one
         #
         # Clockface also sets the Clockwork configured time to be
         # `clockface_time_zone` in case for some reason a user updates the DB
@@ -80,7 +80,7 @@ module Clockface
         event_name = "\"#{event.name}\" (Event.id: #{event.id})"
         tenant_tag = "[#{event.tenant}] " if event.tenant
 
-        if !event.enabled?
+        unless event.enabled?
           clockface_log(
             :info,
             "#{tenant_tag}Skipping disabled Event #{event_name}"

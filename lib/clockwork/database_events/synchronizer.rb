@@ -5,13 +5,14 @@ require_relative "../../../app/helpers/clockface/logging_helper"
 # Loaded from lib/clockface as part of the clock configuration
 #
 # Clockwork doesn't support schema-based multi-tenancy by default. To acheive
-# functionality we need to have it create a synch event for each individual tenant
+# functionality we need to have it create a synch event for each individual
+# tenant
 #
 # This overrides the Synchronizer class in the native Clockwork implementation
 # to do the following -
 #
 #   1. If multi-tenancy is enabled, create a synch event for each tenant
-#   2. If not, just create one synch event (same as default/native functionality)
+#   2. If not, just create one synch event (same Clockwork functionality)
 
 module Clockwork
   module DatabaseEvents
@@ -19,13 +20,12 @@ module Clockwork
       extend ::Clockface::ConfigHelper
       extend ::Clockface::LoggingHelper
 
-      def self.setup(options={}, &block_to_perform_on_event_trigger)
+      def self.setup(options = {}, &block_to_perform_on_event_trigger)
         every = options.fetch(:every) do
           raise KeyError, ":every must be set to the database sync frequency"
         end
 
         task_name = "sync_database_events"
-
 
         #
         # Multi-Tenant
@@ -56,7 +56,6 @@ module Clockwork
 
           return
         end
-
 
         #
         # Single Tenant

@@ -20,7 +20,7 @@ RSpec.configure do |config|
 
     (["public"] + TENANTS).each do |tenant|
       ActiveRecord::Base.connection.tables.each do |table|
-        if !%w(schema_migrations ar_internal_metadata).include?(table)
+        unless %w(schema_migrations ar_internal_metadata).include?(table)
           $clockface_table_list <<
             ActiveRecord::Base.connection.quote_table_name(
               [tenant, table].join(".")

@@ -37,8 +37,10 @@ module Clockface
     end
 
     [
+      # rubocop:disable LineLength
       ["clockface/tasks", "application-nav__link application-nav__link--tasks"],
       ["clockface/events", "application-nav__link application-nav__link--events"]
+      # rubocop:enable LineLength
     ].each do |(controller, css_class)|
       it "marks the selected nav link" do
         stub_params_controller(controller)

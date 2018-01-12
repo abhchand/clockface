@@ -67,7 +67,8 @@ module Clockface
 
           field_value = event.send(field_name)
 
-          table_row = page.find("tr.events-index__events-row[data-id='#{event.id}']")
+          table_row =
+            page.find("tr.events-index__events-row[data-id='#{event.id}']")
           field = table_row.find(".events-index__events-column--#{field_name}")
 
           expect(field).to have_content(field_value)
@@ -141,7 +142,8 @@ module Clockface
       it "displays a link to edit the event" do
         render
 
-        table_row = page.find("tr.events-index__events-row[data-id='#{event.id}']")
+        table_row =
+          page.find("tr.events-index__events-row[data-id='#{event.id}']")
         field = table_row.find(".events-index__events-column--edit")
 
         expect(field).

@@ -11,7 +11,7 @@ module Clockface
       task = Clockface::Task.new(tasks_params_for_create)
       validation = validate_task(task)
 
-      if !validation.success?
+      if validation.failure?
         flash[:error] = validation.errors
         redirect_to clockface.new_task_path
         return
@@ -35,7 +35,7 @@ module Clockface
     def update
       task = Clockface::Task.find_by_id(params[:id])
 
-      if !task
+      unless task
         flash[:error] =
           t("clockface.tasks.update.task_not_found", id: params[:id])
         redirect_to tasks_path
@@ -71,7 +71,7 @@ module Clockface
     def destroy
       task = Clockface::Task.find_by_id(params[:id])
 
-      if !task
+      unless task
         flash[:error] =
           t("clockface.tasks.destroy.task_not_found", id: params[:id])
         redirect_to tasks_path
@@ -97,7 +97,7 @@ module Clockface
         return
       end
 
-      if !task.destroy
+      unless task.destroy
         flash[:error] = t("clockface.tasks.destroy.failure")
         redirect_to task_delete_path(task)
         return

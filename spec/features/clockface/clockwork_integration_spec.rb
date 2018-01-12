@@ -397,6 +397,5 @@ module Clockface
         event.reload.tap(&:task)
       end
     end
-
   end
 end

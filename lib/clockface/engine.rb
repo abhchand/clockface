@@ -56,7 +56,7 @@ module Clockface
       # Time Zone
       time_zone = app.config.clockface.time_zone
       valid_time_zones = ActiveSupport::TimeZone::MAPPING.keys
-      if !valid_time_zones.include?(time_zone)
+      unless valid_time_zones.include?(time_zone)
         raise "Invalid time zone #{time_zone}"
       end
 

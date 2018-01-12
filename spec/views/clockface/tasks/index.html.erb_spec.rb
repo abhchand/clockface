@@ -66,7 +66,8 @@ module Clockface
 
           field_value = task.send(field_name)
 
-          table_row = page.find("tr.tasks-index__tasks-row[data-id='#{task.id}']")
+          table_row =
+            page.find("tr.tasks-index__tasks-row[data-id='#{task.id}']")
           field = table_row.find(".tasks-index__tasks-column--#{field_name}")
 
           expect(field).to have_content(field_value)

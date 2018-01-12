@@ -1,10 +1,10 @@
 require_relative "multi_tenant"
 
-require 'apartment/elevators/generic'
-require 'apartment/elevators/subdomain'
-require 'apartment/elevators/first_subdomain'
+require "apartment/elevators/generic"
+require "apartment/elevators/subdomain"
+require "apartment/elevators/first_subdomain"
 
-TENANTS = %w(earth mars)
+TENANTS = %w(earth mars).freeze
 
 Apartment.configure do |config|
   config.tenant_names =

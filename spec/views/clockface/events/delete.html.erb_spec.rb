@@ -19,7 +19,8 @@ module Clockface
 
     it "renders the heading" do
       render
-      expect(page).to have_content(t("clockface.events.delete.heading").downcase)
+      expect(page).
+        to have_content(t("clockface.events.delete.heading").downcase)
     end
 
     it "displays the warning" do

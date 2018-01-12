@@ -28,7 +28,8 @@ module Clockface
     end
 
     def handle_duplicate_event
-      context.errors << I18n.t("clockface.events.#{context.action}.duplicate_event")
+      context.errors <<
+        I18n.t("clockface.events.#{context.action}.duplicate_event")
     end
   end
 end
