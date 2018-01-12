@@ -8,6 +8,15 @@
   margin: auto;
 }
 
+.application-footer__version {
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+  bottom: 0;
+}
+
 .application-footer__source-btn{
   position:absolute;
   bottom: 0;

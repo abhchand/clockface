@@ -5,7 +5,6 @@
         <%= inline_svg "clockface/clock.svg" %>
       </a>
       <div class="application-nav__heading"><%= t(".heading") %></div>
-      <div class="application-nav__version">(v<%= Clockface::VERSION %>)</div>
 
       <div class="application-nav__link-container">
         <a class="application-nav__link application-nav__link--tasks<%= " application-nav__link--selected" if params["controller"] == "clockface/tasks" %> navbar-brand" href="<%= clockface.tasks_path %>">

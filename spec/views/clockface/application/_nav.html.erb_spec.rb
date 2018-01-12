@@ -12,8 +12,6 @@ module Clockface
       expect(header.find(".application-nav__icon")).to have_selector("svg")
       expect(header.find(".application-nav__heading")).
         to have_content(t("clockface.application.nav.heading"))
-      expect(header.find(".application-nav__version")).
-        to have_content("v" + Clockface::VERSION)
     end
 
     it "renders the nav links" do
