@@ -8,11 +8,11 @@
       <div class="application-nav__version">(v<%= Clockface::VERSION %>)</div>
 
       <div class="application-nav__link-container">
-        <a class="application-nav__link application-nav__link--tasks navbar-brand" href="<%= clockface.tasks_path %>">
-          <%= t(".links.tasks") %>
+        <a class="application-nav__link application-nav__link--tasks<%= " application-nav__link--selected" if params["controller"] == "clockface/tasks" %> navbar-brand" href="<%= clockface.tasks_path %>">
+          <span><%= t(".links.tasks") %></span>
         </a>
-        <a class="application-nav__link application-nav__link--events navbar-brand" href="<%= clockface.events_path %>">
-          <%= t(".links.events") %>
+        <a class="application-nav__link application-nav__link--events<%= " application-nav__link--selected" if params["controller"] == "clockface/events" %> navbar-brand" href="<%= clockface.events_path %>">
+          <span><%= t(".links.events") %></span>
         </a>
       </div>
     </div>

@@ -2,6 +2,8 @@ require "rails_helper"
 
 module Clockface
   RSpec.describe "clockface/application/_nav.html.erb", type: :view do
+    before { stub_params_controller("clockface/events") }
+
     it "renders the app icon, name, and version" do
       render_partial
 
@@ -36,8 +38,26 @@ module Clockface
         )
     end
 
+    [
+      ["clockface/tasks", "application-nav__link application-nav__link--tasks"],
+      ["clockface/events", "application-nav__link application-nav__link--events"]
+    ].each do |(controller, css_class)|
+      it "marks the selected nav link" do
+        stub_params_controller(controller)
+
+        render_partial
+
+        link = page.find(".application-nav__link--selected")
+        expect(link["class"]).to include(css_class)
+      end
+    end
+
     def render_partial(opts = {})
       render(partial: "clockface/application/nav")
+    end
+
+    def stub_params_controller(controller)
+      allow(view).to receive(:params).and_return("controller" => controller)
     end
   end
 end

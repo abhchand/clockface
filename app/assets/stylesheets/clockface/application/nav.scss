@@ -50,3 +50,8 @@
     }
   }
 }
+
+.application-nav__link--selected span {
+  border-bottom: 3px solid $red;
+  padding-bottom: 3px;
+}
