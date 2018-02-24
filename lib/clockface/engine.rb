@@ -31,10 +31,17 @@ module Clockface
       app.config.clockface = ClockfaceConfig.new
       app.config.clockface.time_zone = Rails.application.config.time_zone
       app.config.clockface.logger = Rails.logger
-      app.config.clockface.tenant_list = []
 
-      # Out-of-the-box functionality support for the Apartment gem, if the
-      # host app is using it
+      #
+      # Multi Tenancy
+      #
+
+      # Includes out-of-the-box functionality support for the Apartment gem,
+      # if the host app is using it
+
+      app.config.clockface.tenant_list =
+        defined?(Apartment) ? Apartment.tenant_names : []
+
       app.config.clockface.current_tenant_proc =
         if defined?(Apartment)
           Proc.new do
