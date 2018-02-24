@@ -3,12 +3,7 @@ class CreateClockfaceEvents < ActiveRecord::Migration[5.1]
     create_table :clockface_events do |t|
       t.timestamps
 
-      t.references(
-        :clockface_task,
-        foreign_key: true,
-        # Override index name because default is > 63 character postgres maximum
-        index: { name: "index_events_on_task_id" }
-      )
+      t.references :clockface_task, foreign_key: true
       t.boolean :enabled, default: false
       t.boolean :skip_first_run, default: false
       t.string :tenant

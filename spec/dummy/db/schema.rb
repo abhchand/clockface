@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171223015914) do
+ActiveRecord::Schema.define(version: 20180224054360) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20171223015914) do
     t.integer "minute"
     t.string "time_zone"
     t.string "if_condition"
-    t.index ["clockface_task_id"], name: "index_events_on_task_id"
+    t.index ["clockface_task_id"], name: "index_clockface_events_on_clockface_task_id"
   end
 
   create_table "clockface_tasks", force: :cascade do |t|
