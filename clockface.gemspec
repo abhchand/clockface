@@ -21,9 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 5.1.0"
 
   s.add_dependency "bootstrap-sass", "~> 3.3.6"
-  # Waiting on clockwork to create a new gem version. Until then, use
-  # latest github version in Gemfile
-  # s.add_dependency "clockwork", "~> 2.0", ">= 2.0.2"
+  s.add_dependency "clockwork", "~> 2.0", ">= 2.0.3"
   s.add_dependency "inline_svg", "~> 1.2", ">= 1.2.1"
   s.add_dependency "interactor", "~> 3.1"
   s.add_dependency "sass-rails", ">= 3.2"
