@@ -6,6 +6,7 @@ require_relative "../app/helpers/clockface/config_helper"
 require_relative "../app/helpers/clockface/logging_helper"
 
 require "clockface/engine"
+require "clockface/version"
 
 # This file is the glue that ties together the clockwork gem with the Clockface
 # Engine functionality.
