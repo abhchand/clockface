@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     clockface (0.1.0)
-      bootstrap-sass (~> 3.3.6)
+      bootstrap-sass (~> 3.0)
       clockwork (~> 2.0, >= 2.0.3)
       inline_svg (~> 1.2, >= 1.2.1)
       interactor (~> 3.1)
