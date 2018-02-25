@@ -7,4 +7,9 @@ Clockface::Engine.configure do |app|
     [Rails.logger, Logger.new(Rails.root.join("log", "clockface.log"))]
 
   app.config.clockface.tenant_list = Apartment.tenant_names
+  app.config.clockface.current_tenant_proc = proc { Apartment::Tenant.current }
+  app.config.clockface.execute_in_tenant_proc =
+    proc do |tenant_name, some_proc, proc_args|
+      Apartment::Tenant.switch(tenant_name) { some_proc.call(*proc_args) }
+    end
 end

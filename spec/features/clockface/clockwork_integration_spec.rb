@@ -345,7 +345,7 @@ module Clockface
           "args" => event["args"],
           "tenant" =>
             # The apartment gem / tenant functionality is enabled for all specs,
-            # and we acheive "sing tenancy" by stubbing/mocking configs. So
+            # and we acheive "single tenancy" by stubbing/mocking configs. So
             # `apartment-sidekiq` still marks the event as being in the "public"
             # tenant. Catch this specific case and mark it as `nil` so it
             # matches the `event.tenant` value, which will be nil for single
