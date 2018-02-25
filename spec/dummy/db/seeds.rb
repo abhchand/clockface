@@ -17,7 +17,7 @@ User.create!(
 )
 
 #
-# Create the Clockface Tasks
+# Create Clockface Tasks
 #
 
 Clockface::Task.create(
@@ -31,3 +31,27 @@ Clockface::Task.create(
   description: "Runs the Example Task 2",
   command: "{\"class\":\"ExampleWorkerTwo\"}"
 )
+
+#
+# Create Clockface Events
+#
+
+event = Clockface::Event.new(
+  task: Clockface::Task.first,
+  enabled: true,
+  skip_first_run: false,
+  tenant: (Clockface::Engine.config.clockface.tenant_list.first if multi_tenancy_enabled?),
+  last_triggered_at: nil,
+  period_value: 1,
+  period_units: "hours",
+  day_of_week: 0,
+  hour: 12,
+  minute: 0,
+  time_zone: "Pacific Time (US & Canada)",
+  if_condition: nil
+)
+
+# Bypass validation because model can't access
+# `clockface_multi_tenancy_enabled?` that's called during the
+# `before_validation` hook
+event.save(validate: false)
