@@ -1,5 +1,5 @@
 Clockface::Engine.routes.draw do
-  root to: redirect("/clockface/events")
+  root to: "root#index"
 
   resources :tasks, except: [:show] do
     # Rails routes don't include a visible deletion page, only a `#destroy`
