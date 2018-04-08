@@ -4,7 +4,7 @@ require "apartment/elevators/generic"
 require "apartment/elevators/subdomain"
 require "apartment/elevators/first_subdomain"
 
-TENANTS = %w(earth mars).freeze
+TENANTS = %w[earth mars].freeze
 
 Apartment.configure do |config|
   config.tenant_names =

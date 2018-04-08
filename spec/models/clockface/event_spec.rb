@@ -160,7 +160,7 @@ module Clockface
 
     describe ".find_duplicates_of" do
       let(:event) { subject }
-      let(:other_event) { event.dup.tap { |event| event.save } }
+      let(:other_event) { event.dup.tap(&:save) }
 
       context "another event with the same attributes exists" do
         it "returns the other event" do

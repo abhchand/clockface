@@ -17,7 +17,7 @@ module Clockface
     end
 
     def handle_invalid_model
-      context.task.errors.messages.each do |attribute, messages|
+      context.task.errors.messages.each_value do |messages|
         context.errors << messages.first
       end
     end

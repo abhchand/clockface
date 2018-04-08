@@ -32,7 +32,7 @@ module Clockface
 
     context "message is an array" do
       it "formats the message as a <ul> element" do
-        flash[:error] = %w(error1 error2)
+        flash[:error] = %w[error1 error2]
 
         render
 

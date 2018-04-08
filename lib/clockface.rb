@@ -40,6 +40,7 @@ require "clockface/version"
 
 module Clockface
   module Methods
+    # rubocop:disable Metrics/MethodLength
     def sync_database_events(opts = {}, &block)
       ::Clockwork.manager = ::Clockwork::DatabaseEvents::Manager.new
 
@@ -77,7 +78,7 @@ module Clockface
       clockwork_opts =
         { model: Clockface::Event, every: opts[:every] }
 
-      ::Clockwork::sync_database_events(clockwork_opts) do |event|
+      ::Clockwork.sync_database_events(clockwork_opts) do |event|
         event_name = "\"#{event.name}\" (Event.id: #{event.id})"
         tenant_tag = "[#{event.tenant}] " if event.tenant
 
@@ -108,7 +109,7 @@ module Clockface
 
           clockface_log(:info, "#{tenant_tag}Running Event #{event_name}")
 
-          cmd = Proc.new { event.update!(last_triggered_at: Time.zone.now) }
+          cmd = proc { event.update!(last_triggered_at: Time.zone.now) }
 
           if clockface_multi_tenancy_enabled?
             clockface_execute_in_tenant(event.tenant, cmd)
@@ -117,7 +118,7 @@ module Clockface
             cmd.call
             yield(event)
           end
-        rescue Exception => e
+        rescue StandardError => e
           clockface_log(
             :error,
             "#{tenant_tag}Error running Event #{event_name} -> #{e.message}"
@@ -125,6 +126,7 @@ module Clockface
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength
   end
 
   extend ::Clockface::ConfigHelper

@@ -22,7 +22,7 @@ module Clockface
     end
 
     def handle_invalid_model
-      context.event.errors.messages.each do |attribute, messages|
+      context.event.errors.messages.each_value do |messages|
         context.errors << messages.first
       end
     end

@@ -44,7 +44,7 @@ module Clockface
 
     context "form is invalid" do
       it "user receives feedback on invalid forms" do
-        tasks = create_list(:task, 2)
+        create_list(:task, 2)
 
         # Visit new events path
         visit clockface.events_path
@@ -116,7 +116,7 @@ module Clockface
       end
     end
 
-    def submit(opts = {})
+    def submit
       click_button(t("clockface.events.event_form.submit"))
 
       # Force Capybara to wait until the new page loads before progressing

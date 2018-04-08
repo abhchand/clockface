@@ -34,7 +34,7 @@ module Clockface
       it "displays the field headings" do
         render
 
-        columns = %w(id name description command)
+        columns = %w[id name description command]
 
         columns.each do |attribute|
           label =
@@ -83,11 +83,11 @@ module Clockface
 
         # Run a sanity check to make sure every field is not nil, should the
         # factory ever change in the future
-        %w(
+        %w[
           name
           description
           command
-        ).each do |attr|
+        ].each do |attr|
           raise "#{attr} can not be nil!" if task.send(attr).blank?
         end
       end

@@ -20,12 +20,12 @@ RSpec.configure do |config|
 
     (["public"] + TENANTS).each do |tenant|
       ActiveRecord::Base.connection.tables.each do |table|
-        unless %w(schema_migrations ar_internal_metadata).include?(table)
-          $clockface_table_list <<
-            ActiveRecord::Base.connection.quote_table_name(
-              [tenant, table].join(".")
-            )
-        end
+        next if %w[schema_migrations ar_internal_metadata].include?(table)
+
+        $clockface_table_list <<
+          ActiveRecord::Base.connection.quote_table_name(
+            [tenant, table].join(".")
+          )
       end
     end
   end
@@ -33,7 +33,7 @@ RSpec.configure do |config|
   config.before(:each) do
     ActiveRecord::Base.connection.execute(
       <<-SQL
-        TRUNCATE TABLE #{$clockface_table_list.join(", ")}
+        TRUNCATE TABLE #{$clockface_table_list.join(', ')}
         RESTART IDENTITY CASCADE;
       SQL
     )

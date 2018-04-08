@@ -25,7 +25,7 @@ module Clockface
 
       it "fails the context and sets the error" do
         attribute =
-            Clockface::Task.human_attribute_name("command")
+          Clockface::Task.human_attribute_name("command")
 
         run
 

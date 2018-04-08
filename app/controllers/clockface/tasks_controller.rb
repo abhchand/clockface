@@ -25,11 +25,10 @@ module Clockface
 
     def edit
       @task = Clockface::Task.find_by_id(params[:id])
+      return if @task
 
-      unless @task
-        redirect_to tasks_path
-        flash[:error] = t("clockface.tasks.edit.validation.invalid_id")
-      end
+      redirect_to tasks_path
+      flash[:error] = t("clockface.tasks.edit.validation.invalid_id")
     end
 
     def update

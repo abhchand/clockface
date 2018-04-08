@@ -5,7 +5,7 @@ namespace :apartment do
       raise "Task only available on development and test"
     end
 
-    Apartment::tenant_names.each do |tenant|
+    Apartment.tenant_names.each do |tenant|
       begin
         puts("Creating #{tenant} tenant")
         Apartment::Tenant.create(tenant)

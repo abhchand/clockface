@@ -3,12 +3,11 @@ require "rails_helper"
 module Clockface
   RSpec.feature "Creating a Task", type: :feature do
     it "user can create a task" do
-      tasks = create_list(:task, 2)
+      create_list(:task, 2)
 
       visit clockface.new_task_path
 
       # Fill In Form
-      id = tasks[1].id
       fill_in("task[name]", with: "some name")
       fill_in("task[description]", with: "some description")
       fill_in("task[command]", with: "some command")
@@ -30,7 +29,7 @@ module Clockface
 
     context "form is invalid" do
       it "user receives feedback on invalid forms" do
-        tasks = create_list(:task, 2)
+        create_list(:task, 2)
 
         # Visit new tasks path
         visit clockface.tasks_path
@@ -55,7 +54,7 @@ module Clockface
       end
     end
 
-    def submit(opts = {})
+    def submit
       click_button(t("clockface.tasks.task_form.submit"))
 
       # Force Capybara to wait until the new page loads before progressing

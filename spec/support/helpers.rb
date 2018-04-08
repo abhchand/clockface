@@ -3,7 +3,7 @@ require_relative "tenancy_helpers"
 require_relative "subdomain_helpers"
 require_relative "capybara_helpers"
 
-%w(views controllers).each do |subdirectory|
+%w[views controllers].each do |subdirectory|
   Dir[Rails.root.join("spec/support/#{subdirectory}/*.rb")].each do |file|
     require file
   end

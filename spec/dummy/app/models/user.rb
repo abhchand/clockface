@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  ROLES = [:read, :read_write].map(&:to_s).freeze
+  ROLES = %i[read read_write].map(&:to_s).freeze
 
   validates :role, inclusion: ROLES, allow_nil: true
 

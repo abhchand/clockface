@@ -35,7 +35,7 @@ module Clockface
         render
 
         columns =
-          %w(id name period at time_zone if_condition last_triggered_at enabled)
+          %w[id name period at time_zone if_condition last_triggered_at enabled]
 
         columns.each do |attribute|
           label =
@@ -85,7 +85,7 @@ module Clockface
 
         # Run a sanity check to make sure every field is not nil, should the
         # factory ever change in the future
-        %w(
+        %w[
           period_value
           period_units
           day_of_week
@@ -94,7 +94,7 @@ module Clockface
           time_zone
           if_condition
           last_triggered_at
-        ).each do |attr|
+        ].each do |attr|
           raise "#{attr} can not be nil!" if event.send(attr).blank?
         end
       end

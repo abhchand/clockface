@@ -26,8 +26,7 @@ module Clockface
       before { event.hour = -1 }
 
       it "fails the context and sets the error" do
-        attribute =
-            Clockface::Event.human_attribute_name("hour")
+        attribute = Clockface::Event.human_attribute_name("hour")
 
         run
 
@@ -45,7 +44,7 @@ module Clockface
     end
 
     context "event is a duplicate" do
-      before { event.dup.tap { |event| event.save } }
+      before { event.dup.tap(&:save) }
 
       it "fails the context and sets the error" do
         run

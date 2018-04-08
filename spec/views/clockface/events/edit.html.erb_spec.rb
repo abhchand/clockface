@@ -18,8 +18,9 @@ module Clockface
 
     it "renders the back link" do
       render
-      link = page.
-        find(".events-edit__heading-banner .events-edit__heading-banner-link")
+      link = page.find(
+        ".events-edit__heading-banner .events-edit__heading-banner-link"
+      )
 
       expect(link["href"]).to eq(clockface.events_path)
       expect(link).to have_selector(".glyphicon-chevron-left")

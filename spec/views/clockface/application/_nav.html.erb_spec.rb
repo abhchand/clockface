@@ -52,7 +52,7 @@ module Clockface
       end
     end
 
-    def render_partial(opts = {})
+    def render_partial
       render(partial: "clockface/application/nav")
     end
 

@@ -280,7 +280,7 @@ module Clockface
       # stub time
       stub_active_support_time!(seconds_elapsed)
       Clockwork.manager.tick(epoch + seconds_elapsed.seconds)
-      unstub_active_support_time!(seconds_elapsed)
+      unstub_active_support_time!
 
       events = opts[:expect_to_trigger].try(:[], :events)
       expect_events_did_trigger(events, seconds_elapsed) if events.present?
@@ -381,7 +381,7 @@ module Clockface
       end
     end
 
-    def unstub_active_support_time!(seconds_elapsed)
+    def unstub_active_support_time!
       allow_any_instance_of(ActiveSupport::TimeZone).
         to receive(:now).and_call_original
     end

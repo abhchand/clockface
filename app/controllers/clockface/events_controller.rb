@@ -27,11 +27,10 @@ module Clockface
 
     def edit
       @event = Clockface::Event.find_by_id(params[:id])
+      return if @event
 
-      unless @event
-        redirect_to events_path
-        flash[:error] = t("clockface.events.edit.validation.invalid_id")
-      end
+      redirect_to events_path
+      flash[:error] = t("clockface.events.edit.validation.invalid_id")
     end
 
     def update

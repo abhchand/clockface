@@ -3,7 +3,7 @@ require "rails_helper"
 module Clockface
   RSpec.feature "Updating a Task", type: :feature do
     it "user can update a task" do
-      tasks = create_list(:task, 2)
+      create_list(:task, 2)
       task = create(
         :task,
         name: "some name",

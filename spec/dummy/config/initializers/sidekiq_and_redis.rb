@@ -5,9 +5,7 @@ require "sidekiq/web"
 # connection but it essentially forwards all redis calls to Sidekiq which
 # internally manages the connection pool
 class SidekiqRedisConnectionWrapper
-  unless defined? URL
-    URL = "redis://localhost:6379/".freeze
-  end
+  URL = "redis://localhost:6379/".freeze unless defined? URL
 
   def initialize
     Sidekiq.configure_server do |config|
@@ -19,11 +17,13 @@ class SidekiqRedisConnectionWrapper
     end
   end
 
+  # rubocop:disable Style/MethodMissing
   def method_missing(meth, *args, &block)
     Sidekiq.redis do |connection|
       connection.send(meth, *args, &block)
     end
   end
+  # rubocop:enable Style/MethodMissing
 
   def respond_to_missing?(meth)
     Sidekiq.redis do |connection|
@@ -33,7 +33,6 @@ class SidekiqRedisConnectionWrapper
 end
 
 $redis = SidekiqRedisConnectionWrapper.new
-
 
 # Have Sidekiq use the Rails logger
 Sidekiq::Logging.logger = Rails.logger

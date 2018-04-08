@@ -54,10 +54,9 @@ module Clockface
         event.update(if_condition: "odd_week")
         event.update(last_triggered_at: 1.day.ago)
 
-
         # Run a sanity check to make sure every field is not nil, should the
         # factory ever change in the future
-        %w(
+        %w[
           period_value
           period_units
           day_of_week
@@ -66,7 +65,7 @@ module Clockface
           time_zone
           if_condition
           last_triggered_at
-        ).each do |attr|
+        ].each do |attr|
           raise "#{attr} can not be nil!" if event.send(attr).blank?
         end
       end

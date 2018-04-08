@@ -13,6 +13,5 @@ Clockface.sync_database_events(every: 10.seconds) do |event|
   cmd_hash = JSON.parse(event.command)
   klass = cmd_hash["class"]
 
-  logger = Logger.new(Rails.root.join("log", "example_workers.log"))
   klass.constantize.perform_async
 end

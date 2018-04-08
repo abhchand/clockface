@@ -36,11 +36,18 @@ Clockface::Task.create(
 # Create Clockface Events
 #
 
+# rubocop:disable Style/IfUnlessModifier
+tenant =
+  if multi_tenancy_enabled?
+    Clockface::Engine.config.clockface.tenant_list.first
+  end
+# rubocop:enable Style/IfUnlessModifier
+
 event = Clockface::Event.new(
   task: Clockface::Task.first,
   enabled: true,
   skip_first_run: false,
-  tenant: (Clockface::Engine.config.clockface.tenant_list.first if multi_tenancy_enabled?),
+  tenant: tenant,
   last_triggered_at: nil,
   period_value: 1,
   period_units: "hours",

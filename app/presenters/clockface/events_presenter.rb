@@ -25,18 +25,18 @@ module Clockface
     end
 
     def if_condition
-      if event.if_condition.present?
-        Clockface::Event.
-          human_attribute_name("if_condition.#{event.if_condition}")
-      end
+      return if event.if_condition.blank?
+
+      Clockface::Event.
+        human_attribute_name("if_condition.#{event.if_condition}")
     end
 
     def last_triggered_at
-      if event.last_triggered_at
-        event.last_triggered_at.
-          in_time_zone(clockface_time_zone).
-          strftime(I18n.t("datetime.formats.international"))
-      end
+      return unless event.last_triggered_at
+
+      event.last_triggered_at.
+        in_time_zone(clockface_time_zone).
+        strftime(I18n.t("datetime.formats.international"))
     end
 
     private

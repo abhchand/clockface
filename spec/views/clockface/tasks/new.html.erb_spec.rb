@@ -14,8 +14,9 @@ module Clockface
 
     it "renders the back link" do
       render
-      link = page.
-        find(".tasks-new__heading-banner .tasks-new__heading-banner-link")
+      link = page.find(
+        ".tasks-new__heading-banner .tasks-new__heading-banner-link"
+      )
 
       expect(link["href"]).to eq(clockface.tasks_path)
       expect(link).to have_selector(".glyphicon-chevron-left")

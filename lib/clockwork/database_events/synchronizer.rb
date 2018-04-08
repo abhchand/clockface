@@ -36,7 +36,7 @@ module Clockwork
             event_store = EventStore.new(block_to_perform_on_event_trigger)
 
             Clockwork.manager.every(every, "#{t}.#{task_name}") do
-              cmd = Proc.new do
+              cmd = proc do
                 # 1. Pre-load `:task` association so it doesn't need to be
                 #    re-queried
                 # 2. ActiveRecord lazily evaluates the query, so #all won't

@@ -51,7 +51,7 @@ module Clockface
       # Log
       loggers = app.config.clockface.logger
       loggers = [loggers] unless loggers.is_a?(Array)
-      methods = [:debug, :info, :warn, :error, :fatal]
+      methods = %i[debug info warn error fatal]
       loggers.each do |logger|
         methods.each do |m|
           unless logger.respond_to?(m)

@@ -54,13 +54,11 @@ module Clockface
       end
 
       it "user can delete events in multiple tenants" do
-        earth_event =
-          tenant("earth") do
+        earth_event = tenant("earth") do
           create(:event, period_units: "seconds")
         end
 
-        mars_event =
-          tenant("mars") do
+        mars_event = tenant("mars") do
           create(:event, period_units: "seconds")
         end
 
