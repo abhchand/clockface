@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.version     = Clockface::VERSION
   s.authors     = ["Abhishek Chandrasekhar"]
   s.email       = ["me@abhchand.me"]
-  s.homepage    = "https://github.com/abhchand/clockface"
+  s.homepage    = "https://gitlab.com/abhchand/clockface"
   s.summary     = "A Configuration UI for the Clockwork gem"
   s.description = s.summary
   s.license     = "MIT"

@@ -4,7 +4,7 @@
 
 A lightweight UI for the [Clockwork gem](https://github.com/Rykian/clockwork) to easily schedule and manage background jobs. It's built as a [Rails Engine](http://guides.rubyonrails.org/engines.html) to extend the functionality of your Rails Application
 
-![Clockface](https://raw.githubusercontent.com/abhchand/clockface/master/meta/screenshot.png)
+![Clockface](https://gitlab.com/abhchand/clockface/raw/master/meta/screenshot.png)
 
 Clockface serves as a **complete UI wrapper** on top of clockwork -
 
