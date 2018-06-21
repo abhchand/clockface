@@ -129,7 +129,7 @@ app.config.clockface.tenant_list = %w[tenant1 tenant2]
 #   values: A callable proc that returns the current schema context
 #   default: nil (must be specified by you)
 #
-# e.g. (if using the `apartment`)
+# e.g. (if using the `apartment` gem)
 app.config.clockface.current_tenant_proc = proc { Apartment::Tenant.current }
 
 # Tell Clockface how to execute commands within the context of some tenant/schema
