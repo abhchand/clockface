@@ -9,4 +9,7 @@ development: &default
 
 test:
   <<: *default
+  host: postgres
   database: clockface_test
+  user: runner
+  password: ""

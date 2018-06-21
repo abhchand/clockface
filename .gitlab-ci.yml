@@ -1,0 +1,49 @@
+services:
+  - postgres:9.6
+
+variables:
+  POSTGRES_DB: clockface_test
+  POSTGRES_USER: runner
+  POSTGRES_PASSWORD: ""
+
+before_script:
+  # System
+  - apt-get update -qq
+
+  # Qt
+  - apt-get install -qq qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+  - which qmake
+
+  # Xvfb
+  - apt-get install -y xvfb
+
+  # Ruby
+  - ruby -v
+  - which ruby
+
+  # Ruby Gems
+  - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
+  - gem install bundler
+  - bundle install --without production --jobs $(nproc)  "${FLAGS[@]}"
+
+  # App
+  #
+  # The Engine migrations are duplicated inside the spec/dummy app's migrations,
+  # so `db:migrate` fails with error "Multiple migrations have the name". The
+  # workaround is to run the setup from inside the spec/dummy folder.
+  #
+  # Also, no need to call `apartment:create_tenants` since our Rspec setup
+  # creates the tenants needed in `spec/support/apartment`
+  - cd spec/dummy
+  - RAILS_ENV=test bundle exec rake db:create
+  - RAILS_ENV=test bundle exec rake db:migrate
+  - cd ../..
+
+rspec:
+  script:
+    # See: https://github.com/thoughtbot/capybara-webkit#ci
+    - xvfb-run -a bundle exec rspec
+
+# rubocop:
+#   script:
+#     - bundle exec rubocop
