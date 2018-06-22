@@ -191,9 +191,9 @@ You can now visit the "earth" tenant at [http://earth.lvh.me:3000/clockface](htt
 #### Running Background Jobs
 
 
-The above `rails server` commands only start the web server, which **does not start the job processing queue and run any scheduled events**.
+The above `rails server` commands only start the web server, which **does not start the job processing queue or run any scheduled events**.
 
-To actually run any schedule events you'll need to start the Sidekiq server (which the dummy app uses for job scheduling) and the Clock process.
+To actually run any scheduled events you'll need to start the Sidekiq server (which the dummy app uses for job scheduling) and the Clock process.
 
 The [foreman gem](https://github.com/ddollar/foreman) can be used to easily start all processes at once (as defined in the [Procfile](./spec/dummy/Procfile))
 
