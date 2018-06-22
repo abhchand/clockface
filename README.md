@@ -185,7 +185,7 @@ Note:
 2. Since `localhost` does not support subdomains, we use `lvh.me` (a loopback domain) when running locally
 
 
-You can now visit the "earth" tenant at [http://http://earth.lvh.me:3000/clockface/events](http://http://earth.lvh.me:3000/clockface/events)
+You can now visit the "earth" tenant at [http://earth.lvh.me:3000/clockface](http://earth.lvh.me:3000/clockface)
 
 
 #### Running Background Jobs
