@@ -7,6 +7,11 @@ variables:
   POSTGRES_USER: runner
   POSTGRES_PASSWORD: ""
 
+cache:
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+    - /cache
+
 before_script:
   # System
   - apt-get update -qq
@@ -25,7 +30,7 @@ before_script:
   # Ruby Gems
   - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
   - gem install bundler
-  - bundle install --without production --jobs $(nproc)  "${FLAGS[@]}"
+  - bundle install --path=/cache --without production --jobs $(nproc) "${FLAGS[@]}"
 
   # App
   #
