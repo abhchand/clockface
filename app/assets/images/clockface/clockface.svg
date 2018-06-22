@@ -6,14 +6,8 @@
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="Group" transform="translate(-8.000000, -8.000000)">
-            <circle id="face" fill="#4A4A4A" cx="72" cy="72" r="64"></circle>
-            <circle id="base" fill="#F8F0F0" cx="72" cy="72" r="56"></circle>
-            <g id="numbers1" transform="translate(20.000000, 20.000000)" fill="#417505">
-                <circle id="clock-12" cx="52" cy="2" r="2"></circle>
-                <circle id="clock-06" cx="52" cy="102" r="2"></circle>
-                <circle id="clock-03" cx="102" cy="52" r="2"></circle>
-                <circle id="clock-09" cx="2" cy="52" r="2"></circle>
-            </g>
+            <circle id="face" fill="#BD0000" cx="72" cy="72" r="64"></circle>
+            <circle id="base" stroke="#FF1919" fill="#BDBDCF" cx="72" cy="72" r="56"></circle>
             <g id="numbers3" transform="translate(72.000000, 72.000000) rotate(60.000000) translate(-72.000000, -72.000000) translate(20.000000, 20.000000)" fill="#417505">
                 <circle id="clock-12" cx="52" cy="2" r="2"></circle>
                 <circle id="clock-06" cx="52" cy="102" r="2"></circle>
@@ -26,9 +20,15 @@
                 <circle id="clock-03" cx="102" cy="52" r="2"></circle>
                 <circle id="clock-09" cx="2" cy="52" r="2"></circle>
             </g>
-            <rect id="minute" fill="#898E99" x="70.5" y="27" width="3" height="45"></rect>
-            <rect id="hour" fill="#898E99" transform="translate(54.000000, 72.000000) rotate(270.000000) translate(-54.000000, -72.000000) " x="52.5" y="57" width="3" height="30"></rect>
-            <circle id="centerpiece" fill="#4A4A4A" cx="72" cy="72" r="7"></circle>
+            <g id="numbers1" transform="translate(20.000000, 20.000000)" fill="#417505">
+                <circle id="clock-12" cx="52" cy="2" r="2"></circle>
+                <circle id="clock-06" cx="52" cy="102" r="2"></circle>
+                <circle id="clock-03" cx="102" cy="52" r="2"></circle>
+                <circle id="clock-09" cx="2" cy="52" r="2"></circle>
+            </g>
+            <rect id="second" fill="#E0E0E0" transform="translate(88.043485, 56.243467) rotate(45.000000) translate(-88.043485, -56.243467) " x="87.5434853" y="33.743467" width="1" height="45"></rect>
+            <rect id="minute" fill="#000000" x="71.5" y="27" width="1" height="45"></rect>
+            <rect id="hour" fill="#000000" transform="translate(55.000000, 72.000000) rotate(270.000000) translate(-55.000000, -72.000000) " x="54.5" y="54.5" width="1" height="35"></rect>
         </g>
     </g>
 </svg>
