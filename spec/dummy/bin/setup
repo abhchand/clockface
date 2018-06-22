@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require "pathname"
 require "fileutils"
-require_relative "../spec/dummy/config/initializers/multi_tenant"
+require_relative "../spec/dummy/config/initializers/run_as_multi_tenant"
 
 # rubocop:disable Style/MixinUsage
 include FileUtils
@@ -28,7 +28,7 @@ chdir APP_ROOT do
   puts "\n== Creating database =="
   system! "bin/rails db:create"
 
-  if multi_tenancy_enabled?
+  if run_as_multi_tenant?
     puts "\n== Creating Tenants =="
     system! "bin/rails apartment:create_tenants"
   end

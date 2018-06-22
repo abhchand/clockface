@@ -38,7 +38,7 @@ Clockface::Task.create(
 
 # rubocop:disable Style/IfUnlessModifier
 tenant =
-  if multi_tenancy_enabled?
+  if run_as_multi_tenant?
     Clockface::Engine.config.clockface.tenant_list.first
   end
 # rubocop:enable Style/IfUnlessModifier

@@ -1,3 +1,9 @@
+# Run the Rails environment initialization in multi tenant mode so that
+# it creates the necessary tenant schemas on startup. We use stubs to disguise
+# the app as single or multi tenancy for each spec
+# See: `support/clockface` and `support/tenancy_helpers`
+ENV["RUN_AS_MULTI_TENANT"] = "1"
+
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("dummy/config/environment", __dir__)
 

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-MULTI_TENANT=1 $(dirname $0)/setup
+RUN_AS_MULTI_TENANT=1 $(dirname $0)/setup

@@ -2,12 +2,16 @@ source "https://rubygems.org"
 gemspec
 
 group :development do
+  gem "apartment", require: false
   gem "foreman"
   gem "rubocop", "~> 0.57.2"
 end
 
-group :development, :test do
+group :test do
   gem "apartment"
+end
+
+group :development, :test do
   gem "apartment-sidekiq"
   gem "capybara-webkit", "~> 1.11.1"
   gem "factory_girl_rails"
