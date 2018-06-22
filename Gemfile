@@ -3,6 +3,7 @@ gemspec
 
 group :development do
   gem "foreman"
+  gem "rubocop", "~> 0.57.2"
 end
 
 group :development, :test do
