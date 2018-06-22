@@ -45,6 +45,6 @@ rspec:
     # See: https://github.com/thoughtbot/capybara-webkit#ci
     - xvfb-run -a bundle exec rspec
 
-# rubocop:
-#   script:
-#     - bundle exec rubocop
+rubocop:
+  script:
+    - bundle exec rubocop
