@@ -1,5 +1,4 @@
 if run_as_multi_tenant?
-  require "apartment"
   require "apartment/elevators/generic"
   require "apartment/elevators/subdomain"
   require "apartment/elevators/first_subdomain"
