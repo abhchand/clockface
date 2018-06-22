@@ -2,6 +2,7 @@ services:
   - postgres:9.6
 
 variables:
+  RUNNING_ON_CI_SERVER: 1
   POSTGRES_DB: clockface_test
   POSTGRES_USER: runner
   POSTGRES_PASSWORD: ""

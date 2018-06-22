@@ -9,7 +9,9 @@ development: &default
 
 test:
   <<: *default
-  host: postgres
   database: clockface_test
+  <% if ENV.key?("RUNNING_ON_CI_SERVER") %>
+  host: postgres
   user: runner
   password: ""
+  <% end %>
