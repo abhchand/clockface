@@ -1,6 +1,3 @@
-require_relative "run_as_multi_tenant"
-require_relative "apartment"
-
 Clockface::Engine.configure do |app|
   # Test locally with some time other than UTC
   app.config.clockface.time_zone = "Pacific Time (US & Canada)"

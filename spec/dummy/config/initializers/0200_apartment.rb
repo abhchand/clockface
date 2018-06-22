@@ -1,5 +1,3 @@
-require_relative "run_as_multi_tenant"
-
 if run_as_multi_tenant?
   require "apartment"
   require "apartment/elevators/generic"

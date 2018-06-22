@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require "pathname"
 require "fileutils"
-require_relative "../spec/dummy/config/initializers/run_as_multi_tenant"
+require_relative "../spec/dummy/config/initializers/0100_run_as_multi_tenant"
 
 # rubocop:disable Style/MixinUsage
 include FileUtils
