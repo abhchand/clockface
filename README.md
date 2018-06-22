@@ -207,7 +207,7 @@ All are welcome to contribute.
 
 (If you're a newbie or considered yourself inexperienced, don't hesitate to contribute. That's how you learn!)
 
-> **NOTE**: This project only takes contributions on Gitlab. A Github mirror of this project can be found at http://github.com/abhchand/clockface
+> **NOTE**: This project only takes contributions on Gitlab, although a Github mirror of this project can be found [here](http://github.com/abhchand/clockface)
 
 1. Open a Gitlab issue for this project [here](https://gitlab.com/abhchand/clockface/issues/new). Please include a description fo the changes / fixes you'd like to make.
 2. If any project owner approves the idea, please open a new pull request agains the `master` branch.
