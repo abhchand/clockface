@@ -1,5 +1,7 @@
 # Clockface
 
+[![Build Status](https://gitlab.com/abhchand/clockface/badges/master/build.svg)](https://gitlab.com/abhchand/clockface/pipelines)
+
 A lightweight UI for the [Clockwork gem](https://github.com/Rykian/clockwork) to easily schedule and manage background jobs. It's built as a [Rails Engine](http://guides.rubyonrails.org/engines.html) to extend the functionality of your Rails Application
 
 ![Clockface](https://gitlab.com/abhchand/clockface/raw/master/meta/screenshot.png)
