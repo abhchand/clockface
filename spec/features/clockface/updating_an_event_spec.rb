@@ -3,10 +3,10 @@ require "rails_helper"
 module Clockface
   RSpec.feature "Updating an Event", type: :feature do
     it "user can update a event" do
-      tasks = create_list(:task, 2)
+      task = create(:task)
       event = create(
         :event,
-        task: tasks[1],
+        task: task,
         enabled: false,
         period_value: 99,
         period_units: "seconds",
@@ -16,8 +16,6 @@ module Clockface
         time_zone: "Samoa",
         if_condition: "odd_week"
       )
-      other_event = create(:event, task: tasks[0])
-
       visit clockface.edit_event_path(event)
 
       # Fill In Form
@@ -36,7 +34,7 @@ module Clockface
 
       # Validate model
       event.reload
-      expect(event.clockface_task_id).to eq(tasks[1].id)
+      expect(event.clockface_task_id).to eq(task.id)
       expect(event.enabled).to eq(true)
       expect(event.tenant).to be_nil
       expect(event.last_triggered_at).to be_nil
@@ -47,11 +45,6 @@ module Clockface
       expect(event.minute).to eq(38)
       expect(event.time_zone).to eq("Alaska")
       expect(event.if_condition).to eq("weekday")
-
-      # Validate other event not touched
-      old_attrs = other_event.attributes
-      new_attrs = other_event.reload.attributes
-      expect(old_attrs).to eq(new_attrs)
 
       # Validate flash
       expect(page.find(".flash")).

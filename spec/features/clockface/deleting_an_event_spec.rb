@@ -3,11 +3,8 @@ require "rails_helper"
 module Clockface
   RSpec.feature "Deleting an Event", type: :feature do
     it "user can delete a event" do
-      tasks = create_list(:task, 2)
-
-      event = create(:event, task: tasks[1])
-      other_event = create(:event, task: tasks[0])
-
+      task = create(:task)
+      event = create(:event, task: task)
       visit clockface.event_delete_path(event)
 
       # Fill In Captcha
@@ -19,11 +16,6 @@ module Clockface
 
       # Validate model no longer exists
       expect { event.reload }.to raise_error(ActiveRecord::RecordNotFound)
-
-      # Validate other event not touched
-      old_attrs = other_event.attributes
-      new_attrs = other_event.reload.attributes
-      expect(old_attrs).to eq(new_attrs)
     end
 
     context "form is invalid" do

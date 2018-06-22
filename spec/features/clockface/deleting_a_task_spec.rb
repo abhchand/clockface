@@ -3,11 +3,7 @@ require "rails_helper"
 module Clockface
   RSpec.feature "Deleting a Task", type: :feature do
     it "user can delete a task" do
-      create_list(:task, 2)
-
       task = create(:task)
-      other_task = create(:task)
-
       visit clockface.task_delete_path(task)
 
       # Fill In Captcha
@@ -19,11 +15,6 @@ module Clockface
 
       # Validate model no longer exists
       expect { task.reload }.to raise_error(ActiveRecord::RecordNotFound)
-
-      # Validate other task not touched
-      old_attrs = other_task.attributes
-      new_attrs = other_task.reload.attributes
-      expect(old_attrs).to eq(new_attrs)
     end
 
     context "form is invalid" do

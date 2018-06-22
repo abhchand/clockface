@@ -3,15 +3,12 @@ require "rails_helper"
 module Clockface
   RSpec.feature "Updating a Task", type: :feature do
     it "user can update a task" do
-      create_list(:task, 2)
       task = create(
         :task,
         name: "some name",
         description: "some description",
         command: "some command"
       )
-      other_task = create(:task)
-
       visit clockface.edit_task_path(task)
 
       # Fill In Form
@@ -28,11 +25,6 @@ module Clockface
       expect(task.name).to eq("new name")
       expect(task.description).to eq("new description")
       expect(task.command).to eq("new command")
-
-      # Validate other task not touched
-      old_attrs = other_task.attributes
-      new_attrs = other_task.reload.attributes
-      expect(old_attrs).to eq(new_attrs)
 
       # Validate flash
       expect(page.find(".flash")).
