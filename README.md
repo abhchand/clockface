@@ -1,4 +1,4 @@
-# Clockface ⏰
+# Clockface ![Clockface](https://gitlab.com/abhchand/clockface/raw/master/meta/clockface.png)
 
 [![Build Status](https://travis-ci.org/abhchand/clockface.svg?branch=master)](https://travis-ci.org/abhchand/clockface)
 
