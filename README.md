@@ -1,4 +1,4 @@
-# Clockface ![Clockface](https://gitlab.com/abhchand/clockface/raw/master/meta/clockface.png)
+# Clockface <img src="https://gitlab.com/abhchand/clockface/raw/master/meta/clockface.png" alt="Clockface" style="height: 36px;">
 
 [![Build Status](https://travis-ci.org/abhchand/clockface.svg?branch=master)](https://travis-ci.org/abhchand/clockface)
 
