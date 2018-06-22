@@ -99,45 +99,33 @@ end
 
 ```ruby
 # Specify a timezone for display purposes. Because humans don't work in UTC.
-#   values: Any valid timezone supported by ActiveSupport (see `ActiveSupport::TimeZone::MAPPING.keys`)
 #   default: `Rails.application.config.time_zone` (your application time zone)
-#
-# e.g.
 app.config.clockface.time_zone = "Pacific Time (US & Canada)"
 
 # Specify a logger for Clockface to use
-#   values: A single logger or an array of multiple loggers
 #   default: `Rails.logger` (your application's logger)
-#
-# e.g.
 app.config.clockface.logger = [Rails.logger, Logger.new(Rails.root.join("log", "clockface.log"))]
 
 #
 # (Multi Tenant Options)
 #
 
-# You can use any gem library to manage your multi tenant schemas. The `apartment` gem is quite popular, so the examples below reference configuration using that gem
+# You can use any gem library to manage your multi tenant schemas.
+# The `apartment` gem is quite popular, so the examples below reference configuration using that gem
 
 # Tell clockface what your tenant/schema names are
-#   values: An array of strings
 #   default: []
-#
-# e.g.
 app.config.clockface.tenant_list = %w[tenant1 tenant2]
 
 # Tell Clockface how to get the current tenant/schema context
-#   values: A callable proc that returns the current schema context
+#   A callable proc that returns the current schema context
 #   default: nil (must be specified by you)
-#
-# e.g. (if using the `apartment` gem)
 app.config.clockface.current_tenant_proc = proc { Apartment::Tenant.current }
 
 # Tell Clockface how to execute commands within the context of some tenant/schema
-#   values: A callable proc that takes arguments for tenant name, another proc to execute,
-#         and arguments for the proc to be executed
+#   A callable proc that takes arguments for tenant name, another proc to
+#   execute, and arguments for the proc to be executed
 #   default: nil (mst be specified by you)
-#
-# e.g.
 app.config.clockface.execute_in_tenant_proc =
   proc do |tenant_name, some_proc, proc_args|
     Apartment::Tenant.switch(tenant_name) { some_proc.call(*proc_args) }
