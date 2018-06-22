@@ -57,8 +57,10 @@ module Clockface
     end
 
     def run
+      # rubocop:disable Naming/MemoizedInstanceVariableName
       @result ||=
         Clockface::EventValidationInteractor.call(event: event, action: action)
+      # rubocop:enable Naming/MemoizedInstanceVariableName
     end
 
     def result

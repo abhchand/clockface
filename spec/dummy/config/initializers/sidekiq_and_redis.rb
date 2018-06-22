@@ -17,13 +17,13 @@ class SidekiqRedisConnectionWrapper
     end
   end
 
-  # rubocop:disable Style/MethodMissing
+  # rubocop:disable Style/MethodMissingSuper
   def method_missing(meth, *args, &block)
     Sidekiq.redis do |connection|
       connection.send(meth, *args, &block)
     end
   end
-  # rubocop:enable Style/MethodMissing
+  # rubocop:enable Style/MethodMissingSuper
 
   def respond_to_missing?(meth)
     Sidekiq.redis do |connection|
