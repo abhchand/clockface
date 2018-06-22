@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+sh spec/dummy/bin/setup-multi-tenant

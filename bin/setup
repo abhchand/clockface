@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+ruby spec/dummy/bin/setup
