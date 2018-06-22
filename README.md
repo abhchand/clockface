@@ -131,3 +131,73 @@ app.config.clockface.execute_in_tenant_proc =
     Apartment::Tenant.switch(tenant_name) { some_proc.call(*proc_args) }
   end
 ```
+
+## Running Locally
+
+Clone, build, install, and seed the local database with the inbuilt script.
+
+```
+git clone https://gitlab.com/abhchand/clockface
+cd clockface/
+```
+
+Seed the database with the in-built script
+
+```
+bin/setup
+```
+
+Run the application with
+
+```
+bundle exec rails server
+```
+
+You can now visit the app at [http://localhost:3000/clockface](http://localhost:3000/clockface)
+
+#### Running in Multi-Tenant mode
+
+By default the app runs as a single tenant application. The app can also be run in multi tenant mode locally to test or develop any multi tenant features
+
+Clone, build, install, and seed the local database with the inbuilt script.
+
+```
+git clone https://gitlab.com/abhchand/clockface
+cd clockface/
+```
+
+Seed the database with the in-built script
+
+```
+bin/setup-multi-tenant
+```
+
+Run the application with
+
+```
+bundle exec rails server -b lvh.me
+```
+
+
+Note:
+1. By default the above process seeds two tenants - "earth" and "mars" - that run on different subdomains
+
+2. Since `localhost` does not support subdomains, we use `lvh.me` (a loopback domain) when running locally
+
+
+You can now visit the "earth" tenant at [http://http://earth.lvh.me:3000/clockface/events](http://http://earth.lvh.me:3000/clockface/events)
+
+
+#### Running Background Jobs
+
+
+The above `rails server` commands only start the web server, which **does not start the job processing queue and run any scheduled events**.
+
+To actually run any schedule events you'll need to start the Sidekiq server (which the dummy app uses for job scheduling) and the Clock process.
+
+The [foreman gem](https://github.com/ddollar/foreman) can be used to easily start all processes at once (as defined in the [Procfile](./spec/dummy/Procfile))
+
+```
+bundle exec foreman start -f spec/dummy/Procfile
+```
+
