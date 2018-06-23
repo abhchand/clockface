@@ -22,7 +22,7 @@ See the [Multi Tenancy section](#multi_tenancy) below.
 Find us on StackOverflow! Just [ask a question](https://stackoverflow.com/questions/ask) and include the [`clockface`](https://stackoverflow.com/questions/tagged/clockface) tag.
 
 
-## Quickstart (In 4 Easy Steps)
+## Quickstart (In 3 Easy Steps)
 
 #### A. Add Clockface
 
@@ -73,9 +73,8 @@ require "clockface"
 Clockface.sync_database_events(every: 10.seconds) do |event|
   # An Event is a scheduled instance of a particular Task.
   #
-  # You will define new Tasks and Events in the UI (see further below), and
-  # the `Event` DB record will be yielded to your application here for
-  # execution.
+  # You will define new Tasks and Events in the UI
+  # The `Event` DB record will be yielded to your application here
   #
   # You're free to do anything you like with this yielded record. Specifically,
   # the `command` field exists to store any relevant job execution information.
@@ -90,9 +89,7 @@ Clockface.sync_database_events(every: 10.seconds) do |event|
 end
 ```
 
-#### D. Create New Tasks and Schedule Events!
-
-
+That's it! Clockface is now accessible in your application under the mounted route (e.g. `/clockface`)
 
 
 ## <a name="configuration_options"></a>Configuration Options
